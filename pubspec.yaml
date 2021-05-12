@@ -1,0 +1,51 @@
+name: nordigen_integration
+description: Development of a Flutter Package for Nordigen Integration with relevant Data Models, proper Encapsulation with the exposing of parameters, and succinct documentation for each and every relevant element.
+version: 0.0.1
+author:
+homepage:
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.13.3
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
