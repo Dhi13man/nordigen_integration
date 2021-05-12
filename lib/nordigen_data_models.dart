@@ -14,6 +14,7 @@ class ASPSP {
     this.countries = const <String>[],
   }) : assert(id != null);
 
+  /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
   factory ASPSP.fromMap(Map<String, dynamic> fetchedMap) {
     return ASPSP(
       id: fetchedMap['id'] as String,
@@ -53,6 +54,7 @@ class EndUserAgreementModel {
         assert(enduserID != null),
         assert(aspspID != null);
 
+  /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
   factory EndUserAgreementModel.fromMap(Map<String, dynamic> fetchedMap) {
     return EndUserAgreementModel(
       id: fetchedMap['id'],
@@ -68,7 +70,7 @@ class EndUserAgreementModel {
   /// Identifier of this particular End User Agreement
   final String id;
 
-  /// Time of End User Agreement creation in ISO8601 DateTime String Format
+  /// Time of End User Agreement creation in ISO8601 DateTime [String] Format
   final String created;
 
   /// Time of End User Agreement acceptance (if any) in ISO8601 DateTime String Format
@@ -87,7 +89,7 @@ class EndUserAgreementModel {
   final String aspspID;
 }
 
-/// ASPSP (Bank) Data Model for Nordigen
+/// Requisition Model for Nordigen
 ///
 /// Contains the [id] of the ASPSP, its [name], [bic] and the [countries] associated with the ASPSP.
 class RequisitionModel {
@@ -102,6 +104,7 @@ class RequisitionModel {
   })  : assert(id != null),
         assert(enduserID != null);
 
+  /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
   factory RequisitionModel.fromMap(Map<String, dynamic> fetchedMap) {
     return RequisitionModel(
       id: fetchedMap['id'] as String,
@@ -136,17 +139,99 @@ class RequisitionModel {
   /// User ID associated with the transaction (typically UUID)
   final String enduserID;
 
-  Future<void> getRedirectURL(String aspID, String token) async {
+  /// Get the redirectURL for the ASPSP represented by [aspspID]
+  ///
+  /// using authentication by [authorizationToken]
+  Future<String> findRedirectURL(
+    String aspspID,
+    String authorizationToken,
+  ) async {
     final Uri requestURL =
         Uri.parse('https://ob.nordigen.com/api/requisitions/$id/links/');
-    await http.post(
+    http.Response response = await http.post(
       requestURL,
       headers: <String, String>{
         'accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Token $token',
+        'Authorization': 'Token $authorizationToken',
       },
-      body: jsonEncode({'aspsp_id': aspID}),
+      body: jsonEncode({'aspsp_id': aspspID}),
+    );
+
+    String redirectLink = '';
+    if (response.statusCode == 200)
+      redirectLink =
+          (jsonDecode(response.body) as Map<String, String>)['initiate'];
+
+    return redirectURL = redirectLink;
+  }
+}
+
+/// End-user Agreement Data Model for Nordigen
+///
+/// Contains the [id] of the agreement, its [created] time string, [accepted],
+/// the [countries] associated with the ASPSP.
+class TransactionData {
+  const TransactionData({
+    @required this.id,
+    this.debtorName,
+    this.bankTransactionCode,
+    this.bookingDate,
+    this.valueDate,
+    this.transactionAmount,
+    this.remittanceInformationUnstructured = '',
+  }) : assert(id != null);
+
+  /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
+  factory TransactionData.fromMap(Map<String, dynamic> fetchedMap) {
+    return TransactionData(
+      id: fetchedMap['id'],
+      debtorName: (fetchedMap['debtorName'] as String) ?? '',
+      bankTransactionCode: (fetchedMap['bankTransactionCode'] as String) ?? '',
+      bookingDate: fetchedMap['bookingDate'] as String,
+      valueDate: fetchedMap['valueDate'] as String,
+      transactionAmount: TransactionAmountData(
+        amount: fetchedMap['transactionAmount'] != null
+            ? fetchedMap['transactionAmount']['amount'] as String
+            : null,
+        currency: fetchedMap['transactionAmount'] != null
+            ? fetchedMap['transactionAmount']['currency'] as String
+            : null,
+      ),
+      remittanceInformationUnstructured:
+          fetchedMap['remittanceInformationUnstructured'] as String,
     );
   }
+
+  /// Identifier of this particular Transaction
+  final String id;
+
+  /// Name of the Transaction debtor (if any)
+  final String debtorName;
+
+  /// Transaction Code
+  final String bankTransactionCode;
+
+  /// Date of Booking as [String].
+  final String bookingDate;
+
+  /// Value date as [String].
+  final String valueDate;
+
+  /// Transaction amount details associated with this.
+  final TransactionAmountData transactionAmount;
+
+  /// Unstructured Remittance information about the Transaction (if any)
+  final String remittanceInformationUnstructured;
+}
+
+/// Holds the transaction [amount] and the [currency] type
+class TransactionAmountData {
+  const TransactionAmountData({@required this.amount, @required this.currency})
+      : assert(amount != null),
+        assert(currency != null);
+  final String currency;
+  final String amount;
+
+  double get getAmountNumber => double.tryParse(amount);
 }
