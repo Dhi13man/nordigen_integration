@@ -12,12 +12,15 @@ class ASPSP {
   }) : assert(id != null);
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
-  factory ASPSP.fromMap(Map<String, dynamic> fetchedMap) {
+  factory ASPSP.fromMap(dynamic fetchedMap) {
     return ASPSP(
       id: fetchedMap['id'] as String,
       name: (fetchedMap['name'] as String) ?? '',
       bic: (fetchedMap['bic'] as String) ?? '',
-      countries: (fetchedMap['countries'] as List<String>) ?? const <String>[],
+      countries: (fetchedMap['countries'] as List<dynamic>)
+              .map<String>((dynamic country) => country.toString())
+              .toList() ??
+          const <String>[],
     );
   }
 
@@ -31,7 +34,7 @@ class ASPSP {
   final String bic;
 
   /// Countries associated with the ASPSP
-  final List<String> countries;
+  final List<dynamic> countries;
 }
 
 /// End-user Agreement Data Model for Nordigen

@@ -27,12 +27,12 @@ class NordigenAccountInfoAPI {
   /// Refer to Step 2 of Nordigen Account Information API documentation.
   /// [countryCode] is just two-letter country code (ISO 3166).
   Future<List<ASPSP>> getBanksForCountry(String countryCode) async {
-    final List<Map<String, dynamic>> aspspsMap = await _nordigenGetter(
+    final List<dynamic> aspspsMap = await _nordigenGetter(
       endpointUrl: "https://ob.nordigen.com/api/aspsps/?country=$countryCode",
-    ) as List<Map<String, dynamic>>;
+    ) as List<dynamic>;
     return aspspsMap
         .map<ASPSP>(
-          (Map<String, dynamic> aspspMapItem) => ASPSP.fromMap(aspspMapItem),
+          (dynamic aspspMapItem) => ASPSP.fromMap(aspspMapItem),
         )
         .toList();
   }
@@ -58,7 +58,7 @@ class NordigenAccountInfoAPI {
       if (response.statusCode == 200)
         output = jsonDecode(response.body);
       else
-        throw http.ClientException('Improper API response!');
+        throw http.ClientException(response.reasonPhrase);
     } catch (e) {
       throw http.ClientException('Connection to API Failed: $e');
     }
@@ -77,11 +77,10 @@ class NordigenAccountInfoAPI {
           'Authorization': 'Token $_accessToken',
         },
       );
-
       if (response.statusCode == 200)
         output = jsonDecode(response.body);
       else
-        throw http.ClientException('Improper API response!');
+        throw http.ClientException(response.reasonPhrase);
     } catch (e) {
       throw http.ClientException('Connection to API Failed: $e');
     }
