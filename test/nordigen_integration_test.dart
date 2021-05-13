@@ -4,7 +4,7 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 
 void main() {
   // TODO: MAKE SURE TO FILL THIS IN BEFORE RUNNING UNIT TESTS.
-  final String accessToken = 'YOUR_ACCES_TOKEN';
+  final String accessToken = 'YOUR_TOKEN';
   test('Simulate and Test Step 1: Initialize with Access Token', () {
     bool isClassInitSuccessful = true;
     try {
@@ -18,6 +18,7 @@ void main() {
     final NordigenAccountInfoAPI nordigenObject =
         NordigenAccountInfoAPI(accessToken: accessToken);
     final List<ASPSP> aspsps = await nordigenObject.getBanksForCountry('gb');
+    print(aspsps);
     expect(aspsps.length > 0, true);
   });
 }

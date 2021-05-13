@@ -31,7 +31,7 @@ class ASPSP {
         'id': id,
         'name': name,
         'bic': bic,
-        'countries': countries.toString(),
+        'countries': countries,
       };
 
   /// Identifier of this particular ASPSP
