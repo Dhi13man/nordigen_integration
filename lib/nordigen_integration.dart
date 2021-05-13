@@ -2,7 +2,7 @@ library nordigen_integration;
 
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 
 part 'nordigen_data_models.dart';
@@ -131,7 +131,7 @@ class NordigenAccountInfoAPI {
     return fetchedMap['initiate'].toString();
   }
 
-  /// Get the Requisition identified by [requisitionID]].
+  /// Get the Requisition identified by [requisitionID].
   ///
   /// Refer to Step 5 of Nordigen Account Information API documentation.
   Future<RequisitionModel> getRequisition({
@@ -146,7 +146,7 @@ class NordigenAccountInfoAPI {
     return RequisitionModel.fromMap(fetchedMap);
   }
 
-  /// Get the Account IDs of the User for the Requisition identified by [requisitionID]].
+  /// Get the Account IDs of the User for the Requisition identified by [requisitionID].
   ///
   /// Uses [getRequisition] and then finds the accounts.
   ///
@@ -156,7 +156,7 @@ class NordigenAccountInfoAPI {
   }) async =>
       (await getRequisition(requisitionID: requisitionID)).accounts;
 
-  /// Get the Details of the Bank Account identified by [accountID]].
+  /// Get the Details of the Bank Account identified by [accountID].
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
   Future<BankAccountDetails> getAccountDetails({
@@ -167,11 +167,11 @@ class NordigenAccountInfoAPI {
     final dynamic fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/details/',
     );
-    // Form the recieved dynamic Map into RequisitionModel for convenience.
+    // Form the recieved dynamic Map into BankAccountDetails for convenience.
     return BankAccountDetails.fromMap(fetchedMap);
   }
 
-  /// Get the Transactions of the Bank Account identified by [accountID]].
+  /// Get the Transactions of the Bank Account identified by [accountID].
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
   Future<TransactionData> getAccountTransactions({
@@ -183,11 +183,11 @@ class NordigenAccountInfoAPI {
       endpointUrl:
           'https://ob.nordigen.com/api/accounts/$accountID/transactions/',
     );
-    // Form the recieved dynamic Map into RequisitionModel for convenience.
+    // Form the recieved dynamic Map into TransactionData for convenience.
     return TransactionData.fromMap(fetchedMap);
   }
 
-  /// Get Balances of the Bank Account identified by [accountID]].
+  /// Get Balances of the Bank Account identified by [accountID].
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
   Future<BankAccountDetails> getAccountBalances({
@@ -198,7 +198,7 @@ class NordigenAccountInfoAPI {
     final dynamic fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/balances/',
     );
-    // Form the recieved dynamic Map into RequisitionModel for convenience.
+    // Form the recieved dynamic Map into BankAccountDetails for convenience.
     return BankAccountDetails.fromMap(fetchedMap);
   }
 
