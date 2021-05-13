@@ -18,7 +18,7 @@ void main() {
     final NordigenAccountInfoAPI nordigenObject =
         NordigenAccountInfoAPI(accessToken: accessToken);
     final List<ASPSP> aspsps = await nordigenObject.getBanksForCountry('gb');
-    print(aspsps);
     expect(aspsps.length > 0, true);
+    expect(aspsps.first.id != null, true);
   });
 }
