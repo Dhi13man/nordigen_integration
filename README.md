@@ -8,12 +8,6 @@ For more information about the API view [Nordigen's Account Information API docu
 
 [![nordigen_integration version](https://img.shields.io/pub/v/nordigen_integration.svg)](https://pub.dev/packages/nordigen_integration)
 
-## Dependencies
-
-[http](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
-
-----
-
 ## Usage Steps
 
 1. Go through the [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
@@ -156,7 +150,13 @@ For more information about the API view [Nordigen's Account Information API docu
 
 ----
 
-### Getting Started
+### Dependencies
+
+[http](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
+
+----
+
+#### Getting Started
 
 This project is a starting point for a Dart
 [package](https://flutter.dev/developing-packages/),
