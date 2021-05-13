@@ -27,12 +27,8 @@ class ASPSP {
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
   /// Map Keys: "id", "name", "bic" and "countries"
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'name': name,
-        'bic': bic,
-        'countries': countries,
-      };
+  Map<String, dynamic> toMap() =>
+      {'id': id, 'name': name, 'bic': bic, 'countries': countries};
 
   /// Identifier of this particular ASPSP
   final String id;
@@ -310,10 +306,7 @@ class TransactionAmountData {
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
   /// Map Keys: "amount" and "currency".
-  Map<String, dynamic> toMap() => {
-        'amount': amount,
-        'currency': currency,
-      };
+  Map<String, dynamic> toMap() => {'amount': amount, 'currency': currency};
 
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override

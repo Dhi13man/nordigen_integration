@@ -27,6 +27,7 @@ class NordigenAccountInfoAPI {
   /// Refer to Step 2 of Nordigen Account Information API documentation.
   /// [countryCode] is just two-letter country code (ISO 3166).
   Future<List<ASPSP>> getBanksForCountry(String countryCode) async {
+    // Make GET request and fetch output.
     final List<dynamic> aspspsMap = await _nordigenGetter(
       endpointUrl: "https://ob.nordigen.com/api/aspsps/?country=$countryCode",
     ) as List<dynamic>;
@@ -36,6 +37,35 @@ class NordigenAccountInfoAPI {
           (dynamic aspspMapItem) => ASPSP.fromMap(aspspMapItem),
         )
         .toList();
+  }
+
+  /// Create an End User Agreement for the given [endUserID] and [aspspID] (or [aspsp])
+  /// and for the given [maxHistoricalDays] (default 90 days).
+  ///
+  /// Refer to Step 3 of Nordigen Account Information API documentation.
+  ///
+  /// Both [aspspID] and [aspsp] can not be NULL.
+  /// If both are NOT NULL, [aspspID] will be prefereed.
+  Future<EndUserAgreementModel> createEndUserAgreement({
+    @required String endUserID,
+    String aspspID,
+    ASPSP aspsp,
+    int maxHistoricalDays = 90,
+  }) async {
+    // Prepare the ASPSP ID that the function will work with
+    assert(aspspID != null || (aspsp != null && aspsp.id != null));
+    final String workingAspspID = aspspID ?? aspsp.id;
+    // Make POST request and fetch output.
+    final dynamic fetchedMap = await _nordigenPoster(
+      endpointUrl: "https://ob.nordigen.com/api/agreements/enduser/",
+      data: {
+        'max_historical_days': maxHistoricalDays.toString(),
+        'aspsp_id': workingAspspID,
+        'enduser_id': endUserID,
+      },
+    );
+    // Map the recieved dynamic into EndUserAgreementModel for convenience.
+    return EndUserAgreementModel.fromMap(fetchedMap);
   }
 
   /// Utility class to easily make POST requests to Nordigen API endpoints.
@@ -55,11 +85,12 @@ class NordigenAccountInfoAPI {
         },
         body: jsonEncode(data),
       );
-
-      if (response.statusCode == 200)
+      if ((response.statusCode / 100).floor() == 2)
         output = jsonDecode(response.body);
       else
-        throw http.ClientException(response.reasonPhrase);
+        throw http.ClientException(
+          'Error Code: ${response.statusCode}, Reason: ${jsonDecode(response.body)["detail"]}',
+        );
     } catch (e) {
       throw http.ClientException('POST Request Failed: $e');
     }
@@ -78,10 +109,12 @@ class NordigenAccountInfoAPI {
           'Authorization': 'Token $_accessToken',
         },
       );
-      if (response.statusCode == 200)
+      if ((response.statusCode / 100).floor() == 2)
         output = jsonDecode(response.body);
       else
-        throw http.ClientException(response.reasonPhrase);
+        throw http.ClientException(
+          'Error Code: ${response.statusCode}, Reason: ${jsonDecode(response.body)["detail"]}',
+        );
     } catch (e) {
       throw http.ClientException('GET Request Failed: $e');
     }
