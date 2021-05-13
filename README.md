@@ -121,38 +121,40 @@ For more information about the API view [Nordigen's Account Information API docu
     import 'package:nordigen_integration/nordigen_integration.dart';
 
     void main() async {
-    /// Step 1
-    final NordigenAccountInfoAPI apiInterface = NordigenAccountInfoAPI(
-        accessToken: 'YOUR_TOKEN',
-    );
+        /// Step 1
+        final NordigenAccountInfoAPI apiInterface = NordigenAccountInfoAPI(
+            accessToken: 'YOUR_TOKEN',
+        );
 
-    /// Step 2 and then selecting the first ASPSP
-    final ASPSP firstBank =
-        (await apiInterface.getBanksForCountry(countryCode: 'gb')).first;
+        /// Step 2 and then selecting the first ASPSP
+        final ASPSP firstBank =
+            (await apiInterface.getBanksForCountry(countryCode: 'gb')).first;
 
-    /// Step 4.1
-    final RequisitionModel requisition = await apiInterface.createRequisition(
-        endUserID: 'exampleEndUser',
-        redirect: 'http://www.yourwebpage.com/',
-        reference: 'exampleReference420',
-    );
+        /// Step 4.1
+        final RequisitionModel requisition = await apiInterface.createRequisition(
+            endUserID: 'exampleEndUser',
+            redirect: 'http://www.yourwebpage.com/',
+            reference: 'exampleReference420',
+        );
 
-    /// Step 4.2
-    final String redirectLink =
-        await apiInterface.fetchRedirectLinkForRequisition(
-        requisition: requisition,
-        aspsp: firstBank,
-    );
+        /// Step 4.2
+        final String redirectLink =
+            await apiInterface.fetchRedirectLinkForRequisition(
+            requisition: requisition,
+            aspsp: firstBank,
+        );
 
-    /// Open and Validate [redirectLink] and proceed with other functionality.
-    print(redirectLink);
+        /// Open and Validate [redirectLink] and proceed with other functionality.
+        print(redirectLink);
     }
 
 ----
 
 ### Dependencies
 
-[http](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
+1. [http](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
+
+2. [meta](https://pub.dev/packages/meta) is used for supporting the `@required` tags to signify required named parameters across the code.
 
 ----
 

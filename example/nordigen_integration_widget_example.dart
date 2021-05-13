@@ -65,7 +65,7 @@ class BankPickerWidget extends StatelessWidget {
                     requisition: await apiInterface.createRequisition(
                       endUserID: 'exampleEndUser',
                       redirect: 'http://www.yourwebpage.com/',
-                      reference: 'exampleReference13110',
+                      reference: 'exampleReference1771',
                     ),
                     aspsp: banks[index],
                   ),
