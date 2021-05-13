@@ -124,27 +124,34 @@ class EndUserAgreementModel {
 /// the [redirectURL] to which it should redirect, [reference] ID if any,
 /// [accounts] associated, and the associated [endUserID].
 class RequisitionModel {
-  RequisitionModel({
+  const RequisitionModel({
     @required this.id,
-    this.redirectURL,
+    @required this.redirectURL,
+    @required this.reference,
     this.status = '',
     this.agreements = const <String>[],
     this.accounts = const <String>[],
-    this.reference = '',
     @required this.endUserID,
   })  : assert(id != null),
+        assert(redirectURL != null),
+        assert(reference != null),
         assert(endUserID != null);
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
-  factory RequisitionModel.fromMap(Map<String, dynamic> fetchedMap) {
+  factory RequisitionModel.fromMap(dynamic fetchedMap) {
     return RequisitionModel(
       id: fetchedMap['id'] as String,
       redirectURL: fetchedMap['redirect'] as String,
-      status: (fetchedMap['status'] as String) ?? '',
-      agreements:
-          (fetchedMap['agreements'] as List<String>) ?? const <String>[],
-      accounts: (fetchedMap['accounts'] as List<String>) ?? const <String>[],
       reference: fetchedMap['reference'] as String,
+      status: (fetchedMap['status'] as String) ?? '',
+      agreements: (fetchedMap['agreements'] as List)
+              .map<String>((dynamic agreement) => agreement.toString())
+              .toList() ??
+          const <String>[],
+      accounts: (fetchedMap['accounts'] as List)
+              .map<String>((dynamic agreement) => agreement.toString())
+              .toList() ??
+          const <String>[],
       endUserID: fetchedMap['enduser_id'] as String,
     );
   }
@@ -167,7 +174,7 @@ class RequisitionModel {
   final String id;
 
   /// Link where the end user will be redirected after finishing authentication in ASPSP.
-  String redirectURL;
+  final String redirectURL;
 
   /// Status of the Requisition
   final String status;
@@ -183,33 +190,6 @@ class RequisitionModel {
 
   /// User ID associated with the transaction (typically UUID)
   final String endUserID;
-
-  /// Get the redirectURL for the ASPSP represented by [aspspID]
-  ///
-  /// using authentication by [authorizationToken]
-  Future<String> findRedirectURL(
-    String aspspID,
-    String authorizationToken,
-  ) async {
-    final Uri requestURL =
-        Uri.parse('https://ob.nordigen.com/api/requisitions/$id/links/');
-    http.Response response = await http.post(
-      requestURL,
-      headers: <String, String>{
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Token $authorizationToken',
-      },
-      body: jsonEncode({'aspsp_id': aspspID}),
-    );
-
-    String redirectLink = '';
-    if (response.statusCode == 200)
-      redirectLink =
-          (jsonDecode(response.body) as Map<String, String>)['initiate'];
-
-    return redirectURL = redirectLink;
-  }
 
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override

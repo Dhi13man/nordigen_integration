@@ -28,24 +28,24 @@ class NordigenAccountInfoAPI {
   /// [countryCode] is just two-letter country code (ISO 3166).
   Future<List<ASPSP>> getBanksForCountry(String countryCode) async {
     // Make GET request and fetch output.
-    final List<dynamic> aspspsMap = await _nordigenGetter(
-      endpointUrl: "https://ob.nordigen.com/api/aspsps/?country=$countryCode",
+    final List<dynamic> fetchedMap = await _nordigenGetter(
+      endpointUrl: 'https://ob.nordigen.com/api/aspsps/?country=$countryCode',
     ) as List<dynamic>;
     // Map the recieved List<dynamic> into List<ASPSP> Data Format for convenience.
-    return aspspsMap
+    return fetchedMap
         .map<ASPSP>(
           (dynamic aspspMapItem) => ASPSP.fromMap(aspspMapItem),
         )
         .toList();
   }
 
-  /// Create an End User Agreement for the given [endUserID] and [aspspID] (or [aspsp])
+  /// Create an End User Agreement for the given [endUserID], [aspspID] (or [aspsp])
   /// and for the given [maxHistoricalDays] (default 90 days).
   ///
   /// Refer to Step 3 of Nordigen Account Information API documentation.
   ///
   /// Both [aspspID] and [aspsp] can not be NULL.
-  /// If both are NOT NULL, [aspspID] will be prefereed.
+  /// If both are NOT NULL, ID of [aspsp] will be prefereed.
   Future<EndUserAgreementModel> createEndUserAgreement({
     @required String endUserID,
     String aspspID,
@@ -54,18 +54,80 @@ class NordigenAccountInfoAPI {
   }) async {
     // Prepare the ASPSP ID that the function will work with
     assert(aspspID != null || (aspsp != null && aspsp.id != null));
-    final String workingAspspID = aspspID ?? aspsp.id;
+    final String workingAspspID = aspsp?.id ?? aspspID;
     // Make POST request and fetch output.
     final dynamic fetchedMap = await _nordigenPoster(
-      endpointUrl: "https://ob.nordigen.com/api/agreements/enduser/",
+      endpointUrl: 'https://ob.nordigen.com/api/agreements/enduser/',
       data: {
+        // API accepts days as String
         'max_historical_days': maxHistoricalDays.toString(),
         'aspsp_id': workingAspspID,
         'enduser_id': endUserID,
       },
     );
-    // Map the recieved dynamic into EndUserAgreementModel for convenience.
+    // Form the recieved dynamic Map into EndUserAgreementModel for convenience.
     return EndUserAgreementModel.fromMap(fetchedMap);
+  }
+
+  /// Create a Requisition for the given [endUserID].
+  ///
+  /// Refer to Step 4.1 of Nordigen Account Information API documentation.
+  ///
+  /// [reference] is additional layer of unique ID. Should match Step 3 if done.
+  /// [redirect] is the link where the end user will be redirected after finishing authentication in ASPSP.
+  /// [agreements] is as an array of ID(s) from Step 3 or empty array if that step was skipped.
+  Future<RequisitionModel> createRequisition({
+    @required String endUserID,
+    @required String redirect,
+    @required String reference,
+    List<String> agreements = const <String>[],
+  }) async {
+    assert(endUserID != null && redirect != null && reference != null);
+    // Make POST request and fetch output.
+    final dynamic fetchedMap = await _nordigenPoster(
+      endpointUrl: 'https://ob.nordigen.com/api/requisitions/',
+      data: {
+        'redirect': redirect,
+        'reference': reference,
+        'enduser_id': endUserID,
+        'agreements': agreements,
+      },
+    );
+    // Form the recieved dynamic Map into EndUserAgreementModel for convenience.
+    return RequisitionModel.fromMap(fetchedMap);
+  }
+
+  /// Provides a redirect link to the Requisition passed in.
+  ///
+  /// Refer to Step 4.2 of Nordigen Account Information API documentation.
+  ///
+  /// Both [aspspID] and [aspsp] can not be NULL.
+  /// If both are NOT NULL, ID of [aspsp] will be prefereed.
+  ///
+  /// Both [requisitionID] and [requisition] can not be NULL.
+  /// If both are NOT NULL, [requisition] will be prefereed.
+  Future<String> fetchRedirectLinkForRequisition({
+    String aspspID,
+    String requisitionID,
+    ASPSP aspsp,
+    RequisitionModel requisition,
+  }) async {
+    // Prepare the ASPSP ID that the function will work with
+    assert(aspspID != null || (aspsp != null && aspsp.id != null));
+    final String workingAspspID = aspsp?.id ?? aspspID;
+    // Prepare the Requisition ID that the function will work with
+    assert(
+      requisitionID != null || (requisition != null && requisition.id != null),
+    );
+    final String workingRequisitionID = requisition?.id ?? requisitionID;
+    // Make POST request and fetch output.
+    final dynamic fetchedMap = await _nordigenPoster(
+      endpointUrl:
+          'https://ob.nordigen.com/api/requisitions/$workingRequisitionID/links/',
+      data: {'aspsp_id': workingAspspID},
+    );
+    // Extract the redirectURL and output it.
+    return fetchedMap['initiate'].toString();
   }
 
   /// Utility class to easily make POST requests to Nordigen API endpoints.
@@ -85,7 +147,7 @@ class NordigenAccountInfoAPI {
         },
         body: jsonEncode(data),
       );
-      if ((response.statusCode / 100).floor() == 2)
+      if ((response.statusCode / 100).floor() == 2) // Request Success Condition
         output = jsonDecode(response.body);
       else
         throw http.ClientException(
@@ -109,7 +171,7 @@ class NordigenAccountInfoAPI {
           'Authorization': 'Token $_accessToken',
         },
       );
-      if ((response.statusCode / 100).floor() == 2)
+      if ((response.statusCode / 100).floor() == 2) // Request Success Condition
         output = jsonDecode(response.body);
       else
         throw http.ClientException(
