@@ -68,13 +68,13 @@ class EndUserAgreementModel {
   /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
   factory EndUserAgreementModel.fromMap(dynamic fetchedMap) {
     return EndUserAgreementModel(
-      id: fetchedMap['id'],
+      id: fetchedMap['id'] as String,
       created: (fetchedMap['created'] as String) ?? '',
       accepted: (fetchedMap['accepted'] as String) ?? '',
       maxHistoricalDays: fetchedMap['max_historical_days'] as int,
       accessValidForDays: fetchedMap['access_valid_for_days'] as int,
-      endUserID: fetchedMap['enduser_id'] as String ?? '',
-      aspspID: fetchedMap['aspsp_id'] as String ?? '',
+      endUserID: fetchedMap['enduser_id'] as String,
+      aspspID: fetchedMap['aspsp_id'] as String,
     );
   }
 
@@ -216,7 +216,7 @@ class BankAccountDetails {
   factory BankAccountDetails.fromMap(dynamic fetchedMap) {
     return BankAccountDetails(
       id: fetchedMap['id'] as String,
-      created: (fetchedMap['created'] as String),
+      created: fetchedMap['created'] as String,
       lastAccessed: (fetchedMap['last_accessed'] as String) ?? '',
       iban: fetchedMap['iban'] as String,
       aspspIdentifier: fetchedMap['aspsp_identifier'] as String,
@@ -268,6 +268,7 @@ class TransactionData {
   const TransactionData({
     @required this.id,
     this.debtorName,
+    this.debtorAccount,
     this.bankTransactionCode,
     this.bookingDate,
     this.valueDate,
@@ -278,8 +279,9 @@ class TransactionData {
   /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
   factory TransactionData.fromMap(dynamic fetchedMap) {
     return TransactionData(
-      id: fetchedMap['id'],
+      id: fetchedMap['id'] as String,
       debtorName: (fetchedMap['debtorName'] as String) ?? '',
+      debtorAccount: fetchedMap['debtorAccount'] as Map<String, dynamic>,
       bankTransactionCode: (fetchedMap['bankTransactionCode'] as String) ?? '',
       bookingDate: fetchedMap['bookingDate'] as String,
       valueDate: fetchedMap['valueDate'] as String,
@@ -315,6 +317,9 @@ class TransactionData {
 
   /// Name of the Transaction debtor (if any)
   final String debtorName;
+
+  ///Debtor Account Map (if any)
+  final Map<String, dynamic> debtorAccount;
 
   /// Transaction Code
   final String bankTransactionCode;

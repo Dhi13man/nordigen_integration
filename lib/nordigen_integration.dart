@@ -134,8 +134,9 @@ class NordigenAccountInfoAPI {
   /// Get the Requisition identified by [requisitionID]].
   ///
   /// Refer to Step 5 of Nordigen Account Information API documentation.
-  Future<RequisitionModel> getRequisition(
-      {@required String requisitionID}) async {
+  Future<RequisitionModel> getRequisition({
+    @required String requisitionID,
+  }) async {
     assert(requisitionID != null && requisitionID.length > 0);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
@@ -150,15 +151,17 @@ class NordigenAccountInfoAPI {
   /// Uses [getRequisition] and then finds the accounts.
   ///
   /// Refer to Step 5 of Nordigen Account Information API documentation.
-  Future<List<String>> getEndUserAccountIDs(
-          {@required String requisitionID}) async =>
+  Future<List<String>> getEndUserAccountIDs({
+    @required String requisitionID,
+  }) async =>
       (await getRequisition(requisitionID: requisitionID)).accounts;
 
   /// Get the Details of the Bank Account identified by [accountID]].
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
-  Future<BankAccountDetails> getAccountDetails(
-      {@required String accountID}) async {
+  Future<BankAccountDetails> getAccountDetails({
+    @required String accountID,
+  }) async {
     assert(accountID != null && accountID.length > 0);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
@@ -171,8 +174,9 @@ class NordigenAccountInfoAPI {
   /// Get the Transactions of the Bank Account identified by [accountID]].
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
-  Future<TransactionData> getAccountTransactions(
-      {@required String accountID}) async {
+  Future<TransactionData> getAccountTransactions({
+    @required String accountID,
+  }) async {
     assert(accountID != null && accountID.length > 0);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
@@ -186,8 +190,9 @@ class NordigenAccountInfoAPI {
   /// Get Balances of the Bank Account identified by [accountID]].
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
-  Future<BankAccountDetails> getAccountBalances(
-      {@required String accountID}) async {
+  Future<BankAccountDetails> getAccountBalances({
+    @required String accountID,
+  }) async {
     assert(accountID != null && accountID.length > 0);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
