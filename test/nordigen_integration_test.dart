@@ -3,7 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nordigen_integration/nordigen_integration.dart';
 
 void main() {
-  final String accessToken = 'API_CODE';
+  // TODO: MAKE SURE TO FILL THIS IN BEFORE RUNNING UNIT TESTS.
+  final String accessToken = 'YOUR_ACCES_TOKEN';
   test('Simulate and Test Step 1: Initialize with Access Token', () {
     bool isClassInitSuccessful = true;
     try {

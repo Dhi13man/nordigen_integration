@@ -30,6 +30,7 @@ class NordigenAccountInfoAPI {
     final List<dynamic> aspspsMap = await _nordigenGetter(
       endpointUrl: "https://ob.nordigen.com/api/aspsps/?country=$countryCode",
     ) as List<dynamic>;
+    // Map the recieved List<dynamic> into List<ASPSP> Data Format for convenience.
     return aspspsMap
         .map<ASPSP>(
           (dynamic aspspMapItem) => ASPSP.fromMap(aspspMapItem),
@@ -60,7 +61,7 @@ class NordigenAccountInfoAPI {
       else
         throw http.ClientException(response.reasonPhrase);
     } catch (e) {
-      throw http.ClientException('Connection to API Failed: $e');
+      throw http.ClientException('POST Request Failed: $e');
     }
     return output;
   }
@@ -82,7 +83,7 @@ class NordigenAccountInfoAPI {
       else
         throw http.ClientException(response.reasonPhrase);
     } catch (e) {
-      throw http.ClientException('Connection to API Failed: $e');
+      throw http.ClientException('GET Request Failed: $e');
     }
     return output;
   }
