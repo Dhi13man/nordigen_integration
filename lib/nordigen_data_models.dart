@@ -196,6 +196,69 @@ class RequisitionModel {
   String toString() => jsonEncode(toMap());
 }
 
+/// Bank Account Data Model
+///
+/// Contains the [id] of the Bank Account, its [created] and [lastAccessed] date
+/// and time, [iban], [status] and the [aspspIdentifier] identifiying its ASPSP.
+class BankAccountDetails {
+  const BankAccountDetails({
+    @required this.id,
+    @required this.created,
+    this.lastAccessed = '',
+    @required this.iban,
+    @required this.aspspIdentifier,
+    this.status = '',
+  })  : assert(id != null),
+        assert(iban != null),
+        assert(aspspIdentifier != null);
+
+  /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
+  factory BankAccountDetails.fromMap(dynamic fetchedMap) {
+    return BankAccountDetails(
+      id: fetchedMap['id'] as String,
+      created: (fetchedMap['created'] as String),
+      lastAccessed: (fetchedMap['last_accessed'] as String) ?? '',
+      iban: fetchedMap['iban'] as String,
+      aspspIdentifier: fetchedMap['aspsp_identifier'] as String,
+      status: (fetchedMap['status'] as String) ?? '',
+    );
+  }
+
+  /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
+  ///
+  /// Map Keys: "id", "name", "bic" and "countries"
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'created': created,
+        'last_accessed': lastAccessed,
+        'iban': iban,
+        'aspsp_identifier': aspspIdentifier,
+        'status': status,
+      };
+
+  /// The ID of this Account, used to refer to this account in other API calls.
+  final String id;
+
+  /// The date & time at which the account object was created.
+  final String created;
+
+  /// The date & time at which the account object was last accessed.
+  final String lastAccessed;
+
+  /// The Account IBAN
+  final String iban;
+
+  /// The ID of the ASPSP (bank) associated with this account.
+  final String aspspIdentifier;
+
+  /// The processing status of this account.
+  final String status;
+
+  /// Returns the class data converted to a map as a Serialized JSON String.
+  @override
+  String toString() => jsonEncode(toMap());
+}
+
 /// Transaction Data Model for Nordigen.
 ///
 /// Contains the [id] of the Transaction, its [debtorName] and [bankTransactionCode],
@@ -213,7 +276,7 @@ class TransactionData {
   }) : assert(id != null);
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
-  factory TransactionData.fromMap(Map<String, dynamic> fetchedMap) {
+  factory TransactionData.fromMap(dynamic fetchedMap) {
     return TransactionData(
       id: fetchedMap['id'],
       debtorName: (fetchedMap['debtorName'] as String) ?? '',

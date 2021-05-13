@@ -26,7 +26,8 @@ class NordigenAccountInfoAPI {
   ///
   /// Refer to Step 2 of Nordigen Account Information API documentation.
   /// [countryCode] is just two-letter country code (ISO 3166).
-  Future<List<ASPSP>> getBanksForCountry(String countryCode) async {
+  Future<List<ASPSP>> getBanksForCountry({@required String countryCode}) async {
+    assert(countryCode != null && countryCode.length > 0);
     // Make GET request and fetch output.
     final List<dynamic> fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/aspsps/?country=$countryCode',
@@ -93,7 +94,7 @@ class NordigenAccountInfoAPI {
         'agreements': agreements,
       },
     );
-    // Form the recieved dynamic Map into EndUserAgreementModel for convenience.
+    // Form the recieved dynamic Map into RequisitionModel for convenience.
     return RequisitionModel.fromMap(fetchedMap);
   }
 
@@ -105,7 +106,7 @@ class NordigenAccountInfoAPI {
   /// If both are NOT NULL, ID of [aspsp] will be prefereed.
   ///
   /// Both [requisitionID] and [requisition] can not be NULL.
-  /// If both are NOT NULL, [requisition] will be prefereed.
+  /// If both are NOT NULL, ID of [requisition] will be prefereed.
   Future<String> fetchRedirectLinkForRequisition({
     String aspspID,
     String requisitionID,
@@ -128,6 +129,72 @@ class NordigenAccountInfoAPI {
     );
     // Extract the redirectURL and output it.
     return fetchedMap['initiate'].toString();
+  }
+
+  /// Get the Requisition identified by [requisitionID]].
+  ///
+  /// Refer to Step 5 of Nordigen Account Information API documentation.
+  Future<RequisitionModel> getRequisition(
+      {@required String requisitionID}) async {
+    assert(requisitionID != null && requisitionID.length > 0);
+    // Make GET request and fetch output.
+    final dynamic fetchedMap = await _nordigenGetter(
+      endpointUrl: 'https://ob.nordigen.com/api/requisitions/$requisitionID/',
+    );
+    // Form the recieved dynamic Map into RequisitionModel for convenience.
+    return RequisitionModel.fromMap(fetchedMap);
+  }
+
+  /// Get the Account IDs of the User for the Requisition identified by [requisitionID]].
+  ///
+  /// Uses [getRequisition] and then finds the accounts.
+  ///
+  /// Refer to Step 5 of Nordigen Account Information API documentation.
+  Future<List<String>> getEndUserAccountIDs(
+          {@required String requisitionID}) async =>
+      (await getRequisition(requisitionID: requisitionID)).accounts;
+
+  /// Get the Details of the Bank Account identified by [accountID]].
+  ///
+  /// Refer to Step 6 of Nordigen Account Information API documentation.
+  Future<BankAccountDetails> getAccountDetails(
+      {@required String accountID}) async {
+    assert(accountID != null && accountID.length > 0);
+    // Make GET request and fetch output.
+    final dynamic fetchedMap = await _nordigenGetter(
+      endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/details/',
+    );
+    // Form the recieved dynamic Map into RequisitionModel for convenience.
+    return BankAccountDetails.fromMap(fetchedMap);
+  }
+
+  /// Get the Transactions of the Bank Account identified by [accountID]].
+  ///
+  /// Refer to Step 6 of Nordigen Account Information API documentation.
+  Future<TransactionData> getAccountTransactions(
+      {@required String accountID}) async {
+    assert(accountID != null && accountID.length > 0);
+    // Make GET request and fetch output.
+    final dynamic fetchedMap = await _nordigenGetter(
+      endpointUrl:
+          'https://ob.nordigen.com/api/accounts/$accountID/transactions/',
+    );
+    // Form the recieved dynamic Map into RequisitionModel for convenience.
+    return TransactionData.fromMap(fetchedMap);
+  }
+
+  /// Get Balances of the Bank Account identified by [accountID]].
+  ///
+  /// Refer to Step 6 of Nordigen Account Information API documentation.
+  Future<BankAccountDetails> getAccountBalances(
+      {@required String accountID}) async {
+    assert(accountID != null && accountID.length > 0);
+    // Make GET request and fetch output.
+    final dynamic fetchedMap = await _nordigenGetter(
+      endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/balances/',
+    );
+    // Form the recieved dynamic Map into RequisitionModel for convenience.
+    return BankAccountDetails.fromMap(fetchedMap);
   }
 
   /// Utility class to easily make POST requests to Nordigen API endpoints.
