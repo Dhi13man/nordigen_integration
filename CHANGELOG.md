@@ -29,7 +29,6 @@ Added EU PSD2 AISP keywords to package descriptions so people can find it easier
 1. Implemented actual full `TransactionData` Model from API Documentation.
 
 2. Renamed `BankAccountModel` to `AccountModel` because of Account schema discrepency in documentation between <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/> and <https://nordigen.com/en/docs/account-information/output/accounts/>.
-
 3. Implemented `Balance` model from API Documentation.
 
 4. Temporary `getAccountBalancesTemporary` method of `NordigenAccountInfoAPI` class implemented that will be depreciated once the returned data format can be pinned down.
@@ -37,3 +36,17 @@ Added EU PSD2 AISP keywords to package descriptions so people can find it easier
 5. Lint -> Pedantic.
 
 6. TODO: Resolve account model discrepency between <https://nordigen.com/en/docs/account-information/output/accounts/> and Schema given in <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>
+
+## [1.3.0] - 15th May, 2021
+
+1. Discrepencies solved with `BankAccountModel`; `Balance` and `getAccountBalances`.
+
+2. Added basic GET and DELETE requests for certain endpoints.
+
+3. **BREAKING:** Simplified certain APIs for more controlled usage.
+   1. `fetchRedirectLinkForRequisition` method only takes `String aspspID` and `String requisitionID` now.
+   2. `createEndUserAgreement` method only takes `String endUserID`,  `String aspspID`, `int maxHistoricalDays = 90` now.
+
+4. PUT implementation added for future conveinience.
+
+5. Updated documentation to highligh changes.

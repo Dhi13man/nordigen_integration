@@ -52,7 +52,7 @@ class TransactionData {
       creditorId: fetchedMap['creditorId'] as String?,
       bookingDate: fetchedMap['bookingDate'] as String?,
       valueDate: fetchedMap['valueDate'] as String?,
-      transactionAmount: TransactionAmountData(
+      transactionAmount: AmountData(
         amount: fetchedMap['transactionAmount']['amount'] as String,
         currency: fetchedMap['transactionAmount']['currency'] as String,
       ),
@@ -80,12 +80,12 @@ class TransactionData {
       bankTransactionCode: fetchedMap['bankTransactionCode'] as String?,
       proprietaryBankTransactionCode:
           fetchedMap['proprietaryBankTransactionCode'] as String?,
-      // TODO: Verify key of balanceAfterTransaction from
+      // Verify key of balanceAfterTransaction from
       // https://nordigen.com/en/docs/account-information/output/transactions/
       balanceAfterTransaction: fetchedMap['balanceAfterTransaction'] != null
           ? Balance?.fromMap(fetchedMap['balanceAfterTransaction'])
           : null,
-      links: fetchedMap['bankTransactionCode'] as List<String>?,
+      links: fetchedMap['_links'] as List<String>?,
     );
   }
 
@@ -122,7 +122,7 @@ class TransactionData {
         'bankTransactionCode': bankTransactionCode,
         'proprietaryBankTransactionCode': proprietaryBankTransactionCode,
         'balanceAfterTransaction': balanceAfterTransaction?.toMap(),
-        'links': links,
+        '_links': links,
       };
 
   /// Identifier of this particular Transaction
@@ -148,7 +148,7 @@ class TransactionData {
   final String? valueDate;
 
   /// Transaction amount details associated with this.
-  final TransactionAmountData transactionAmount;
+  final AmountData transactionAmount;
 
   /// Array of Report Exchnage Rate.
   final List<dynamic>? currencyExchange;
@@ -212,29 +212,6 @@ class TransactionData {
   /// The following links could be used here: transactionDetails for retrieving
   /// details of a transaction.
   final List<String>? links;
-
-  /// Returns the class data converted to a map as a Serialized JSON String.
-  @override
-  String toString() => jsonEncode(toMap());
-}
-
-/// Holds the transaction [amount] and the [currency] type
-class TransactionAmountData {
-  const TransactionAmountData({required this.amount, required this.currency});
-
-  final String currency;
-  final String amount;
-
-  /// Parses the amount value from string to a double numeric.
-  double get getAmountNumber => double.parse(amount);
-
-  /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
-  ///
-  /// Map Keys: "amount" and "currency".
-  Map<String, dynamic> toMap() => <String, dynamic>{
-        'amount': amount,
-        'currency': currency,
-      };
 
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override

@@ -23,7 +23,10 @@ class Balance {
     assert(fetchedMap['balanceAmount'] != null);
     assert(fetchedMap['balanceType'] != null);
     return Balance(
-      balanceAmount: fetchedMap['balanceAmount'],
+      balanceAmount: AmountData(
+        amount: fetchedMap['balanceAmount']['amount'] as String,
+        currency: fetchedMap['balanceAmount']['currency'] as String,
+      ),
       balanceType: fetchedMap['balanceType'] as String,
       creditLimitIncluded: fetchedMap['creditLimitIncluded'] as bool?,
       lastChangeDateTime: fetchedMap['lastChangeDateTime'] as String?,
@@ -37,7 +40,7 @@ class Balance {
   ///
   /// Map Keys: "amount" and "currency".
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'balanceAmount': balanceAmount,
+        'balanceAmount': balanceAmount.toMap(),
         'balanceType': balanceType,
         'creditLimitIncluded': creditLimitIncluded,
         'lastChangeDateTime': lastChangeDateTime,
@@ -46,7 +49,7 @@ class Balance {
       };
 
   /// The actual Amount of the balance.
-  final dynamic balanceAmount;
+  final AmountData balanceAmount;
 
   /// Refer https://nordigen.com/en/docs/account-information/output/balance/ for
   /// the available balance types.

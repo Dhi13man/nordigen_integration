@@ -30,17 +30,15 @@ For more information about the API view [Nordigen's Account Information API docu
 
     Analogous to Step 1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-2. `getBanksForCountry({required String countryCode})`
+2. `getASPSPsForCountry({required String countryCode})`
 
     Gets the ASPSPs (Banks) in the Country represented by the given two-letter `countryCode` (ISO 3166).
 
     Analogous to Step 2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-3. `createEndUserAgreement({required String endUserID, String? aspspID, ASPSP? aspsp, int maxHistoricalDays = 90})`
+3. `createEndUserAgreement({required String endUserID, required String aspspID, int maxHistoricalDays = 90})`
 
-    Creates an End User Agreement for the given `endUserID`, `aspspID` (or `aspsp`) and for the given `maxHistoricalDays` (default 90 days) and returns the resulting `EndUserAgreementModel`.
-
-    Both `aspspID` and `aspsp` can not be NULL.If both are NOT NULL, ID of `aspsp` will be prefereed.
+    Creates an End User Agreement for the given `endUserID`, `aspspID` and for the given `maxHistoricalDays` (default 90 days) and returns the resulting `EndUserAgreementModel`.
 
     Analogous to Step 3 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
@@ -50,17 +48,13 @@ For more information about the API view [Nordigen's Account Information API docu
 
     Analogous to Step 4.1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-5. `fetchRedirectLinkForRequisition({String? aspspID, String? requisitionID, ASPSP? aspsp, RequisitionModel? requisition})`
+5. `fetchRedirectLinkForRequisition({required String fetchRedirectLinkForRequisition, required String requisitionID})`
 
-    Provides a redirect link to the Requisition passed in for the given ASPSP.
-
-    Both `aspspID` and `aspsp` can not be NULL. If both are NOT NULL, ID of `aspsp` will be prefereed.
-
-    Both `requisitionID` and `requisition` can not be NULL. If both are NOT NULL, ID of `requisition` will be prefereed.
+    Provides a redirect link for the Requisition represented by the `requisitionID` passed in, for the ASPSP represented by the given `aspspID`.
 
     Analogous to Step 4.2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-6. `getRequisition({required String requisitionID})`
+6. `getRequisitionFromID({required String requisitionID})`
 
     Gets the Requisition identified by `requisitionID`.
 
@@ -82,11 +76,25 @@ For more information about the API view [Nordigen's Account Information API docu
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Transactions.
 
-10. `getAccountBalancesTemporary({required String accountID})`
+10. `getAccountBalances({required String accountID})`
 
     Gets the Balances of the Bank Account identified by `accountID` as `dynamic`. Will be depreciated later when documentation provides example of potentially fetched Balance Data.
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Balances.
+
+There are also verious other methods for implementing POST, GET and DELETE requests across various endpoints in Nordigen Server, which are self explanatory:
+
+1. `getASPSPUsingID({required String aspspID})`
+
+2. `getEndUserAgreementUsingID({required String endUserAgreementID})`
+
+3. `deleteEndUserAgreementUsingID({required String endUserAgreementID})`
+
+4. `getRequisitions({int limit = 100, int offset = 0,})`
+
+5. `getRequisitionUsingID({required String requisitionID})`
+
+6. `deleteRequisitionUsingID({required String requisitionID})`
 
 ----
 
@@ -106,21 +114,23 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
     Requisition Data Model for Nordigen. Contains the `id` of the Requisition, its `status`, end-user `agreements`, the `redirectURL` to which it should redirect, `reference` ID if any, `accounts` associated, and the associated `endUserID`.
 
-4. `AccountModel({String? id, String created, String? lastAccessed, required String iban, required String aspspIdentifier, String status = ''})`:
+4. `BankAccountDetails({String? id, String? iban, String? msisdn, required String currency, String? ownerName, String? name, String? displayName, String? product, String? cashAccountType, String? status, String? bic, String? linkedAccounts, String? usage, String? details, List<Balance>? balances, List<String>? links})`:
 
-    Bank Account Data Model. Contains the `id` of the Bank Account, its `created` and `lastAccessed` date and time, `iban`, `status` and the `aspspIdentifier` identifiying its ASPSP.
+    Bank Account Data Model for Nordigen. Refer to <https://nordigen.com/en/docs/account-information/output/accounts/> for full Data Schema.
 
 5. `TransactionData({required String id, String? debtorName, Map<String, dynamic>? debtorAccount,  String? bankTransactionCode,  String bookingDate = '',  String valueDate = '', required String transactionAmount, String? remittanceInformationUnstructured = '', ...})`:
 
     Transaction Data Model for Nordigen. Refer to <https://nordigen.com/en/docs/account-information/output/transactions/> for full Data Schema.
 
-    `TransactionAmountData({required String amount, required String currency})` is a simple Class that holds the transaction `amount` and the `currency` type.
-
-6. `Balance({required this.balanceAmount, required this.balanceType, this.creditLimitIncluded, this.lastChangeDateTime, this.referenceDate, this.lastCommittedTransaction})`
+6. `Balance({required AmountData balanceAmount, required String balanceType, bool? creditLimitIncluded, String? lastChangeDateTime, String? referenceDate, String? lastCommittedTransaction})`
 
     Balance Data Model for Nordigen. Contains `balanceAmount` of Transaction, its `balanceType`, whether its `creditLimitIncluded`, its `lastChangeDateTime` and `referenceDate` as `String` and the `lastCommittedTransaction`.
 
     Refer to <https://nordigen.com/en/docs/account-information/output/balance/> for full Data Schema and the available balance types.
+
+7. `AmountData({required String amount, required String currency})` 
+
+    It is a simple Class that holds the transaction `amount` and the `currency` type, both as required parameters.
 
 ----
 
@@ -128,7 +138,7 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
     import 'package:nordigen_integration/nordigen_integration.dart';
 
-    void main() async {
+    Future<void> main() async {
         /// Step 1
         final NordigenAccountInfoAPI apiInterface = NordigenAccountInfoAPI(
             accessToken: 'YOUR_TOKEN',
@@ -136,20 +146,20 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
         /// Step 2 and then selecting the first ASPSP
         final ASPSP firstBank =
-            (await apiInterface.getBanksForCountry(countryCode: 'gb')).first;
+            (await apiInterface.getASPSPsForCountry(countryCode: 'gb')).first;
 
         /// Step 4.1
         final RequisitionModel requisition = await apiInterface.createRequisition(
             endUserID: 'exampleEndUser',
             redirect: 'http://www.yourwebpage.com/',
-            reference: 'exampleReference420',
+            reference: 'exampleRef42069666',
         );
 
         /// Step 4.2
         final String redirectLink =
             await apiInterface.fetchRedirectLinkForRequisition(
-            requisition: requisition,
-            aspsp: firstBank,
+            requisitionID: requisition.id,
+            aspspID: firstBank.id,
         );
 
         /// Open and Validate [redirectLink] and proceed with other functionality.

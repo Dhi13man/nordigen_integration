@@ -43,7 +43,7 @@ class BankPickerWidget extends StatelessWidget {
       width: _width,
       child: Expanded(
         child: FutureBuilder<List<ASPSP>>(
-          future: apiInterface.getBanksForCountry(countryCode: 'gb'),
+          future: apiInterface.getASPSPsForCountry(countryCode: 'gb'),
           builder: (BuildContext context, AsyncSnapshot<List<ASPSP>> snapshot) {
             if (!snapshot.hasData)
               return Column(
@@ -60,12 +60,13 @@ class BankPickerWidget extends StatelessWidget {
                 contentPadding: _listItemPadding,
                 onTap: () async => launch(
                   await apiInterface.fetchRedirectLinkForRequisition(
-                    requisition: await apiInterface.createRequisition(
+                    requisitionID: (await apiInterface.createRequisition(
                       endUserID: 'exampleEndUser',
                       redirect: 'http://www.yourwebpage.com/',
                       reference: 'exampleReference1771',
-                    ),
-                    aspsp: banks[index],
+                    ))
+                        .id,
+                    aspspID: banks[index].id,
                   ),
                 ),
                 title: Text(banks[index].name),

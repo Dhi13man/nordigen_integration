@@ -216,3 +216,26 @@ class RequisitionModel {
   @override
   String toString() => jsonEncode(toMap());
 }
+
+/// Holds the transaction [amount] and the [currency] type
+class AmountData {
+  const AmountData({required this.amount, required this.currency});
+
+  final String currency;
+  final String amount;
+
+  /// Parses the amount value from string to a double numeric.
+  double get getAmountNumber => double.parse(amount);
+
+  /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
+  ///
+  /// Map Keys: "amount" and "currency".
+  Map<String, dynamic> toMap() => <String, dynamic>{
+        'amount': amount,
+        'currency': currency,
+      };
+
+  /// Returns the class data converted to a map as a Serialized JSON String.
+  @override
+  String toString() => jsonEncode(toMap());
+}
