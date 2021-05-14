@@ -1,6 +1,6 @@
 import 'package:nordigen_integration/nordigen_integration.dart';
 
-void main() async {
+Future<void> main() async {
   /// Step 1
   final NordigenAccountInfoAPI apiInterface = NordigenAccountInfoAPI(
     accessToken: 'YOUR_TOKEN',
@@ -14,7 +14,7 @@ void main() async {
   final RequisitionModel requisition = await apiInterface.createRequisition(
     endUserID: 'exampleEndUser',
     redirect: 'http://www.yourwebpage.com/',
-    reference: 'exampleReference420',
+    reference: 'exampleReference42069',
   );
 
   /// Step 4.2

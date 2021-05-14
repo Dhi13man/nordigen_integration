@@ -6,8 +6,8 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 void main() => runApp(
       MaterialApp(
         home: Scaffold(
-          appBar: AppBar(title: Text('Basic Widget Example')),
-          body: BankPickerWidget(),
+          appBar: AppBar(title: const Text('Basic Widget Example')),
+          body: const BankPickerWidget(),
         ),
       ),
     );
@@ -42,21 +42,21 @@ class BankPickerWidget extends StatelessWidget {
       height: _height,
       width: _width,
       child: Expanded(
-        child: FutureBuilder(
+        child: FutureBuilder<List<ASPSP>>(
           future: apiInterface.getBanksForCountry(countryCode: 'gb'),
-          builder: (context, snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<List<ASPSP>> snapshot) {
             if (!snapshot.hasData)
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: const <Widget>[
                   Text('Loading banks...'),
                   SizedBox(height: 50),
                   CircularProgressIndicator(),
                 ],
               );
-            List<ASPSP> banks = snapshot.data;
+            final List<ASPSP> banks = snapshot.data;
             return ListView.builder(
-              itemBuilder: (context, index) => ListTile(
+              itemBuilder: (BuildContext context, int index) => ListTile(
                 contentPadding: _listItemPadding,
                 onTap: () async => launch(
                   await apiInterface.fetchRedirectLinkForRequisition(
@@ -68,9 +68,9 @@ class BankPickerWidget extends StatelessWidget {
                     aspsp: banks[index],
                   ),
                 ),
-                title: Text('${banks[index].name}'),
-                leading: Text('${banks[index].id}'),
-                subtitle: Text('${banks[index].bic}'),
+                title: Text(banks[index].name ?? ''),
+                leading: Text(banks[index].id ?? ''),
+                subtitle: Text(banks[index].bic ?? ''),
               ),
             );
           },

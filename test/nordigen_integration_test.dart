@@ -14,7 +14,8 @@ Future<RequisitionModel> _createRandomRequisition(
   String testRedirectLink,
 ) async {
   final String randomReference = Random().nextInt(99999999).toString();
-  RequisitionModel requisitionModel = await nordigenObject.createRequisition(
+  final RequisitionModel requisitionModel =
+      await nordigenObject.createRequisition(
     endUserID: testEndUserID,
     redirect: testRedirectLink,
     reference: randomReference,
@@ -26,10 +27,10 @@ Future<RequisitionModel> _createRandomRequisition(
 void main() {
   // Set up of common parameters for Testing.
   // TODO: MAKE SURE TO FILL THIS IN BEFORE RUNNING UNIT TESTS.
-  final String accessToken = 'YOUR_TOKEN';
-  final String testEndUserID = '8234e18b-f360-48cc-8bcf-c8625596d74a';
-  final String testAspspID = 'ABNAMRO_ABNAGB2LXXX';
-  final String testRedirectLink = 'http://www.yourwebpage.com/';
+  const String accessToken = 'YOUR_TOKEN';
+  const String testEndUserID = '8234e18b-f360-48cc-8bcf-c8625596d74a';
+  const String testAspspID = 'ABNAMRO_ABNAGB2LXXX';
+  const String testRedirectLink = 'http://www.yourwebpage.com/';
 
   /// TEST 1
   test('Simulate Step 1: Initialize with Access Token', () {
@@ -51,7 +52,7 @@ void main() {
     final List<ASPSP> aspsps =
         await nordigenObject.getBanksForCountry(countryCode: 'gb');
     expect(aspsps != null, true);
-    expect(aspsps.length > 0, true);
+    expect(aspsps.isNotEmpty, true);
     expect(aspsps.first.id != null, true);
   });
 
@@ -60,7 +61,7 @@ void main() {
     // API and Parameters Set up
     final NordigenAccountInfoAPI nordigenObject =
         NordigenAccountInfoAPI(accessToken: accessToken);
-    final int maxHistoricalDays = 1;
+    const int maxHistoricalDays = 1;
 
     // TEST USING PURE ASPSP ID
     EndUserAgreementModel endUserAgreementModel =
@@ -80,7 +81,7 @@ void main() {
     endUserAgreementModel = await nordigenObject.createEndUserAgreement(
       maxHistoricalDays: maxHistoricalDays,
       endUserID: testEndUserID,
-      aspsp: ASPSP(id: testAspspID),
+      aspsp: const ASPSP(id: testAspspID),
     );
     expect(endUserAgreementModel != null, true);
     expect(endUserAgreementModel.id != null, true);

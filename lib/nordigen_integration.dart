@@ -19,7 +19,7 @@ class NordigenAccountInfoAPI {
   /// Nordigen API Access token required to access API functionality.
   final String _accessToken;
 
-  /// Client initialization as we are repeatedly making requests to the same Server.
+  /// Client initialization as we repeated requests to the same Server.
   final http.Client _client = http.Client();
 
   /// Gets the ASPSPs (Banks) for the given [countryCode].
@@ -27,12 +27,12 @@ class NordigenAccountInfoAPI {
   /// Refer to Step 2 of Nordigen Account Information API documentation.
   /// [countryCode] is just two-letter country code (ISO 3166).
   Future<List<ASPSP>> getBanksForCountry({@required String countryCode}) async {
-    assert(countryCode != null && countryCode.length > 0);
+    assert(countryCode != null && countryCode.isNotEmpty);
     // Make GET request and fetch output.
     final List<dynamic> fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/aspsps/?country=$countryCode',
     ) as List<dynamic>;
-    // Map the recieved List<dynamic> into List<ASPSP> Data Format for convenience.
+    // Map the recieved List<dynamic> into List<ASPSP> Data Format.
     return fetchedMap
         .map<ASPSP>(
           (dynamic aspspMapItem) => ASPSP.fromMap(aspspMapItem),
@@ -40,8 +40,8 @@ class NordigenAccountInfoAPI {
         .toList();
   }
 
-  /// Create an End User Agreement for the given [endUserID], [aspspID] (or [aspsp])
-  /// and for the given [maxHistoricalDays] (default 90 days).
+  /// Create an End User Agreement for the given [endUserID], [aspspID]
+  /// (or [aspsp]) and for the given [maxHistoricalDays] (default 90 days).
   ///
   /// Refer to Step 3 of Nordigen Account Information API documentation.
   ///
@@ -59,7 +59,7 @@ class NordigenAccountInfoAPI {
     // Make POST request and fetch output.
     final dynamic fetchedMap = await _nordigenPoster(
       endpointUrl: 'https://ob.nordigen.com/api/agreements/enduser/',
-      data: {
+      data: <String, dynamic>{
         // API accepts days as String
         'max_historical_days': maxHistoricalDays.toString(),
         'aspsp_id': workingAspspID,
@@ -75,8 +75,10 @@ class NordigenAccountInfoAPI {
   /// Refer to Step 4.1 of Nordigen Account Information API documentation.
   ///
   /// [reference] is additional layer of unique ID. Should match Step 3 if done.
-  /// [redirect] is the link where the end user will be redirected after finishing authentication in ASPSP.
-  /// [agreements] is as an array of ID(s) from Step 3 or empty array if that step was skipped.
+  /// [redirect] is the link where the end user will be redirected after
+  /// finishing authentication in ASPSP.
+  /// [agreements] is as an array of ID(s) from Step 3 or empty array
+  /// if that step was skipped.
   Future<RequisitionModel> createRequisition({
     @required String endUserID,
     @required String redirect,
@@ -87,7 +89,7 @@ class NordigenAccountInfoAPI {
     // Make POST request and fetch output.
     final dynamic fetchedMap = await _nordigenPoster(
       endpointUrl: 'https://ob.nordigen.com/api/requisitions/',
-      data: {
+      data: <String, dynamic>{
         'redirect': redirect,
         'reference': reference,
         'enduser_id': endUserID,
@@ -125,7 +127,7 @@ class NordigenAccountInfoAPI {
     final dynamic fetchedMap = await _nordigenPoster(
       endpointUrl:
           'https://ob.nordigen.com/api/requisitions/$workingRequisitionID/links/',
-      data: {'aspsp_id': workingAspspID},
+      data: <String, dynamic>{'aspsp_id': workingAspspID},
     );
     // Extract the redirectURL and output it.
     return fetchedMap['initiate'].toString();
@@ -137,7 +139,7 @@ class NordigenAccountInfoAPI {
   Future<RequisitionModel> getRequisition({
     @required String requisitionID,
   }) async {
-    assert(requisitionID != null && requisitionID.length > 0);
+    assert(requisitionID != null && requisitionID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/requisitions/$requisitionID/',
@@ -146,7 +148,8 @@ class NordigenAccountInfoAPI {
     return RequisitionModel.fromMap(fetchedMap);
   }
 
-  /// Get the Account IDs of the User for the Requisition identified by [requisitionID].
+  /// Get the Account IDs of the User,
+  /// for the Requisition identified by [requisitionID].
   ///
   /// Uses [getRequisition] and then finds the accounts.
   ///
@@ -162,7 +165,7 @@ class NordigenAccountInfoAPI {
   Future<BankAccountDetails> getAccountDetails({
     @required String accountID,
   }) async {
-    assert(accountID != null && accountID.length > 0);
+    assert(accountID != null && accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/details/',
@@ -177,7 +180,7 @@ class NordigenAccountInfoAPI {
   Future<TransactionData> getAccountTransactions({
     @required String accountID,
   }) async {
-    assert(accountID != null && accountID.length > 0);
+    assert(accountID != null && accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
       endpointUrl:
@@ -193,7 +196,7 @@ class NordigenAccountInfoAPI {
   Future<BankAccountDetails> getAccountBalances({
     @required String accountID,
   }) async {
-    assert(accountID != null && accountID.length > 0);
+    assert(accountID != null && accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/balances/',
@@ -207,10 +210,10 @@ class NordigenAccountInfoAPI {
     @required String endpointUrl,
     Map<String, dynamic> data,
   }) async {
-    dynamic output = {};
+    dynamic output = <dynamic, dynamic>{};
     try {
       final Uri requestURL = Uri.parse(endpointUrl);
-      http.Response response = await _client.post(
+      final http.Response response = await _client.post(
         requestURL,
         headers: <String, String>{
           'accept': 'application/json',
@@ -223,7 +226,8 @@ class NordigenAccountInfoAPI {
         output = jsonDecode(response.body);
       else
         throw http.ClientException(
-          'Error Code: ${response.statusCode}, Reason: ${jsonDecode(response.body)["detail"]}',
+          'Error Code: ${response.statusCode}, ' +
+              'Reason: ${jsonDecode(response.body)["detail"]}',
         );
     } catch (e) {
       throw http.ClientException('POST Request Failed: $e');
@@ -233,10 +237,10 @@ class NordigenAccountInfoAPI {
 
   /// Utility class to easily make GET requests to Nordigen API endpoints.
   Future<dynamic> _nordigenGetter({@required String endpointUrl}) async {
-    dynamic output = {};
+    dynamic output = <dynamic, dynamic>{};
     try {
       final Uri requestURL = Uri.parse(endpointUrl);
-      http.Response response = await _client.get(
+      final http.Response response = await _client.get(
         requestURL,
         headers: <String, String>{
           'accept': 'application/json',
@@ -247,7 +251,8 @@ class NordigenAccountInfoAPI {
         output = jsonDecode(response.body);
       else
         throw http.ClientException(
-          'Error Code: ${response.statusCode}, Reason: ${jsonDecode(response.body)["detail"]}',
+          'Error Code: ${response.statusCode}, ' +
+              'Reason: ${jsonDecode(response.body)["detail"]}',
         );
     } catch (e) {
       throw http.ClientException('GET Request Failed: $e');

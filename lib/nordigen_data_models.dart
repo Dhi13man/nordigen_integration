@@ -2,7 +2,8 @@ part of 'nordigen_integration.dart';
 
 /// ASPSP (Bank) Data Model for Nordigen
 ///
-/// Contains the [id] of the ASPSP, its [name], [bic] and the [countries] associated with the ASPSP.
+/// Contains the [id] of the ASPSP, its [name], [bic]
+/// and the [countries] associated with the ASPSP.
 class ASPSP {
   const ASPSP({
     @required this.id,
@@ -11,7 +12,7 @@ class ASPSP {
     this.countries = const <String>[],
   }) : assert(id != null);
 
-  /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
+  /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory ASPSP.fromMap(dynamic fetchedMap) {
     return ASPSP(
       id: fetchedMap['id'] as String,
@@ -27,8 +28,12 @@ class ASPSP {
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
   /// Map Keys: "id", "name", "bic" and "countries"
-  Map<String, dynamic> toMap() =>
-      {'id': id, 'name': name, 'bic': bic, 'countries': countries};
+  Map<String, dynamic> toMap() => <String, dynamic>{
+        'id': id,
+        'name': name,
+        'bic': bic,
+        'countries': countries,
+      };
 
   /// Identifier of this particular ASPSP
   final String id;
@@ -65,7 +70,7 @@ class EndUserAgreementModel {
         assert(endUserID != null),
         assert(aspspID != null);
 
-  /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
+  /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory EndUserAgreementModel.fromMap(dynamic fetchedMap) {
     return EndUserAgreementModel(
       id: fetchedMap['id'] as String,
@@ -82,7 +87,7 @@ class EndUserAgreementModel {
   ///
   /// Map Keys: "id", "created", "accepted", "max_historical_days",
   /// "access_valid_for_days", "enduser_id" and "aspsp_id"
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap() => <String, dynamic>{
         'id': id,
         'created': created,
         'accepted': accepted,
@@ -98,7 +103,7 @@ class EndUserAgreementModel {
   /// Time of End User Agreement creation in ISO8601 DateTime [String] Format
   final String created;
 
-  /// Time of End User Agreement acceptance (if any) in ISO8601 DateTime String Format
+  /// Time of End User Agreement acceptance (if any) in ISO8601 DateTime String
   final dynamic accepted;
 
   /// Maximum Historical Days for the agreement.
@@ -137,18 +142,18 @@ class RequisitionModel {
         assert(reference != null),
         assert(endUserID != null);
 
-  /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
+  /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory RequisitionModel.fromMap(dynamic fetchedMap) {
     return RequisitionModel(
       id: fetchedMap['id'] as String,
       redirectURL: fetchedMap['redirect'] as String,
       reference: fetchedMap['reference'] as String,
       status: (fetchedMap['status'] as String) ?? '',
-      agreements: (fetchedMap['agreements'] as List)
+      agreements: (fetchedMap['agreements'] as List<dynamic>)
               .map<String>((dynamic agreement) => agreement.toString())
               .toList() ??
           const <String>[],
-      accounts: (fetchedMap['accounts'] as List)
+      accounts: (fetchedMap['accounts'] as List<dynamic>)
               .map<String>((dynamic agreement) => agreement.toString())
               .toList() ??
           const <String>[],
@@ -160,7 +165,7 @@ class RequisitionModel {
   ///
   /// Map Keys: "id", "redirect", "status", "agreements", "accounts",
   /// "reference" and "enduser_id"
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap() => <String, dynamic>{
         'id': id,
         'redirect': redirectURL,
         'status': status,
@@ -170,10 +175,10 @@ class RequisitionModel {
         'enduser_id': endUserID,
       };
 
-  /// Identifier of this particular Requisition (typically UUID) (Used to link accounts)
+  /// Identifier (typically UUID) of this Requisition used to link accounts
   final String id;
 
-  /// Link where the end user will be redirected after finishing authentication in ASPSP.
+  /// Link where end user will be redirected for authenticating in ASPSP.
   final String redirectURL;
 
   /// Status of the Requisition
@@ -212,7 +217,7 @@ class BankAccountDetails {
         assert(iban != null),
         assert(aspspIdentifier != null);
 
-  /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
+  /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory BankAccountDetails.fromMap(dynamic fetchedMap) {
     return BankAccountDetails(
       id: fetchedMap['id'] as String,
@@ -227,7 +232,7 @@ class BankAccountDetails {
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
   /// Map Keys: "id", "name", "bic" and "countries"
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap() => <String, dynamic>{
         'id': id,
         'created': created,
         'last_accessed': lastAccessed,
@@ -261,9 +266,9 @@ class BankAccountDetails {
 
 /// Transaction Data Model for Nordigen.
 ///
-/// Contains the [id] of the Transaction, its [debtorName] and [bankTransactionCode],
-/// [bookingDate] and [valueDate] as [String], [transactionAmount] as [TransactionAmountData]
-/// and its [remittanceInformationUnstructured].
+/// Contains [id] of Transaction, its [debtorName] and [bankTransactionCode],
+/// [bookingDate] and [valueDate] as [String], [transactionAmount] as
+/// [TransactionAmountData] and its [remittanceInformationUnstructured].
 class TransactionData {
   const TransactionData({
     @required this.id,
@@ -276,7 +281,7 @@ class TransactionData {
     this.remittanceInformationUnstructured = '',
   }) : assert(id != null);
 
-  /// For easy Data Model Generation from Map fetched by querying Nordigen Server.
+  /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory TransactionData.fromMap(dynamic fetchedMap) {
     return TransactionData(
       id: fetchedMap['id'] as String,
@@ -302,7 +307,7 @@ class TransactionData {
   ///
   /// Map Keys: "id", "debtorName", "bankTransactionCode", "bookingDate",
   /// "valueDate", "transactionAmount" and "remittanceInformationUnstructured"
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap() => <String, dynamic>{
         'id': id,
         'debtorName': debtorName,
         'bankTransactionCode': bankTransactionCode,
@@ -354,7 +359,10 @@ class TransactionAmountData {
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
   /// Map Keys: "amount" and "currency".
-  Map<String, dynamic> toMap() => {'amount': amount, 'currency': currency};
+  Map<String, dynamic> toMap() => <String, dynamic>{
+        'amount': amount,
+        'currency': currency,
+      };
 
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override

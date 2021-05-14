@@ -1,0 +1,47 @@
+include: package:lint/analysis_options.yaml
+
+linter:
+  rules:
+    # ------ Disable individual rules ----- #
+    #                 ---                   #
+    # Turn off what you don't like.         #
+    # ------------------------------------- #
+
+    # Use parameter order as in json response
+    always_put_required_named_parameters_first: false
+    
+    # Util classes are awesome!
+    avoid_classes_with_only_static_members: false
+
+    # Don't need to document obvious things
+    public_member_api_docs: false
+
+    # Sometimes parameterizing all constants makes it less readable
+    prefer_const_literals_to_create_immutables: false
+
+    # One liner flow control structure bodies don't need curly braces
+    curly_braces_in_flow_control_structures: false
+
+    # Field initializers in const classes are pretty convenient
+    avoid_field_initializers_in_const_classes: false
+
+    # Unnecessary lol
+    sort_pub_dependencies: false
+
+    # ------ Enable individual rules ------ #
+    #                 ---                   #
+    # These rules here are good but too     #
+    # opinionated to enable them by default #
+    # ------------------------------------- #
+
+    # Make constructors the first thing in every class
+    sort_constructors_first: true
+
+    # The new tabs vs. spaces. Choose wisely
+    prefer_single_quotes: true
+    
+    # Blindly follow the Flutter code style, which prefers types everywhere
+    always_specify_types: true
+  
+    # Back to the 80s
+    lines_longer_than_80_chars: true
