@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' show ClientException;
 
 import 'package:nordigen_integration/nordigen_integration.dart';
 
@@ -119,7 +120,7 @@ void main() {
       await nordigenObject.getEndUserAgreementUsingID(
         endUserAgreementID: endUserAgreement.id,
       );
-    } catch (_) {
+    } on ClientException {
       hasRequestFailed = true;
     }
     expect(hasRequestFailed, true); // If successfully deleted, should fail.
@@ -184,7 +185,7 @@ void main() {
       await nordigenObject.getRequisitionUsingID(
         requisitionID: requisitionModel.id,
       );
-    } catch (_) {
+    } on ClientException {
       hasRequestFailed = true;
     }
     expect(hasRequestFailed, true); // If successfully deleted, should fail.

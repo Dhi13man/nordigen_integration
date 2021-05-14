@@ -4,8 +4,6 @@ Development of a Null Safe Dart/Flutter Package for Nordigen EU PSD2 AISP API In
 
 For more information about the API view [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-**Find Package on Official Dart Pub:**
-
 [![nordigen_integration version](https://img.shields.io/pub/v/nordigen_integration.svg)](https://pub.dev/packages/nordigen_integration)
 
 ## Usage Steps
@@ -82,7 +80,7 @@ For more information about the API view [Nordigen's Account Information API docu
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Balances.
 
-There are also verious other methods for implementing POST, GET and DELETE requests across various endpoints in Nordigen Server, which are self explanatory:
+There are also various other methods for implementing POST, GET and DELETE requests across various endpoints in Nordigen Server, which are self explanatory:
 
 1. `getASPSPUsingID({required String aspspID})`
 

@@ -10,7 +10,7 @@ linter:
     # Prefer seeing Local Variable types on both sides of declaration
     omit_local_variable_types: false
     
-    # Use parameter order as in json response
+    # Use parameter order as in Documentation Schema
     always_put_required_named_parameters_first: false
     
     # Util classes are awesome!
