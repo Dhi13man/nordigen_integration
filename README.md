@@ -1,6 +1,6 @@
 # nordigen_integration
 
-Development of a Flutter Package for Nordigen Integration with relevant Data Models, proper Encapsulation with the exposing of parameters, and succinct documentation for each relevant element.
+Development of a Flutter Package for Nordigen EU PSD2 AISP Integration with relevant Data Models, proper encapsulation with the exposing of parameters, and succinct documentation.
 
 For more information about the API view [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
@@ -26,7 +26,7 @@ For more information about the API view [Nordigen's Account Information API docu
 
 1. `NordigenAccountInfoAPI({@required String accessToken})` (Class constuctor)
 
-    Call it with `accessToken` parameter which is the access token recieved from <https://ob.nordigen.com/>, to access API features. 
+    Call it with `accessToken` parameter which is the access token recieved from <https://ob.nordigen.com/>, to access API features.
 
     Analogous to Step 1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
@@ -160,11 +160,7 @@ For more information about the API view [Nordigen's Account Information API docu
 
 #### Getting Started
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+This project is a starting point for a Dart [package](https://flutter.dev/developing-packages/), a library module containing code that can be shared easily across multiple Flutter or Dart projects.
 
 For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+[online documentation](https://flutter.dev/docs), which offers tutorials,samples, guidance on mobile development, and a full API reference.
