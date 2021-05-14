@@ -50,3 +50,7 @@ Added EU PSD2 AISP keywords to package descriptions so people can find it easier
 4. PUT implementation added for future conveinience.
 
 5. Updated documentation to highligh changes.
+
+## [1.3.1] - 15th May, 2021
+
+Documentation fixes and more specific tests for DELETE requests.
