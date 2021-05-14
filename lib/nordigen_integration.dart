@@ -222,8 +222,8 @@ class NordigenAccountInfoAPI {
         output = jsonDecode(response.body);
       else
         throw http.ClientException(
-          'Error Code: ${response.statusCode}, ' +
-              'Reason: ${jsonDecode(response.body)["detail"]}',
+          'Error Code: ${response.statusCode}, '
+          'Reason: ${jsonDecode(response.body)["detail"]}',
         );
     } catch (e) {
       throw http.ClientException('POST Request Failed: $e');
@@ -247,8 +247,8 @@ class NordigenAccountInfoAPI {
         output = jsonDecode(response.body);
       else
         throw http.ClientException(
-          'Error Code: ${response.statusCode}, ' +
-              'Reason: ${jsonDecode(response.body)["detail"]}',
+          'Error Code: ${response.statusCode}, '
+          'Reason: ${jsonDecode(response.body)["detail"]}',
         );
     } catch (e) {
       throw http.ClientException('GET Request Failed: $e');
