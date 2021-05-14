@@ -158,7 +158,7 @@ For more information about the API view [Nordigen's Account Information API docu
 
 ### Tests Screenshot
 
-![Nordigen EU PSD2 AISP Integration Tests Successful Screenshot](https://raw.githubusercontent.com/Dhi13man/reservation_manager_firebase/main/package_tests_success_screenshot.png)
+![Nordigen EU PSD2 AISP Integration Tests Successful Screenshot](https://raw.githubusercontent.com/Dhi13man/nordigen_integration/main/package_tests_success_screenshot.png)
 
 ----
 
