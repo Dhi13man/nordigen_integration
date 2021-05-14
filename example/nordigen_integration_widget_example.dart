@@ -3,16 +3,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:nordigen_integration/nordigen_integration.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Basic Widget Example')),
-        body: BankPickerWidget(),
+void main() => runApp(
+      MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(title: Text('Basic Widget Example')),
+          body: BankPickerWidget(),
+        ),
       ),
-    ),
-  );
-}
+    );
 
 /// Opens Redirect URL based on whatever bank is chosen
 class BankPickerWidget extends StatelessWidget {
