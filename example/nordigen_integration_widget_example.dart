@@ -15,11 +15,11 @@ void main() => runApp(
 /// Opens Redirect URL based on whatever bank is chosen
 class BankPickerWidget extends StatelessWidget {
   const BankPickerWidget({
-    Key key,
-    EdgeInsets listItemPadding,
-    EdgeInsets margin,
-    double height,
-    double width,
+    Key? key,
+    EdgeInsets? listItemPadding,
+    EdgeInsets? margin,
+    double? height,
+    double? width,
   })  : _listItemPadding = listItemPadding ?? const EdgeInsets.all(2),
         _margin = margin ?? const EdgeInsets.all(10),
         _width = width,
@@ -30,7 +30,7 @@ class BankPickerWidget extends StatelessWidget {
 
   final EdgeInsets _margin;
 
-  final double _height, _width;
+  final double? _height, _width;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class BankPickerWidget extends StatelessWidget {
                   CircularProgressIndicator(),
                 ],
               );
-            final List<ASPSP> banks = snapshot.data;
+            final List<ASPSP> banks = snapshot.data ?? <ASPSP>[];
             return ListView.builder(
               itemBuilder: (BuildContext context, int index) => ListTile(
                 contentPadding: _listItemPadding,
@@ -68,9 +68,9 @@ class BankPickerWidget extends StatelessWidget {
                     aspsp: banks[index],
                   ),
                 ),
-                title: Text(banks[index].name ?? ''),
-                leading: Text(banks[index].id ?? ''),
-                subtitle: Text(banks[index].bic ?? ''),
+                title: Text(banks[index].name),
+                leading: Text(banks[index].id),
+                subtitle: Text(banks[index].bic),
               ),
             );
           },

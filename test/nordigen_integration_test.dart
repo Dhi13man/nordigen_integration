@@ -32,6 +32,12 @@ void main() {
   const String testAspspID = 'ABNAMRO_ABNAGB2LXXX';
   const String testRedirectLink = 'http://www.yourwebpage.com/';
 
+  /// TEST 0
+  test(
+    'Ensure that Access Token is changed before actual tests.',
+    () => expect(accessToken != 'YOUR_TOKEN', true),
+  );
+
   /// TEST 1
   test('Simulate Step 1: Initialize with Access Token', () {
     bool isClassInitSuccessful = true;
@@ -51,9 +57,7 @@ void main() {
     // Make Request
     final List<ASPSP> aspsps =
         await nordigenObject.getBanksForCountry(countryCode: 'gb');
-    expect(aspsps != null, true);
     expect(aspsps.isNotEmpty, true);
-    expect(aspsps.first.id != null, true);
   });
 
   /// TEST 3
@@ -70,21 +74,16 @@ void main() {
       endUserID: testEndUserID,
       aspspID: testAspspID,
     );
-    expect(endUserAgreementModel != null, true);
-    expect(endUserAgreementModel.id != null, true);
     expect(endUserAgreementModel.endUserID, testEndUserID);
     expect(endUserAgreementModel.aspspID, testAspspID);
     expect(endUserAgreementModel.maxHistoricalDays, maxHistoricalDays);
 
     // TEST USING ASPSP Data Model object
-    endUserAgreementModel = null;
     endUserAgreementModel = await nordigenObject.createEndUserAgreement(
       maxHistoricalDays: maxHistoricalDays,
       endUserID: testEndUserID,
-      aspsp: const ASPSP(id: testAspspID),
+      aspsp: const ASPSP(id: testAspspID, name: '', countries: <String>[]),
     );
-    expect(endUserAgreementModel != null, true);
-    expect(endUserAgreementModel.id != null, true);
     expect(endUserAgreementModel.aspspID, testAspspID);
   });
 
@@ -99,8 +98,6 @@ void main() {
       testEndUserID,
       testRedirectLink,
     );
-    expect(requisitionModel != null, true);
-    expect(requisitionModel.id != null, true);
     expect(requisitionModel.endUserID, testEndUserID);
     expect(requisitionModel.redirectURL, testRedirectLink);
   });
@@ -116,14 +113,12 @@ void main() {
       testEndUserID,
       testRedirectLink,
     );
-    expect(requisitionModel != null, true);
     // Make Request
     final String fetchedRedirectLink =
         await nordigenObject.fetchRedirectLinkForRequisition(
       aspspID: testAspspID,
       requisition: requisitionModel,
     );
-    expect(fetchedRedirectLink != null, true);
     expect(Uri.tryParse(fetchedRedirectLink) != null, true);
   });
 
@@ -141,8 +136,6 @@ void main() {
     // Make Request
     final RequisitionModel fetchedRequisitionModel =
         await nordigenObject.getRequisition(requisitionID: requisitionModel.id);
-    expect(fetchedRequisitionModel != null, true);
-    expect(fetchedRequisitionModel.id != null, true);
     // Kind of like Equatable Package
     expect(fetchedRequisitionModel.toString(), requisitionModel.toString());
   });
@@ -159,10 +152,9 @@ void main() {
       testRedirectLink,
     );
     // Make Request
-    final List<String> accounts = await nordigenObject.getEndUserAccountIDs(
+    await nordigenObject.getEndUserAccountIDs(
       requisitionID: requisitionModel.id,
     );
-    expect(accounts != null, true);
   });
 
   /// TEST 6
@@ -178,10 +170,10 @@ void main() {
       testRedirectLink,
     );
     // Make Request
-    final List<String> accounts = await nordigenObject.getEndUserAccountIDs(
+    await nordigenObject.getEndUserAccountIDs(
       requisitionID: requisitionModel.id,
     );
     // TODO: Create Banking account and Test Account APIs using its account ID.
-    expect(accounts != null, true);
+    // Eg. nordigenObject.getAccountBalances(accountID: accountID)
   });
 }

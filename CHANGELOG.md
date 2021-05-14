@@ -13,3 +13,13 @@ Shortened Package description to follow dart conventions.
 Initial release supporting [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) and relevant Data Models required to support it, in the form of Serializable Classes.
 
 Added EU PSD2 AISP keywords to package descriptions so people can find it easier. Unnecessary Flutter dependancy removed.
+
+## [1.2.0] - 14th May, 2021
+
+1. ASPSP Data Structure changed to include  `[String] transaction_total_days`.
+
+2. Lint rules applied.
+
+3. Null Safety implemented.
+
+4. Documentation follows null safety conventions now.

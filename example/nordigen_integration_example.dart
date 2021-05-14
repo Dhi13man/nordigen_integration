@@ -14,7 +14,7 @@ Future<void> main() async {
   final RequisitionModel requisition = await apiInterface.createRequisition(
     endUserID: 'exampleEndUser',
     redirect: 'http://www.yourwebpage.com/',
-    reference: 'exampleReference42069',
+    reference: 'exampleRef42069666',
   );
 
   /// Step 4.2

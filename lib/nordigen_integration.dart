@@ -2,7 +2,6 @@ library nordigen_integration;
 
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 
 part 'nordigen_data_models.dart';
@@ -13,7 +12,7 @@ part 'nordigen_data_models.dart';
 ///
 /// Requires an Nordignen Access token available from https://ob.nordigen.com/
 class NordigenAccountInfoAPI {
-  NordigenAccountInfoAPI({@required String accessToken})
+  NordigenAccountInfoAPI({required String accessToken})
       : _accessToken = accessToken;
 
   /// Nordigen API Access token required to access API functionality.
@@ -26,8 +25,8 @@ class NordigenAccountInfoAPI {
   ///
   /// Refer to Step 2 of Nordigen Account Information API documentation.
   /// [countryCode] is just two-letter country code (ISO 3166).
-  Future<List<ASPSP>> getBanksForCountry({@required String countryCode}) async {
-    assert(countryCode != null && countryCode.isNotEmpty);
+  Future<List<ASPSP>> getBanksForCountry({required String countryCode}) async {
+    assert(countryCode.isNotEmpty);
     // Make GET request and fetch output.
     final List<dynamic> fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/aspsps/?country=$countryCode',
@@ -48,14 +47,14 @@ class NordigenAccountInfoAPI {
   /// Both [aspspID] and [aspsp] can not be NULL.
   /// If both are NOT NULL, ID of [aspsp] will be prefereed.
   Future<EndUserAgreementModel> createEndUserAgreement({
-    @required String endUserID,
-    String aspspID,
-    ASPSP aspsp,
+    required String endUserID,
+    String? aspspID,
+    ASPSP? aspsp,
     int maxHistoricalDays = 90,
   }) async {
     // Prepare the ASPSP ID that the function will work with
-    assert(aspspID != null || (aspsp != null && aspsp.id != null));
-    final String workingAspspID = aspsp?.id ?? aspspID;
+    assert(aspspID != null || aspsp != null);
+    final String? workingAspspID = aspsp?.id ?? aspspID;
     // Make POST request and fetch output.
     final dynamic fetchedMap = await _nordigenPoster(
       endpointUrl: 'https://ob.nordigen.com/api/agreements/enduser/',
@@ -80,12 +79,11 @@ class NordigenAccountInfoAPI {
   /// [agreements] is as an array of ID(s) from Step 3 or empty array
   /// if that step was skipped.
   Future<RequisitionModel> createRequisition({
-    @required String endUserID,
-    @required String redirect,
-    @required String reference,
+    required String endUserID,
+    required String redirect,
+    required String reference,
     List<String> agreements = const <String>[],
   }) async {
-    assert(endUserID != null && redirect != null && reference != null);
     // Make POST request and fetch output.
     final dynamic fetchedMap = await _nordigenPoster(
       endpointUrl: 'https://ob.nordigen.com/api/requisitions/',
@@ -110,19 +108,17 @@ class NordigenAccountInfoAPI {
   /// Both [requisitionID] and [requisition] can not be NULL.
   /// If both are NOT NULL, ID of [requisition] will be prefereed.
   Future<String> fetchRedirectLinkForRequisition({
-    String aspspID,
-    String requisitionID,
-    ASPSP aspsp,
-    RequisitionModel requisition,
+    String? aspspID,
+    String? requisitionID,
+    ASPSP? aspsp,
+    RequisitionModel? requisition,
   }) async {
     // Prepare the ASPSP ID that the function will work with
-    assert(aspspID != null || (aspsp != null && aspsp.id != null));
-    final String workingAspspID = aspsp?.id ?? aspspID;
+    assert(aspspID != null || aspsp != null);
+    final String? workingAspspID = aspsp?.id ?? aspspID;
     // Prepare the Requisition ID that the function will work with
-    assert(
-      requisitionID != null || (requisition != null && requisition.id != null),
-    );
-    final String workingRequisitionID = requisition?.id ?? requisitionID;
+    assert(requisitionID != null || requisition != null);
+    final String? workingRequisitionID = requisition?.id ?? requisitionID;
     // Make POST request and fetch output.
     final dynamic fetchedMap = await _nordigenPoster(
       endpointUrl:
@@ -137,9 +133,9 @@ class NordigenAccountInfoAPI {
   ///
   /// Refer to Step 5 of Nordigen Account Information API documentation.
   Future<RequisitionModel> getRequisition({
-    @required String requisitionID,
+    required String requisitionID,
   }) async {
-    assert(requisitionID != null && requisitionID.isNotEmpty);
+    assert(requisitionID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/requisitions/$requisitionID/',
@@ -155,7 +151,7 @@ class NordigenAccountInfoAPI {
   ///
   /// Refer to Step 5 of Nordigen Account Information API documentation.
   Future<List<String>> getEndUserAccountIDs({
-    @required String requisitionID,
+    required String requisitionID,
   }) async =>
       (await getRequisition(requisitionID: requisitionID)).accounts;
 
@@ -163,9 +159,9 @@ class NordigenAccountInfoAPI {
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
   Future<BankAccountDetails> getAccountDetails({
-    @required String accountID,
+    required String accountID,
   }) async {
-    assert(accountID != null && accountID.isNotEmpty);
+    assert(accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/details/',
@@ -178,9 +174,9 @@ class NordigenAccountInfoAPI {
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
   Future<TransactionData> getAccountTransactions({
-    @required String accountID,
+    required String accountID,
   }) async {
-    assert(accountID != null && accountID.isNotEmpty);
+    assert(accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
       endpointUrl:
@@ -194,9 +190,9 @@ class NordigenAccountInfoAPI {
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
   Future<BankAccountDetails> getAccountBalances({
-    @required String accountID,
+    required String accountID,
   }) async {
-    assert(accountID != null && accountID.isNotEmpty);
+    assert(accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedMap = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/balances/',
@@ -207,8 +203,8 @@ class NordigenAccountInfoAPI {
 
   /// Utility class to easily make POST requests to Nordigen API endpoints.
   Future<dynamic> _nordigenPoster({
-    @required String endpointUrl,
-    Map<String, dynamic> data,
+    required String endpointUrl,
+    Map<String, dynamic> data = const <String, dynamic>{},
   }) async {
     dynamic output = <dynamic, dynamic>{};
     try {
@@ -236,7 +232,7 @@ class NordigenAccountInfoAPI {
   }
 
   /// Utility class to easily make GET requests to Nordigen API endpoints.
-  Future<dynamic> _nordigenGetter({@required String endpointUrl}) async {
+  Future<dynamic> _nordigenGetter({required String endpointUrl}) async {
     dynamic output = <dynamic, dynamic>{};
     try {
       final Uri requestURL = Uri.parse(endpointUrl);

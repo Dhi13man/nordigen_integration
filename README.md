@@ -24,19 +24,19 @@ For more information about the API view [Nordigen's Account Information API docu
 
 ## Available Methods
 
-1. `NordigenAccountInfoAPI({@required String accessToken})` (Class constuctor)
+1. `NordigenAccountInfoAPI({required String accessToken})` (Class constuctor)
 
     Call it with `accessToken` parameter which is the access token recieved from <https://ob.nordigen.com/>, to access API features.
 
     Analogous to Step 1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-2. `getBanksForCountry({@required String countryCode})`
+2. `getBanksForCountry({required String countryCode})`
 
     Gets the ASPSPs (Banks) in the Country represented by the given two-letter `countryCode` (ISO 3166).
 
     Analogous to Step 2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-3. `createEndUserAgreement({@required String endUserID, String aspspID, ASPSP aspsp, int maxHistoricalDays = 90})`
+3. `createEndUserAgreement({required String endUserID, String? aspspID, ASPSP? aspsp, int maxHistoricalDays = 90})`
 
     Creates an End User Agreement for the given `endUserID`, `aspspID` (or `aspsp`) and for the given `maxHistoricalDays` (default 90 days) and returns the resulting `EndUserAgreementModel`.
 
@@ -44,13 +44,13 @@ For more information about the API view [Nordigen's Account Information API docu
 
     Analogous to Step 3 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-4. `createRequisition({ @required String endUserID,  @required String redirect, @required String reference, List<String> agreements = const <String>[]})`
+4. `createRequisition({required String endUserID, required String redirect, required String reference, List<String> agreements = const <String>[]})`
 
     Create a Requisition for the given `endUserID` and returns the resulting `RequisitionModel`. `reference` is additional layer of unique ID. Should match Step 3 if done. `redirect` is the link where the end user will be redirected after finishing authentication in ASPSP. `agreements` is as an array of ID(s) from Step 3 or empty array if that step was skipped.
 
     Analogous to Step 4.1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-5. `fetchRedirectLinkForRequisition({String aspspID, String requisitionID, ASPSP aspsp, RequisitionModel requisition})`
+5. `fetchRedirectLinkForRequisition({String? aspspID, String? requisitionID, ASPSP? aspsp, RequisitionModel? requisition})`
 
     Provides a redirect link to the Requisition passed in for the given ASPSP.
 
@@ -60,29 +60,29 @@ For more information about the API view [Nordigen's Account Information API docu
 
     Analogous to Step 4.2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-6. `getRequisition({@required String requisitionID})`
+6. `getRequisition({required String requisitionID})`
 
     Gets the Requisition identified by `requisitionID`.
 
-7. `getEndUserAccountIDs({@required String requisitionID})`
+7. `getEndUserAccountIDs({required String requisitionID})`
 
     Gets the Account IDs of the User for the Requisition identified by `requisitionID`.
 
     Analogous to Step 5 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-8. `getAccountDetails({@required String accountID})`
+8. `getAccountDetails({required String accountID})`
 
     Gets the Details of the Bank Account identified by `accountID`.
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Details.
 
-9. `getAccountTransactions({@required String accountID})`
+9. `getAccountTransactions({required String accountID})`
 
     Gets the Transactions of the Bank Account identified by `accountID`.
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Transactions.
 
-10. `getAccountBalances({@required String accountID})`
+10. `getAccountBalances({required String accountID})`
 
     Gets the Balances of the Bank Account identified by `accountID`.
 
@@ -92,27 +92,27 @@ For more information about the API view [Nordigen's Account Information API docu
 
 ## Available Data Classes
 
-1. `ASPSP({@required this.id, this.name = '',this.bic = '', this.countries = const <String>[]})`
+1. `ASPSP({required String id, required String name, String bic = '', int transactionTotalDays = 90, required List<String> countries})`
 
     ASPSP (Bank) Data Model for Nordigen. Contains the `id` of the ASPSP, its `name`, `bic` and the `countries` associated with the ASPSP.
 
-2. `EndUserAgreementModel({@required this.id, this.created, this.accepted, this.maxHistoricalDays, this.accessValidForDays, @required this.endUserID, @required this.aspspID})`:
+2. `EndUserAgreementModel({required String id, String created, String? accepted, int maxHistoricalDays = 90, int accessValidForDays = 90, required String endUserID, required String aspspID})`:
 
     End-user Agreement Data Model for Nordigen. Contains the `id` of the Agreement, its `created` time string, `accepted`, the number of `maxHistoricalDays` and `accessValidForDays`, and the `endUserID` and `aspspID` relevant to the Agreement.
 
-3. `RequisitionModel({@required this.id, @required this.redirectURL, @required this.reference, this.status = '', this.agreements = const <String>[], this.accounts = const <String>[], @required this.endUserID})`:
+3. `RequisitionModel({required String id, required String redirectURL, required String reference, String status = '', List<String> agreements = const <String>[], List<String> accounts = const <String>[], required String endUserID})`:
 
     Requisition Data Model for Nordigen. Contains the `id` of the Requisition, its `status`, end-user `agreements`, the `redirectURL` to which it should redirect, `reference` ID if any, `accounts` associated, and the associated `endUserID`.
 
-4. `BankAccountDetails({@required this.id, @required this.created, this.lastAccessed = '', @required this.iban, @required this.aspspIdentifier, this.status = ''})`:
+4. `BankAccountDetails({required String id, String created, String? lastAccessed, required String iban, required String aspspIdentifier, String status = ''})`:
 
     Bank Account Data Model. Contains the `id` of the Bank Account, its `created` and `lastAccessed` date and time, `iban`, `status` and the `aspspIdentifier` identifiying its ASPSP.
 
-5. `TransactionData({@required this.id, this.debtorName, this.debtorAccount, this.bankTransactionCode, this.bookingDate, this.valueDate, this.transactionAmount, this.remittanceInformationUnstructured = ''})`:
+5. `TransactionData({required String id, String? debtorName, Map<String, dynamic>? debtorAccount,  String? bankTransactionCode,  String bookingDate = '',  String valueDate = '', required String transactionAmount, String? remittanceInformationUnstructured = ''})`:
 
     Transaction Data Model for Nordigen. Contains the `id` of the Transaction, its `debtorName` and `bankTransactionCode`, `bookingDate` and `valueDate` as `String`, `transactionAmount` as `TransactionAmountData` and its `remittanceInformationUnstructured`.
 
-    `TransactionAmountData({@required this.amount, @required this.currency})` is a simple Class that holds the transaction `amount` and the `currency` type
+    `TransactionAmountData({required String amount, required String currency})` is a simple Class that holds the transaction `amount` and the `currency` type.
 
 ----
 
@@ -152,9 +152,7 @@ For more information about the API view [Nordigen's Account Information API docu
 
 ### Dependencies
 
-1. [http](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
-
-2. [meta](https://pub.dev/packages/meta) is used for supporting the `@required` tags to signify required named parameters across the code.
+[http](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
 
 ----
 

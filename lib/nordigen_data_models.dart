@@ -6,22 +6,30 @@ part of 'nordigen_integration.dart';
 /// and the [countries] associated with the ASPSP.
 class ASPSP {
   const ASPSP({
-    @required this.id,
-    this.name = '',
+    required this.id,
+    required this.name,
     this.bic = '',
-    this.countries = const <String>[],
-  }) : assert(id != null);
+    this.transactionTotalDays = 90,
+    required this.countries,
+  });
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory ASPSP.fromMap(dynamic fetchedMap) {
+    // Validate data first.
+    assert(fetchedMap['id'] != null);
+    assert(fetchedMap['name'] != null);
+    assert(fetchedMap['countries'] != null);
     return ASPSP(
       id: fetchedMap['id'] as String,
-      name: (fetchedMap['name'] as String) ?? '',
-      bic: (fetchedMap['bic'] as String) ?? '',
+      name: fetchedMap['name'] as String,
+      bic: (fetchedMap['bic'] ?? '') as String,
+      transactionTotalDays: int.tryParse(
+            (fetchedMap['transaction_total_days'] ?? '90') as String,
+          ) ??
+          90,
       countries: (fetchedMap['countries'] as List<dynamic>)
-              .map<String>((dynamic country) => country.toString())
-              .toList() ??
-          const <String>[],
+          .map<String>((dynamic country) => country.toString())
+          .toList(),
     );
   }
 
@@ -32,6 +40,7 @@ class ASPSP {
         'id': id,
         'name': name,
         'bic': bic,
+        'transaction_total_days': transactionTotalDays,
         'countries': countries,
       };
 
@@ -41,11 +50,14 @@ class ASPSP {
   /// ASPSP Name
   final String name;
 
-  /// BIC of the ASPSP
+  /// BIC of the ASPSP.
   final String bic;
 
+  /// Represents the total transaction days for the ASPSP.
+  final int transactionTotalDays;
+
   /// Countries associated with the ASPSP
-  final List<dynamic> countries;
+  final List<String> countries;
 
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override
@@ -58,24 +70,27 @@ class ASPSP {
 /// the number of [maxHistoricalDays] and [accessValidForDays],
 /// and the [endUserID] and [aspspID] relevant to the Agreement.
 class EndUserAgreementModel {
-  const EndUserAgreementModel({
-    @required this.id,
-    this.created,
+  EndUserAgreementModel({
+    required this.id,
+    String? created,
     this.accepted,
-    this.maxHistoricalDays,
-    this.accessValidForDays,
-    @required this.endUserID,
-    @required this.aspspID,
-  })  : assert(id != null),
-        assert(endUserID != null),
-        assert(aspspID != null);
+    this.maxHistoricalDays = 90,
+    this.accessValidForDays = 90,
+    required this.endUserID,
+    required this.aspspID,
+  }) : created = created ?? DateTime.now().toIso8601String();
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory EndUserAgreementModel.fromMap(dynamic fetchedMap) {
+    // Validate data first.
+    assert(fetchedMap['id'] != null);
+    assert(fetchedMap['created'] != null);
+    assert(fetchedMap['enduser_id'] != null);
+    assert(fetchedMap['aspsp_id'] != null);
     return EndUserAgreementModel(
       id: fetchedMap['id'] as String,
-      created: (fetchedMap['created'] as String) ?? '',
-      accepted: (fetchedMap['accepted'] as String) ?? '',
+      created: fetchedMap['created'] as String,
+      accepted: fetchedMap['accepted'] as String?,
       maxHistoricalDays: fetchedMap['max_historical_days'] as int,
       accessValidForDays: fetchedMap['access_valid_for_days'] as int,
       endUserID: fetchedMap['enduser_id'] as String,
@@ -104,7 +119,7 @@ class EndUserAgreementModel {
   final String created;
 
   /// Time of End User Agreement acceptance (if any) in ISO8601 DateTime String
-  final dynamic accepted;
+  final String? accepted;
 
   /// Maximum Historical Days for the agreement.
   final int maxHistoricalDays;
@@ -130,33 +145,34 @@ class EndUserAgreementModel {
 /// [accounts] associated, and the associated [endUserID].
 class RequisitionModel {
   const RequisitionModel({
-    @required this.id,
-    @required this.redirectURL,
-    @required this.reference,
+    required this.id,
+    required this.redirectURL,
+    required this.reference,
     this.status = '',
     this.agreements = const <String>[],
     this.accounts = const <String>[],
-    @required this.endUserID,
-  })  : assert(id != null),
-        assert(redirectURL != null),
-        assert(reference != null),
-        assert(endUserID != null);
+    required this.endUserID,
+  });
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory RequisitionModel.fromMap(dynamic fetchedMap) {
+    // Validate data first.
+    assert(fetchedMap['id'] != null);
+    assert(fetchedMap['redirect'] != null);
+    assert(fetchedMap['reference'] != null);
+    assert(fetchedMap['enduser_id'] != null);
     return RequisitionModel(
       id: fetchedMap['id'] as String,
       redirectURL: fetchedMap['redirect'] as String,
       reference: fetchedMap['reference'] as String,
-      status: (fetchedMap['status'] as String) ?? '',
-      agreements: (fetchedMap['agreements'] as List<dynamic>)
+      status: (fetchedMap['status'] ?? '') as String,
+      agreements:
+          ((fetchedMap['agreements'] ?? const <String>[]) as List<dynamic>)
               .map<String>((dynamic agreement) => agreement.toString())
-              .toList() ??
-          const <String>[],
-      accounts: (fetchedMap['accounts'] as List<dynamic>)
-              .map<String>((dynamic agreement) => agreement.toString())
-              .toList() ??
-          const <String>[],
+              .toList(),
+      accounts: ((fetchedMap['accounts'] ?? const <String>[]) as List<dynamic>)
+          .map<String>((dynamic agreement) => agreement.toString())
+          .toList(),
       endUserID: fetchedMap['enduser_id'] as String,
     );
   }
@@ -206,26 +222,29 @@ class RequisitionModel {
 /// Contains the [id] of the Bank Account, its [created] and [lastAccessed] date
 /// and time, [iban], [status] and the [aspspIdentifier] identifiying its ASPSP.
 class BankAccountDetails {
-  const BankAccountDetails({
-    @required this.id,
-    @required this.created,
-    this.lastAccessed = '',
-    @required this.iban,
-    @required this.aspspIdentifier,
+  BankAccountDetails({
+    required this.id,
+    String? created,
+    this.lastAccessed,
+    required this.iban,
+    required this.aspspIdentifier,
     this.status = '',
-  })  : assert(id != null),
-        assert(iban != null),
-        assert(aspspIdentifier != null);
+  }) : created = created ?? DateTime.now().toIso8601String();
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory BankAccountDetails.fromMap(dynamic fetchedMap) {
+    // Validate data first.
+    assert(fetchedMap['id'] != null);
+    assert(fetchedMap['created'] != null);
+    assert(fetchedMap['iban'] != null);
+    assert(fetchedMap['aspsp_identifier'] != null);
     return BankAccountDetails(
       id: fetchedMap['id'] as String,
       created: fetchedMap['created'] as String,
-      lastAccessed: (fetchedMap['last_accessed'] as String) ?? '',
+      lastAccessed: fetchedMap['last_accessed'] as String?,
       iban: fetchedMap['iban'] as String,
       aspspIdentifier: fetchedMap['aspsp_identifier'] as String,
-      status: (fetchedMap['status'] as String) ?? '',
+      status: (fetchedMap['status'] ?? '') as String,
     );
   }
 
@@ -248,7 +267,7 @@ class BankAccountDetails {
   final String created;
 
   /// The date & time at which the account object was last accessed.
-  final String lastAccessed;
+  final String? lastAccessed;
 
   /// The Account IBAN
   final String iban;
@@ -271,35 +290,36 @@ class BankAccountDetails {
 /// [TransactionAmountData] and its [remittanceInformationUnstructured].
 class TransactionData {
   const TransactionData({
-    @required this.id,
+    required this.id,
     this.debtorName,
     this.debtorAccount,
     this.bankTransactionCode,
-    this.bookingDate,
-    this.valueDate,
-    this.transactionAmount,
+    this.bookingDate = '',
+    this.valueDate = '',
+    required this.transactionAmount,
     this.remittanceInformationUnstructured = '',
-  }) : assert(id != null);
+  });
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory TransactionData.fromMap(dynamic fetchedMap) {
+    // Validate data first.
+    assert(fetchedMap['id'] != null);
+    assert(fetchedMap['transactionAmount'] != null);
+    assert(fetchedMap['transactionAmount']['amount'] != null);
+    assert(fetchedMap['transactionAmount']['currency'] != null);
     return TransactionData(
       id: fetchedMap['id'] as String,
-      debtorName: (fetchedMap['debtorName'] as String) ?? '',
+      debtorName: fetchedMap['debtorName'] as String?,
       debtorAccount: fetchedMap['debtorAccount'] as Map<String, dynamic>,
-      bankTransactionCode: (fetchedMap['bankTransactionCode'] as String) ?? '',
+      bankTransactionCode: fetchedMap['bankTransactionCode'] as String?,
       bookingDate: fetchedMap['bookingDate'] as String,
       valueDate: fetchedMap['valueDate'] as String,
       transactionAmount: TransactionAmountData(
-        amount: fetchedMap['transactionAmount'] != null
-            ? fetchedMap['transactionAmount']['amount'] as String
-            : null,
-        currency: fetchedMap['transactionAmount'] != null
-            ? fetchedMap['transactionAmount']['currency'] as String
-            : null,
+        amount: fetchedMap['transactionAmount']['amount'] as String,
+        currency: fetchedMap['transactionAmount']['currency'] as String,
       ),
       remittanceInformationUnstructured:
-          fetchedMap['remittanceInformationUnstructured'] as String,
+          fetchedMap['remittanceInformationUnstructured'] as String?,
     );
   }
 
@@ -321,13 +341,14 @@ class TransactionData {
   final String id;
 
   /// Name of the Transaction debtor (if any)
-  final String debtorName;
+  final String? debtorName;
 
-  ///Debtor Account Map (if any)
-  final Map<String, dynamic> debtorAccount;
+  /// Debtor Account Map (if any)
+  /// TODO: Implement this better. Couldn't find exact model in docs.
+  final Map<String, dynamic>? debtorAccount;
 
   /// Transaction Code
-  final String bankTransactionCode;
+  final String? bankTransactionCode;
 
   /// Date of Booking as [String].
   final String bookingDate;
@@ -339,7 +360,7 @@ class TransactionData {
   final TransactionAmountData transactionAmount;
 
   /// Unstructured Remittance information about the Transaction (if any)
-  final String remittanceInformationUnstructured;
+  final String? remittanceInformationUnstructured;
 
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override
@@ -348,13 +369,13 @@ class TransactionData {
 
 /// Holds the transaction [amount] and the [currency] type
 class TransactionAmountData {
-  const TransactionAmountData({@required this.amount, @required this.currency})
-      : assert(amount != null),
-        assert(currency != null);
+  const TransactionAmountData({required this.amount, required this.currency});
+
   final String currency;
   final String amount;
 
-  double get getAmountNumber => double.tryParse(amount);
+  /// Parses the amount value from string to a double numeric.
+  double get getAmountNumber => double.parse(amount);
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
