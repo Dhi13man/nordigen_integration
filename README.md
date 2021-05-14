@@ -128,7 +128,7 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
     Refer to <https://nordigen.com/en/docs/account-information/output/balance/> for full Data Schema and the available balance types.
 
-7. `AmountData({required String amount, required String currency})` 
+7. `AmountData({required String amount, required String currency})`
 
     It is a simple Class that holds the transaction `amount` and the `currency` type, both as required parameters.
 
