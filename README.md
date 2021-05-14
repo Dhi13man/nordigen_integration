@@ -72,19 +72,19 @@ For more information about the API view [Nordigen's Account Information API docu
 
 8. `getAccountDetails({required String accountID})`
 
-    Gets the Details of the Bank Account identified by `accountID`.
+    Gets the Details of the Bank Account identified by `accountID`. Account Model follows schema in <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>.
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Details.
 
 9. `getAccountTransactions({required String accountID})`
 
-    Gets the Transactions of the Bank Account identified by `accountID`.
+    Gets the Transactions of the Bank Account identified by `accountID` as a `Map<String, List<TransactionData>>` with keys `'booked'` and `'pending'` representing List of Booked and pending transactions respectively.
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Transactions.
 
-10. `getAccountBalances({required String accountID})`
+10. `getAccountBalancesTemporary({required String accountID})`
 
-    Gets the Balances of the Bank Account identified by `accountID`.
+    Gets the Balances of the Bank Account identified by `accountID` as `dynamic`. Will be depreciated later when documentation provides example of potentially fetched Balance Data.
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Balances.
 
@@ -92,9 +92,11 @@ For more information about the API view [Nordigen's Account Information API docu
 
 ## Available Data Classes
 
+Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/> for most of the Data Schema and the mentioned URLs in the special cases.
+
 1. `ASPSP({required String id, required String name, String bic = '', int transactionTotalDays = 90, required List<String> countries})`
 
-    ASPSP (Bank) Data Model for Nordigen. Contains the `id` of the ASPSP, its `name`, `bic` and the `countries` associated with the ASPSP.
+    ASPSP (Bank) Data Model for Nordigen. Contains the `id` of the ASPSP, its `name`, `bic`, `transactionTotalDays` and the `countries` associated with the ASPSP.
 
 2. `EndUserAgreementModel({required String id, String created, String? accepted, int maxHistoricalDays = 90, int accessValidForDays = 90, required String endUserID, required String aspspID})`:
 
@@ -104,15 +106,21 @@ For more information about the API view [Nordigen's Account Information API docu
 
     Requisition Data Model for Nordigen. Contains the `id` of the Requisition, its `status`, end-user `agreements`, the `redirectURL` to which it should redirect, `reference` ID if any, `accounts` associated, and the associated `endUserID`.
 
-4. `BankAccountDetails({required String id, String created, String? lastAccessed, required String iban, required String aspspIdentifier, String status = ''})`:
+4. `AccountModel({String? id, String created, String? lastAccessed, required String iban, required String aspspIdentifier, String status = ''})`:
 
     Bank Account Data Model. Contains the `id` of the Bank Account, its `created` and `lastAccessed` date and time, `iban`, `status` and the `aspspIdentifier` identifiying its ASPSP.
 
-5. `TransactionData({required String id, String? debtorName, Map<String, dynamic>? debtorAccount,  String? bankTransactionCode,  String bookingDate = '',  String valueDate = '', required String transactionAmount, String? remittanceInformationUnstructured = ''})`:
+5. `TransactionData({required String id, String? debtorName, Map<String, dynamic>? debtorAccount,  String? bankTransactionCode,  String bookingDate = '',  String valueDate = '', required String transactionAmount, String? remittanceInformationUnstructured = '', ...})`:
 
-    Transaction Data Model for Nordigen. Contains the `id` of the Transaction, its `debtorName` and `bankTransactionCode`, `bookingDate` and `valueDate` as `String`, `transactionAmount` as `TransactionAmountData` and its `remittanceInformationUnstructured`.
+    Transaction Data Model for Nordigen. Refer to <https://nordigen.com/en/docs/account-information/output/transactions/> for full Data Schema.
 
     `TransactionAmountData({required String amount, required String currency})` is a simple Class that holds the transaction `amount` and the `currency` type.
+
+6. `Balance({required this.balanceAmount, required this.balanceType, this.creditLimitIncluded, this.lastChangeDateTime, this.referenceDate, this.lastCommittedTransaction})`
+
+    Balance Data Model for Nordigen. Contains `balanceAmount` of Transaction, its `balanceType`, whether its `creditLimitIncluded`, its `lastChangeDateTime` and `referenceDate` as `String` and the `lastCommittedTransaction`.
+
+    Refer to <https://nordigen.com/en/docs/account-information/output/balance/> for full Data Schema and the available balance types.
 
 ----
 

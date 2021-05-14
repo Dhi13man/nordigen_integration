@@ -4,7 +4,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-part 'nordigen_data_models.dart';
+/// Data Models
+part 'package:nordigen_integration/nordigen_balance_model.dart';
+part 'package:nordigen_integration/nordigen_account_models.dart';
+part 'package:nordigen_integration/nordigen_other_data_models.dart';
+part 'package:nordigen_integration/nordigen_transaction_model.dart';
 
 /// Encapsulation of the Nordigen Open Account Information API functions.
 ///
@@ -157,8 +161,10 @@ class NordigenAccountInfoAPI {
 
   /// Get the Details of the Bank Account identified by [accountID].
   ///
+  /// [AccountModel] follows schema in https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/.
+  ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
-  Future<BankAccountDetails> getAccountDetails({
+  Future<AccountModel> getAccountDetails({
     required String accountID,
   }) async {
     assert(accountID.isNotEmpty);
@@ -167,13 +173,16 @@ class NordigenAccountInfoAPI {
       endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/details/',
     );
     // Form the recieved dynamic Map into BankAccountDetails for convenience.
-    return BankAccountDetails.fromMap(fetchedMap);
+    return AccountModel.fromMap(fetchedMap);
   }
 
   /// Get the Transactions of the Bank Account identified by [accountID].
   ///
+  /// Returns a [Map] of [String] keys: 'booked', 'pending' with the relevant
+  /// list of [TransactionData]) for each.
+  ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
-  Future<TransactionData> getAccountTransactions({
+  Future<Map<String, List<TransactionData>>> getAccountTransactions({
     required String accountID,
   }) async {
     assert(accountID.isNotEmpty);
@@ -182,14 +191,34 @@ class NordigenAccountInfoAPI {
       endpointUrl:
           'https://ob.nordigen.com/api/accounts/$accountID/transactions/',
     );
-    // Form the recieved dynamic Map into TransactionData for convenience.
-    return TransactionData.fromMap(fetchedMap);
+    // No Transactions retrieved case.
+    if (fetchedMap['transactions'] == null)
+      return <String, List<TransactionData>>{};
+    final List<dynamic> bookedTransactions =
+            fetchedMap['transactions']['booked'],
+        pendingTransactions = fetchedMap['transactions']['pending'];
+
+    // Form the recieved dynamic Lists of bookedTransactions and
+    // pendingTransactions into Lists<TransactionData> for convenience.
+    return <String, List<TransactionData>>{
+      'booked': bookedTransactions
+          .map<TransactionData>(
+              (dynamic transaction) => TransactionData.fromMap(transaction))
+          .toList(),
+      'pending': pendingTransactions
+          .map<TransactionData>(
+              (dynamic transaction) => TransactionData.fromMap(transaction))
+          .toList(),
+    };
   }
 
   /// Get Balances of the Bank Account identified by [accountID].
   ///
+  ///TODO: Implement after API Documentation discrepancy (NO EXAMPLE) is
+  /// resolved about data format returned from /api/accounts/{id}/balances/
+  ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
-  Future<BankAccountDetails> getAccountBalances({
+  Future<Balance> _getAccountBalances({
     required String accountID,
   }) async {
     assert(accountID.isNotEmpty);
@@ -198,7 +227,25 @@ class NordigenAccountInfoAPI {
       endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/balances/',
     );
     // Form the recieved dynamic Map into BankAccountDetails for convenience.
-    return BankAccountDetails.fromMap(fetchedMap);
+    return Balance.fromMap(fetchedMap);
+  }
+
+  /// Get Balances of the Bank Account identified by [accountID] as dynamic.
+  ///
+  /// Temporary function that will be depreciated after returneed [fetchedMap]
+  /// data structure is figured out by proper example in https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/.
+  ///
+  /// Refer to Step 6 of Nordigen Account Information API documentation.
+  Future<dynamic> getAccountBalancesTemporary({
+    required String accountID,
+  }) async {
+    assert(accountID.isNotEmpty);
+    // Make GET request and fetch output.
+    final dynamic fetchedMap = await _nordigenGetter(
+      endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/balances/',
+    );
+    // Form the recieved dynamic Map into BankAccountDetails for convenience.
+    return fetchedMap;
   }
 
   /// Utility class to easily make POST requests to Nordigen API endpoints.
