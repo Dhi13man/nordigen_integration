@@ -1,6 +1,6 @@
 # nordigen_integration
 
-Development of a Null Safe Dart/Flutter Package for Nordigen EU PSD2 AISP Integration with relevant Data Models, proper encapsulation with the exposing of parameters, and succinct documentation.
+Development of a Null Safe Dart/Flutter Package for Nordigen EU PSD2 AISP API Integration with relevant Data Models, proper encapsulation with the exposing of parameters, and succinct documentation.
 
 For more information about the API view [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
