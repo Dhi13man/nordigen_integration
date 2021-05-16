@@ -232,8 +232,9 @@ void main() {
   });
 
   /// TEST 6
-  test('Simulate Step 6: Access accounts, balances, and transactions',
-      () async {
+  test(
+      'Simulate Step 6: Access account meta data, details, balances, and'
+      ' transactions', () async {
     // API Set up
     final NordigenAccountInfoAPI nordigenObject =
         NordigenAccountInfoAPI(accessToken: accessToken);

@@ -6,8 +6,8 @@ part of 'package:nordigen_integration/nordigen_integration.dart';
 ///
 /// Refer to https://nordigen.com/en/docs/account-information/output/accounts/
 /// for all the optional and conditional (nullable) values.
-class BankAccountDetails {
-  const BankAccountDetails({
+class AccountDetails {
+  const AccountDetails({
     this.id,
     this.iban,
     this.msisdn,
@@ -27,10 +27,10 @@ class BankAccountDetails {
   });
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
-  factory BankAccountDetails.fromMap(dynamic fetchedMap) {
+  factory AccountDetails.fromMap(dynamic fetchedMap) {
     // Validate data first.
     assert(fetchedMap['currency'] != null);
-    return BankAccountDetails(
+    return AccountDetails(
       id: fetchedMap['resourceId'] as String?,
       iban: fetchedMap['iban'] as String?,
       msisdn: fetchedMap['msisdn'] as String?,
@@ -59,7 +59,7 @@ class BankAccountDetails {
   ///
   /// Map Keys: "id", "name", "bic" and "countries"
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'id': id,
+        'resourceId': id,
         'iban': iban,
         'msisdn': msisdn,
         'currency': currency,
@@ -143,14 +143,15 @@ class BankAccountDetails {
   String toString() => jsonEncode(toMap());
 }
 
-/// Nordigen Account Model
+/// Nordigen Account Meta Data Model
 ///
 /// Refer https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/
 ///
 /// Contains the [id] of the Bank Account, its [created] and [lastAccessed] date
-/// and time, [iban], [status] and the [aspspIdentifier] identifiying its ASPSP.
-class AccountModel {
-  AccountModel({
+/// and time as ISO String, [iban], [status] and the 
+/// [aspspIdentifier] identifiying its ASPSP.
+class AccountMetaData {
+  AccountMetaData({
     required this.id,
     String? created,
     this.lastAccessed,
@@ -160,13 +161,13 @@ class AccountModel {
   }) : created = created ?? DateTime.now().toIso8601String();
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
-  factory AccountModel.fromMap(dynamic fetchedMap) {
+  factory AccountMetaData.fromMap(dynamic fetchedMap) {
     // Validate data first.
     assert(fetchedMap['id'] != null);
     assert(fetchedMap['created'] != null);
     assert(fetchedMap['iban'] != null);
     assert(fetchedMap['aspsp_identifier'] != null);
-    return AccountModel(
+    return AccountMetaData(
       id: fetchedMap['id'] as String,
       created: fetchedMap['created'] as String,
       lastAccessed: fetchedMap['last_accessed'] as String?,

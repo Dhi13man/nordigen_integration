@@ -212,10 +212,28 @@ class NordigenAccountInfoAPI {
 
   /// Get the Details of the Bank Account identified by [accountID].
   ///
-  /// [AccountModel] follows schema in https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/.
+  /// [AccountMetaData] follows schema in https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/.
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
-  Future<BankAccountDetails> getAccountDetails({
+  Future<AccountMetaData> getAccountMetaData({
+    required String accountID,
+  }) async {
+    assert(accountID.isNotEmpty);
+    // Make GET request and fetch output.
+    final dynamic fetchedData = await _nordigenGetter(
+      endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/',
+    );
+    assert(fetchedData['account'] != null);
+    // Form the recieved dynamic Map into BankAccountDetails for convenience.
+    return AccountMetaData.fromMap(fetchedData['account']);
+  }
+
+  /// Get the Details of the Bank Account identified by [accountID].
+  ///
+  /// [AccountDetails] follows schema in https://nordigen.com/en/docs/account-information/output/accounts/.
+  ///
+  /// Refer to Step 6 of Nordigen Account Information API documentation.
+  Future<AccountDetails> getAccountDetails({
     required String accountID,
   }) async {
     assert(accountID.isNotEmpty);
@@ -225,7 +243,7 @@ class NordigenAccountInfoAPI {
     );
     assert(fetchedData['account'] != null);
     // Form the recieved dynamic Map into BankAccountDetails for convenience.
-    return BankAccountDetails.fromMap(fetchedData['account']);
+    return AccountDetails.fromMap(fetchedData['account']);
   }
 
   /// Get the Transactions of the Bank Account identified by [accountID].

@@ -94,6 +94,8 @@ There are also various other methods for implementing POST, GET and DELETE reque
 
 6. `deleteRequisitionUsingID({required String requisitionID})`
 
+7. `getAccountMetaData({required String accountID})`
+
 ----
 
 ## Available Data Classes
@@ -112,21 +114,24 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
     Requisition Data Model for Nordigen. Contains the `id` of the Requisition, its `status`, end-user `agreements`, the `redirectURL` to which it should redirect, `reference` ID if any, `accounts` associated, and the associated `endUserID`.
 
-4. `BankAccountDetails({String? id, String? iban, String? msisdn, required String currency, String? ownerName, String? name, String? displayName, String? product, String? cashAccountType, String? status, String? bic, String? linkedAccounts, String? usage, String? details, List<Balance>? balances, List<String>? links})`:
+4. `AccountMetaData({required String id, String created, String? lastAccessed, String iban, String aspspIdentifier, String status = ''})`
+   Account meta-data model for Nordigen. Contains the `id` of the Bank Account, its `created` and `lastAccessed` date and time, `iban`, `status` and the `aspspIdentifier` identifiying its ASPSP. Refer to <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>
 
-    Bank Account Data Model for Nordigen. Refer to <https://nordigen.com/en/docs/account-information/output/accounts/> for full Data Schema.
+5. `AccountDetails({String? id, String? iban, String? msisdn, required String currency, String? ownerName, String? name, String? displayName, String? product, String? cashAccountType, String? status, String? bic, String? linkedAccounts, String? usage, String? details, List<Balance>? balances, List<String>? links})`:
 
-5. `TransactionData({required String id, String? debtorName, Map<String, dynamic>? debtorAccount,  String? bankTransactionCode,  String bookingDate = '',  String valueDate = '', required String transactionAmount, String? remittanceInformationUnstructured = '', ...})`:
+    Bank Account Details Model for Nordigen. Refer to <https://nordigen.com/en/docs/account-information/output/accounts/> for full Data Schema.
+
+6. `TransactionData({required String id, String? debtorName, Map<String, dynamic>? debtorAccount,  String? bankTransactionCode,  String bookingDate = '',  String valueDate = '', required String transactionAmount, String? remittanceInformationUnstructured = '', ...})`:
 
     Transaction Data Model for Nordigen. Refer to <https://nordigen.com/en/docs/account-information/output/transactions/> for full Data Schema.
 
-6. `Balance({required AmountData balanceAmount, required String balanceType, bool? creditLimitIncluded, String? lastChangeDateTime, String? referenceDate, String? lastCommittedTransaction})`
+7. `Balance({required AmountData balanceAmount, required String balanceType, bool? creditLimitIncluded, String? lastChangeDateTime, String? referenceDate, String? lastCommittedTransaction})`
 
     Balance Data Model for Nordigen. Contains `balanceAmount` of Transaction, its `balanceType`, whether its `creditLimitIncluded`, its `lastChangeDateTime` and `referenceDate` as `String` and the `lastCommittedTransaction`.
 
     Refer to <https://nordigen.com/en/docs/account-information/output/balance/> for full Data Schema and the available balance types.
 
-7. `AmountData({required String amount, required String currency})`
+8. `AmountData({required String amount, required String currency})`
 
     It is a simple Class that holds the transaction `amount` and the `currency` type, both as required parameters.
 

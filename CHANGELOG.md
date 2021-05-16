@@ -54,3 +54,13 @@ Added EU PSD2 AISP keywords to package descriptions so people can find it easier
 ## [1.3.1] - 15th May, 2021
 
 Documentation fixes and more specific tests for DELETE requests.
+
+## [1.3.2] - 15th May, 2021
+
+1. `AccountDataModel` rightfully changed to `AccountMetaData` so it makes more sense with respect to `BankAccountDetails`.
+
+2. **BREAKING:** `BankAccountDetails` changed to `AccountDetails` for consistency.
+
+3. **BUG FIX:** Changed key of End-User ID to `resourceId` for `AccountDetails.toMap()` to maintain consistency with Nordigen server resources.
+
+4. `getAccountMetaData({required String accountID})` implemented.
