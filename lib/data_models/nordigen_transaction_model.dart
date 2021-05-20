@@ -75,7 +75,7 @@ class TransactionData {
           fetchedMap['remittanceInformationStructuredArray'] as List<dynamic>?,
       additionalInformation: fetchedMap['additionalInformation'] as String?,
       additionalInformationStructured:
-          fetchedMap['additionalInformationStructured'] as dynamic?,
+          fetchedMap['additionalInformationStructured'] as dynamic,
       purposeCode: fetchedMap['purposeCode'] as String?,
       bankTransactionCode: fetchedMap['bankTransactionCode'] as String?,
       proprietaryBankTransactionCode:
@@ -193,7 +193,7 @@ class TransactionData {
   final String? additionalInformation;
 
   /// Is used if and only if the bookingStatus entry equals "information"
-  final dynamic? additionalInformationStructured;
+  final dynamic additionalInformationStructured;
 
   /// The transaction's purpose code (if any)
   final String? purposeCode;
