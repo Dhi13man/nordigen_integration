@@ -64,3 +64,7 @@ Documentation fixes and more specific tests for DELETE requests.
 3. **BUG FIX:** Changed key of End-User ID to `resourceId` for `AccountDetails.toMap()` to maintain consistency with Nordigen server resources.
 
 4. `getAccountMetaData({required String accountID})` implemented.
+
+## [1.3.3] - 20th May, 2021
+
+Documentation fix
