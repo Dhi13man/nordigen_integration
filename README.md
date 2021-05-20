@@ -46,7 +46,7 @@ For more information about the API view [Nordigen's Account Information API docu
 
     Analogous to Step 4.1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-5. `fetchRedirectLinkForRequisition({required String fetchRedirectLinkForRequisition, required String requisitionID})`
+5. `fetchRedirectLinkForRequisition({required String aspspID, required String requisitionID})`
 
     Provides a redirect link for the Requisition represented by the `requisitionID` passed in, for the ASPSP represented by the given `aspspID`.
 
