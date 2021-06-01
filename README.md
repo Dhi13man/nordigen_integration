@@ -183,6 +183,10 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
 ----
 
+### The first release of this package was sponsored by [Cashtic](https://cashtic.com). Show them some love! This package would not otherwise be possible
+
+----
+
 #### Getting Started
 
 This project is a starting point for a Dart [package](https://flutter.dev/developing-packages/), a library module containing code that can be shared easily across multiple Flutter or Dart projects.
