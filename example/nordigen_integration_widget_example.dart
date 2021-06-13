@@ -5,10 +5,10 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(
-  MaterialApp(
-    home: BankAppExample(),
-  ),
-);
+      MaterialApp(
+        home: BankAppExample(),
+      ),
+    );
 
 class BankAppExample extends StatefulWidget {
   @override
@@ -20,6 +20,7 @@ class _BankAppExampleState extends State<BankAppExample> {
   int index = 0;
   Widget? body;
 
+  @override
   void initState() {
     body ??= BankPickerWidget(token: token);
     super.initState();
@@ -92,7 +93,8 @@ class BankPickerWidget extends StatelessWidget {
                   endUserID: 'exampleEndUser',
                   redirect: 'http://www.yourwebpage.com/',
                   reference: randomReference,
-                )).id,
+                ))
+                    .id,
                 aspspID: banks[index].id,
               ),
             ),
@@ -125,28 +127,28 @@ class BankListWidget extends StatelessWidget {
 
   Future<List<BankInformation>> _findLinkedBank() async {
     NordigenAccountInfoAPI apiInterface =
-    NordigenAccountInfoAPI(accessToken: token);
+        NordigenAccountInfoAPI(accessToken: token);
     List<RequisitionModel> fetchedRequisitionModels =
-    await apiInterface.getRequisitions(limit: 400, offset: 0);
-    List<String> accountsIDs = [];
-    for (var requisition in fetchedRequisitionModels) {
+        await apiInterface.getRequisitions(limit: 400, offset: 0);
+    List<String> accountsIDs = <String>[];
+    for (RequisitionModel requisition in fetchedRequisitionModels) {
       if (requisition.accounts.isNotEmpty) {
         accountsIDs.addAll(requisition.accounts);
       }
     }
-    List<BankInformation> bankInformation = [];
+    List<BankInformation> bankInformation = <BankInformation>[];
     for (String accountID in accountsIDs) {
       BankInformation info = BankInformation(accountID);
       AccountDetails details =
-      await apiInterface.getAccountDetails(accountID: accountID);
+          await apiInterface.getAccountDetails(accountID: accountID);
       AccountMetaData meta =
-      await apiInterface.getAccountMetaData(accountID: accountID);
+          await apiInterface.getAccountMetaData(accountID: accountID);
       Map<String, List<TransactionData>> transactions =
-      await apiInterface.getAccountTransactions(accountID: accountID);
+          await apiInterface.getAccountTransactions(accountID: accountID);
       info.name = details.name ?? details.displayName ?? 'No Name';
       info.lastAccessed = meta.lastAccessed ?? 'Unknown';
-      info.transactionCount = transactions['booked']!.length
-          + transactions['pending']!.length;
+      info.transactionCount =
+          transactions['booked']!.length + transactions['pending']!.length;
       info.iban = details.iban ?? 'No Iban';
       bankInformation.add(info);
     }
@@ -155,9 +157,8 @@ class BankListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder<List<BankInformation>>(
-      initialData: [],
+      initialData: <BankInformation>[],
       future: _findLinkedBank(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (!snapshot.hasData)

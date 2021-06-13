@@ -68,3 +68,10 @@ Documentation fixes and more specific tests for DELETE requests.
 ## [1.3.3] - 20th May, 2021
 
 Documentation fix
+
+## [1.5.0] - 13th June, 2021
+
+1. Steps 5 and 6 of API Documentation working now.
+
+2. Example widget improved
+Kudos to [Cashtic](https://cashtic.com) for running the necessary tests and implementing it!
