@@ -1,3 +1,5 @@
+# Releases
+
 ## [1.0.0] - 13th May, 2021
 
 Initial release supporting [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) and relevant Data Models required to support it, in the form of Serializable Classes.
@@ -35,7 +37,7 @@ Added EU PSD2 AISP keywords to package descriptions so people can find it easier
 
 5. Lint -> Pedantic.
 
-6. TODO: Resolve account model discrepency between <https://nordigen.com/en/docs/account-information/output/accounts/> and Schema given in <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>
+6. Todo: Resolve account model discrepency between <https://nordigen.com/en/docs/account-information/output/accounts/> and Schema given in <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>
 
 ## [1.3.0] - 15th May, 2021
 
