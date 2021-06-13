@@ -32,7 +32,8 @@ void main() {
   const String testEndUserID = '8234e18b-f360-48cc-8bcf-c8625596d74a';
   const String testAspspID = 'ABNAMRO_ABNAGB2LXXX';
   const String testRedirectLink = 'http://www.yourwebpage.com/';
-
+  const String requisitionIDWithAccountAccess =
+      'REQUISITION_WITH_ACCOUNT_ACCESS';
   /// TEST 0
   test(
     'Ensure that Access Token is changed before actual tests.',
@@ -219,36 +220,90 @@ void main() {
     // API Set up
     final NordigenAccountInfoAPI nordigenObject =
         NordigenAccountInfoAPI(accessToken: accessToken);
-    // Create a Random Requisition
-    final RequisitionModel requisitionModel = await _createRandomRequisition(
-      nordigenObject,
-      testEndUserID,
-      testRedirectLink,
-    );
     // Make Request
-    await nordigenObject.getEndUserAccountIDs(
-      requisitionID: requisitionModel.id,
+    final List<String> accountsIDs = await nordigenObject.getEndUserAccountIDs(
+      requisitionID: requisitionIDWithAccountAccess,
     );
+    expect(accountsIDs.isNotEmpty, true);
   });
 
-  /// TEST 6
-  test(
-      'Simulate Step 6: Access account meta data, details, balances, and'
-      ' transactions', () async {
+  /// TEST 6.1
+  test('Simulate Step 6: Access account meta data', () async {
     // API Set up
     final NordigenAccountInfoAPI nordigenObject =
         NordigenAccountInfoAPI(accessToken: accessToken);
-    // Create a Random Requisition
-    final RequisitionModel requisitionModel = await _createRandomRequisition(
-      nordigenObject,
-      testEndUserID,
-      testRedirectLink,
+    // GET accountsIDs
+    final List<String> accountsIDs = await nordigenObject.getEndUserAccountIDs(
+      requisitionID: requisitionIDWithAccountAccess,
     );
-    // Make Request
-    await nordigenObject.getEndUserAccountIDs(
-      requisitionID: requisitionModel.id,
+    final String accountID = accountsIDs[0];
+    // GET Account Meta Data
+    bool hasGetMetaDataFailed = false;
+    try {
+      await nordigenObject.getAccountMetaData(accountID: accountID);
+    } on ClientException {
+      hasGetMetaDataFailed = true;
+    }
+    expect(hasGetMetaDataFailed, false);
+  });
+
+  /// TEST 6.2
+  test('Simulate Step 6: Access account details', () async {
+    // API Set up
+    final NordigenAccountInfoAPI nordigenObject =
+    NordigenAccountInfoAPI(accessToken: accessToken);
+    // GET accountsIDs
+    final List<String> accountsIDs = await nordigenObject.getEndUserAccountIDs(
+      requisitionID: requisitionIDWithAccountAccess,
     );
-    // TODO: Create Banking account and Test Account APIs using its account ID.
-    // Eg. nordigenObject.getAccountBalances(accountID: accountID)
+    final String accountID = accountsIDs[0];
+    // Get Account Details
+    bool hasGetDetailsFailed = false;
+    try {
+      await nordigenObject.getAccountDetails(accountID: accountID);
+    } on ClientException {
+      hasGetDetailsFailed = true;
+    }
+    expect(hasGetDetailsFailed, false);
+  });
+
+  /// TEST 6.3
+  test('Simulate Step 6: Access account balances', () async {
+    // API Set up
+    final NordigenAccountInfoAPI nordigenObject =
+    NordigenAccountInfoAPI(accessToken: accessToken);
+    // GET accountsIDs
+    final List<String> accountsIDs = await nordigenObject.getEndUserAccountIDs(
+      requisitionID: requisitionIDWithAccountAccess,
+    );
+    final String accountID = accountsIDs[3];
+    // Get Account Details
+    bool hasGetBalancesFailed = false;
+    try {
+      await nordigenObject.getAccountBalances(accountID: accountID);
+    } on ClientException {
+      hasGetBalancesFailed = true;
+    }
+    expect(hasGetBalancesFailed, false);
+  });
+
+  /// TEST 6.4
+  test('Simulate Step 6: Access account transactions', () async {
+    // API Set up
+    final NordigenAccountInfoAPI nordigenObject =
+    NordigenAccountInfoAPI(accessToken: accessToken);
+    // GET accountsIDs
+    final List<String> accountsIDs = await nordigenObject.getEndUserAccountIDs(
+      requisitionID: requisitionIDWithAccountAccess,
+    );
+    final String accountID = accountsIDs[0];
+    // Get Account Details
+    bool hasGetTransactionsFailed = false;
+    try {
+      await nordigenObject.getAccountTransactions(accountID: accountID);
+    } on ClientException {
+      hasGetTransactionsFailed = true;
+    }
+    expect(hasGetTransactionsFailed, false);
   });
 }

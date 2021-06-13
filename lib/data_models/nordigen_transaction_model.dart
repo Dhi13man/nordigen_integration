@@ -62,13 +62,14 @@ class TransactionData {
       creditorAgent: fetchedMap['creditorAgent'] as String?,
       ultimateCreditor: fetchedMap['ultimateCreditor'] as String?,
       debtorName: fetchedMap['debtorName'] as String?,
-      debtorAccount: fetchedMap['debtorAccount'] as Map<String, dynamic>,
+      debtorAccount: fetchedMap['debtorAccount'] as Map<String, dynamic>?,
       debtorAgent: fetchedMap['debtorAgent'] as String?,
       ultimateDebtor: fetchedMap['ultimateDebtor'] as String?,
       remittanceInformationUnstructured:
           fetchedMap['remittanceInformationUnstructured'] as String?,
       remittanceInformationUnstructuredArray:
-          fetchedMap['remittanceInformationUnstructuredArray'] as List<String>?,
+      (fetchedMap['remittanceInformationUnstructuredArray']
+        as List<dynamic>?)?.map((dynamic item) => item as String).toList(),
       remittanceInformationStructured:
           fetchedMap['remittanceInformationStructured'] as String?,
       remittanceInformationStructuredArray:

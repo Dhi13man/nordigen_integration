@@ -223,9 +223,8 @@ class NordigenAccountInfoAPI {
     final dynamic fetchedData = await _nordigenGetter(
       endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/',
     );
-    assert(fetchedData['account'] != null);
-    // Form the recieved dynamic Map into BankAccountDetails for convenience.
-    return AccountMetaData.fromMap(fetchedData['account']);
+    // Form the received dynamic Map into AccountMetaData for convenience.
+    return AccountMetaData.fromMap(fetchedData);
   }
 
   /// Get the Details of the Bank Account identified by [accountID].
@@ -269,7 +268,7 @@ class NordigenAccountInfoAPI {
         pendingTransactions =
             fetchedData['transactions']['pending'] ?? <dynamic>[];
 
-    // Form the recieved dynamic Lists of bookedTransactions and
+    // Form the received dynamic Lists of bookedTransactions and
     // pendingTransactions into Lists<TransactionData> for convenience.
     return <String, List<TransactionData>>{
       'booked': bookedTransactions
