@@ -1,12 +1,14 @@
 # Releases
 
-## [1.5.1] - 17th August, 2021
+## [1.5.2] - 17th August, 2021
 
 1. Implemented `getEndUserAgreementsUsingUserID({required String endUserID})` functionality to fetch End User Agreements for user identified by a `endUserID`. Big thanks to [@c-louis](https://github.com/c-louis) for getting it done.
 
-2. Documentation and Unit Tests update to reflect latest changes.
+2. Changed the Response decode to decode UTF-8 body bytes to handle special ASCII characters. All thanks to [@stantemo](https://github.com/stantemo).
 
-3. Made Unit Tests more readable.
+3. Documentation and Unit Tests update to reflect latest changes.
+
+4. Made Unit Tests more readable.
 
 ## [1.5.0] - 13th June, 2021
 
