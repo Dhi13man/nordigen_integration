@@ -187,7 +187,7 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
 ### The first release of this package was sponsored by [Cashtic](https://cashtic.com). Show them some love! This package would not otherwise be possible
 
-### Big thanks to contributors including [@stantemo](https://github.com/stantemo) and [@c-louis](https://github.com/c-louis)
+### Big thanks to contributors, including [@stantemo](https://github.com/stantemo) and [@c-louis](https://github.com/c-louis)
 
 ----
 
