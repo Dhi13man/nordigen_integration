@@ -3,11 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'stepwise_tests/step_2_tests.dart';
 import 'stepwise_tests/step_3_tests.dart';
 import 'stepwise_tests/step_4_tests.dart';
-
-import 'package:nordigen_integration/nordigen_integration.dart';
-
 import 'stepwise_tests/step_5_tests.dart';
 import 'stepwise_tests/step_6_tests.dart';
+
+import 'package:nordigen_integration/nordigen_integration.dart';
 
 void main() {
   // Set up of common parameters for Testing.
