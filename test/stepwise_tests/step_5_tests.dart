@@ -8,12 +8,12 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 ///
 /// Pass in Nordigen Access Token [accessToken], [testEndUserID],
 /// [testRedirectLink], [requisitionIDWithAccountAccess] to the function.
-void step5Tests(
-  String accessToken,
-  String testEndUserID,
-  String testRedirectLink,
-  String requisitionIDWithAccountAccess,
-) {
+void step5Tests({
+  required String accessToken,
+  required String testEndUserID,
+  required String testRedirectLink,
+  required String requisitionIDWithAccountAccess,
+}) {
   /// TEST 5.1
   test('GET Multiple Requisitions from Server.', () async {
     // API and Parameters Set up
@@ -26,7 +26,7 @@ void step5Tests(
       testEndUserID,
       testRedirectLink,
     );
-    
+
     // Make Request
     List<RequisitionModel> fetchedRequisitionModels =
         await nordigenObject.getRequisitions(limit: limit, offset: offset);

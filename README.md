@@ -1,6 +1,6 @@
 # nordigen_integration
 
-Development of a Null Safe Dart/Flutter Package for Nordigen EU PSD2 AISP API Integration with relevant Data Models, proper encapsulation with the exposing of parameters, and succinct documentation.
+Development of a Null Safe Dart/Flutter Package for Nordigen EU PSD2 AISP Banking API Integration with relevant Data Models, proper encapsulation with the exposing of parameters, and succinct documentation.
 
 For more information about the API view [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
@@ -186,6 +186,8 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 ----
 
 ### The first release of this package was sponsored by [Cashtic](https://cashtic.com). Show them some love! This package would not otherwise be possible
+
+### Big thanks to contributors including [@stantemo](https://github.com/stantemo) and [@c-louis](https://github.com/c-louis)
 
 ----
 

@@ -5,10 +5,14 @@ import 'package:http/http.dart' show ClientException;
 import 'package:nordigen_integration/nordigen_integration.dart';
 
 /// Tests associated with Step 3 of Nordigen API integration.
-/// 
+///
 /// Pass in Nordigen Access Token [accessToken], [testEndUserID], [testAspspID]
 /// to the function.
-void step3Tests(String accessToken, String testEndUserID, String testAspspID) {
+void step3Tests({
+  required String accessToken,
+  required String testEndUserID,
+  required String testAspspID,
+}) {
   /// TEST 3.1
   test('Simulate Step 3: Create an End-User Agreement', () async {
     // API and Parameters Set up

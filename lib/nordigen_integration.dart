@@ -358,6 +358,7 @@ class NordigenAccountInfoAPI {
       else
         throw http.ClientException(
           'Error Code: ${response.statusCode}, '
+          // ignore: lines_longer_than_80_chars
           'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
         );
     } catch (e) {
@@ -383,6 +384,7 @@ class NordigenAccountInfoAPI {
       else
         throw http.ClientException(
           'Error Code: ${response.statusCode}, '
+          // ignore: lines_longer_than_80_chars
           'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
         );
     } catch (e) {
@@ -408,6 +410,7 @@ class NordigenAccountInfoAPI {
       else
         throw http.ClientException(
           'Error Code: ${response.statusCode}, '
+          // ignore: lines_longer_than_80_chars
           'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
         );
     } catch (e) {

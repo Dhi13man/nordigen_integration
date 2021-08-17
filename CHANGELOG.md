@@ -8,7 +8,7 @@
 
 3. Documentation and Unit Tests update to reflect latest changes.
 
-4. Made Unit Tests more readable.
+4. Changed the structure of Unit Tests to make them more readable.
 
 ## [1.5.0] - 13th June, 2021
 

@@ -8,10 +8,10 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 ///
 /// Pass in Nordigen Access Token [accessToken],
 /// [requisitionIDWithAccountAccess] to the function.
-void step6Tests(
-  String accessToken,
-  String requisitionIDWithAccountAccess,
-) {
+void step6Tests({
+  required String accessToken,
+  required String requisitionIDWithAccountAccess,
+}) {
   /// TEST 6.1
   test('Simulate Step 6: Access account meta data', () async {
     // API Set up

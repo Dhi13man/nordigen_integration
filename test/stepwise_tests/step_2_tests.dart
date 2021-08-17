@@ -5,7 +5,7 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 /// Tests associated with Step 2 of Nordigen API integration.
 /// 
 /// Pass in Nordigen Access Token [accessToken] to the function.
-void step2Tests(String accessToken) {
+void step2Tests({required String accessToken}) {
   /// TEST 2.1
   test('Simulate Step 2: Choose a Bank/ASPSP', () async {
     // API and Parameters Set up

@@ -38,22 +38,34 @@ void main() {
   });
 
   /// TEST 2
-  step2Tests(accessToken);
+  step2Tests(accessToken: accessToken);
 
   /// TEST 3
-  step3Tests(accessToken, testEndUserID, testAspspID);
+  step3Tests(
+    accessToken: accessToken,
+    testEndUserID: testEndUserID,
+    testAspspID: testAspspID,
+  );
 
   /// TEST 4
-  step4Tests(accessToken, testEndUserID, testAspspID, testRedirectLink);
+  step4Tests(
+    accessToken: accessToken,
+    testEndUserID: testEndUserID,
+    testAspspID: testAspspID,
+    testRedirectLink: testRedirectLink,
+  );
 
   /// TEST 5
   step5Tests(
-    accessToken,
-    testEndUserID,
-    testRedirectLink,
-    requisitionIDWithAccountAccess,
+    accessToken: accessToken,
+    testEndUserID: testEndUserID,
+    testRedirectLink: testRedirectLink,
+    requisitionIDWithAccountAccess: requisitionIDWithAccountAccess,
   );
 
   /// TEST 6
-  step6Tests(accessToken, requisitionIDWithAccountAccess);
+  step6Tests(
+    accessToken: accessToken,
+    requisitionIDWithAccountAccess: requisitionIDWithAccountAccess,
+  );
 }

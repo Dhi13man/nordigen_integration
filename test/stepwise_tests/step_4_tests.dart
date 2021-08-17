@@ -1,4 +1,3 @@
-
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:http/http.dart' show ClientException;
@@ -11,12 +10,12 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 ///
 /// Pass in Nordigen Access Token [accessToken], [testEndUserID], [testAspspID],
 /// [testRedirectLink] to the function.
-void step4Tests(
-  String accessToken,
-  String testEndUserID,
-  String testAspspID,
-  String testRedirectLink,
-) {
+void step4Tests({
+  required String accessToken,
+  required String testEndUserID,
+  required String testAspspID,
+  required String testRedirectLink,
+}) {
   /// TEST 4.1
   test('Simulate Step 4.1: Create a Requisition', () async {
     // API Set up
