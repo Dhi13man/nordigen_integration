@@ -354,11 +354,11 @@ class NordigenAccountInfoAPI {
           body: jsonEncode(data),
         );
       if ((response.statusCode / 100).floor() == 2) // Request Success Condition
-        output = jsonDecode(response.body);
+        output = jsonDecode(utf8.decoder.convert(response.bodyBytes));
       else
         throw http.ClientException(
           'Error Code: ${response.statusCode}, '
-          'Reason: ${jsonDecode(response.body)["detail"]}',
+          'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
         );
     } catch (e) {
       throw http.ClientException('POST Request Failed: $e');
@@ -379,11 +379,11 @@ class NordigenAccountInfoAPI {
         },
       );
       if ((response.statusCode / 100).floor() == 2) // Request Success Condition
-        output = jsonDecode(response.body);
+        output = jsonDecode(utf8.decoder.convert(response.bodyBytes));
       else
         throw http.ClientException(
           'Error Code: ${response.statusCode}, '
-          'Reason: ${jsonDecode(response.body)["detail"]}',
+          'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
         );
     } catch (e) {
       throw http.ClientException('GET Request Failed: $e');
@@ -404,11 +404,11 @@ class NordigenAccountInfoAPI {
         },
       );
       if ((response.statusCode / 100).floor() == 2) // Request Success Condition
-        output = response.body;
+        output = utf8.decoder.convert(response.bodyBytes);
       else
         throw http.ClientException(
           'Error Code: ${response.statusCode}, '
-          'Reason: ${jsonDecode(response.body)["detail"]}',
+          'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
         );
     } catch (e) {
       throw http.ClientException('DELETE Request Failed: $e');
