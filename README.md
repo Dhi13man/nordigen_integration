@@ -86,15 +86,17 @@ There are also various other methods for implementing POST, GET and DELETE reque
 
 2. `getEndUserAgreementUsingID({required String endUserAgreementID})`
 
-3. `deleteEndUserAgreementUsingID({required String endUserAgreementID})`
+3. `getEndUserAgreementsUsingUserID({required String endUserID})`
 
-4. `getRequisitions({int limit = 100, int offset = 0,})`
+4. `deleteEndUserAgreementUsingID({required String endUserAgreementID})`
 
-5. `getRequisitionUsingID({required String requisitionID})`
+5. `getRequisitions({int limit = 100, int offset = 0,})`
 
-6. `deleteRequisitionUsingID({required String requisitionID})`
+6. `getRequisitionUsingID({required String requisitionID})`
 
-7. `getAccountMetaData({required String accountID})`
+7. `deleteRequisitionUsingID({required String requisitionID})`
+
+8. `getAccountMetaData({required String accountID})`
 
 ----
 

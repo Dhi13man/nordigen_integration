@@ -1,29 +1,13 @@
-import 'dart:math';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' show ClientException;
+
+import 'stepwise_tests/step_2_tests.dart';
+import 'stepwise_tests/step_3_tests.dart';
+import 'stepwise_tests/step_4_tests.dart';
 
 import 'package:nordigen_integration/nordigen_integration.dart';
 
-/// Requisition of random reference ID is generated for testing purpose.
-///
-/// Needs a [nordigenObject] for API access, [testEndUserID] and
-/// [testRedirectLink] for [RequisitionModel] fetching from Nordigen Server.s
-Future<RequisitionModel> _createRandomRequisition(
-  NordigenAccountInfoAPI nordigenObject,
-  String testEndUserID,
-  String testRedirectLink,
-) async {
-  final String randomReference = Random().nextInt(99999999).toString();
-  final RequisitionModel requisitionModel =
-      await nordigenObject.createRequisition(
-    endUserID: testEndUserID,
-    redirect: testRedirectLink,
-    reference: randomReference,
-  );
-  expect(requisitionModel.reference, randomReference);
-  return requisitionModel;
-}
+import 'stepwise_tests/step_5_tests.dart';
+import 'stepwise_tests/step_6_tests.dart';
 
 void main() {
   // Set up of common parameters for Testing.
@@ -34,6 +18,7 @@ void main() {
   const String testRedirectLink = 'http://www.yourwebpage.com/';
   const String requisitionIDWithAccountAccess =
       'REQUISITION_WITH_ACCOUNT_ACCESS';
+
   /// TEST 0
   test(
     'Ensure that Access Token is changed before actual tests.',
@@ -48,262 +33,27 @@ void main() {
     } catch (_) {
       isClassInitSuccessful = false;
     }
+    // API set up should not have any exceptions.
     expect(isClassInitSuccessful, true);
   });
 
   /// TEST 2
-  test('Simulate Step 2: Choose a Bank/ASPSP', () async {
-    // API and Parameters Set up
-    final NordigenAccountInfoAPI nordigenObject =
-        NordigenAccountInfoAPI(accessToken: accessToken);
-    // Make Request
-    final List<ASPSP> aspsps =
-        await nordigenObject.getASPSPsForCountry(countryCode: 'gb');
-    expect(aspsps.isNotEmpty, true);
-  });
-
-  /// TEST 2.1
-  test('GET a single ASPSP by ID', () async {
-    // API and Parameters Set up
-    final NordigenAccountInfoAPI nordigenObject =
-        NordigenAccountInfoAPI(accessToken: accessToken);
-    // Make Request
-    final List<ASPSP> aspsps =
-        await nordigenObject.getASPSPsForCountry(countryCode: 'gb');
-    expect(aspsps.isNotEmpty, true);
-    final ASPSP singleASPSP =
-        await nordigenObject.getASPSPUsingID(aspspID: aspsps.first.id);
-    expect(aspsps.first.toString(), singleASPSP.toString());
-  });
+  step2Tests(accessToken);
 
   /// TEST 3
-  test('Simulate Step 3: Create an End-User Agreement', () async {
-    // API and Parameters Set up
-    final NordigenAccountInfoAPI nordigenObject =
-        NordigenAccountInfoAPI(accessToken: accessToken);
-    const int maxHistoricalDays = 1;
+  step3Tests(accessToken, testEndUserID, testAspspID);
 
-    // TEST creation
-    EndUserAgreementModel endUserAgreementModel =
-        await nordigenObject.createEndUserAgreement(
-      maxHistoricalDays: maxHistoricalDays,
-      endUserID: testEndUserID,
-      aspspID: testAspspID,
-    );
-    expect(endUserAgreementModel.endUserID, testEndUserID);
-    expect(endUserAgreementModel.aspspID, testAspspID);
-    expect(endUserAgreementModel.maxHistoricalDays, maxHistoricalDays);
-    expect(endUserAgreementModel.aspspID, testAspspID);
-  });
+  /// TEST 4
+  step4Tests(accessToken, testEndUserID, testAspspID, testRedirectLink);
 
-  /// TEST 3.1
-  test('GET and DELETE a single End-User Agreement by ID', () async {
-    // API and Parameters Set up
-    final NordigenAccountInfoAPI nordigenObject =
-        NordigenAccountInfoAPI(accessToken: accessToken);
-    final EndUserAgreementModel endUserAgreement =
-        await nordigenObject.createEndUserAgreement(
-      endUserID: testEndUserID,
-      aspspID: testAspspID,
-    );
-    // GET the created Agreement and compare.
-    final EndUserAgreementModel fetchedEndUserAgreement =
-        await nordigenObject.getEndUserAgreementUsingID(
-      endUserAgreementID: endUserAgreement.id,
-    );
-    expect(fetchedEndUserAgreement.toString(), endUserAgreement.toString());
-    // DELETE the created Agreement and check.
-    await nordigenObject.deleteEndUserAgreementUsingID(
-      endUserAgreementID: endUserAgreement.id,
-    );
-    bool hasRequestFailed = false;
-    try {
-      await nordigenObject.getEndUserAgreementUsingID(
-        endUserAgreementID: endUserAgreement.id,
-      );
-    } on ClientException {
-      hasRequestFailed = true;
-    }
-    expect(hasRequestFailed, true); // If successfully deleted, should fail.
-  });
+  /// TEST 5
+  step5Tests(
+    accessToken,
+    testEndUserID,
+    testRedirectLink,
+    requisitionIDWithAccountAccess,
+  );
 
-  /// TEST 4.1
-  test('Simulate Step 4.1: Create a Requisition', () async {
-    // API Set up
-    final NordigenAccountInfoAPI nordigenObject =
-        NordigenAccountInfoAPI(accessToken: accessToken);
-    // Create a Random Requisition
-    final RequisitionModel requisitionModel = await _createRandomRequisition(
-      nordigenObject,
-      testEndUserID,
-      testRedirectLink,
-    );
-    expect(requisitionModel.endUserID, testEndUserID);
-    expect(requisitionModel.redirectURL, testRedirectLink);
-  });
-
-  /// TEST 4.2
-  test('Simulate Step 4.2: Build a Link', () async {
-    // API Set up
-    final NordigenAccountInfoAPI nordigenObject =
-        NordigenAccountInfoAPI(accessToken: accessToken);
-    // Create a Random Requisition
-    final RequisitionModel requisitionModel = await _createRandomRequisition(
-      nordigenObject,
-      testEndUserID,
-      testRedirectLink,
-    );
-    // Make Request
-    final String fetchedRedirectLink =
-        await nordigenObject.fetchRedirectLinkForRequisition(
-      aspspID: testAspspID,
-      requisitionID: requisitionModel.id,
-    );
-    expect(Uri.tryParse(fetchedRedirectLink) != null, true);
-  });
-
-  /// TEST 4.3
-  test('GET and DELETE a single Requisition by ID', () async {
-    // API and Parameters Set up
-    final NordigenAccountInfoAPI nordigenObject =
-        NordigenAccountInfoAPI(accessToken: accessToken);
-    // Create a Random Requisition
-    final RequisitionModel requisitionModel = await _createRandomRequisition(
-      nordigenObject,
-      testEndUserID,
-      testRedirectLink,
-    );
-    // GET the created Agreement and compare.
-    final RequisitionModel fetchedRequisition = await nordigenObject
-        .getRequisitionUsingID(requisitionID: requisitionModel.id);
-    expect(requisitionModel.toString(), fetchedRequisition.toString());
-    // DELETE the created Agreement and check.
-    await nordigenObject.deleteRequisitionUsingID(
-      requisitionID: requisitionModel.id,
-    );
-    bool hasRequestFailed = false;
-    try {
-      await nordigenObject.getRequisitionUsingID(
-        requisitionID: requisitionModel.id,
-      );
-    } on ClientException {
-      hasRequestFailed = true;
-    }
-    expect(hasRequestFailed, true); // If successfully deleted, should fail.
-  });
-
-  /// TEST 5.1
-  test('GET Multiple Requisitions from Server.', () async {
-    // API and Parameters Set up
-    final NordigenAccountInfoAPI nordigenObject =
-        NordigenAccountInfoAPI(accessToken: accessToken);
-    const int limit = 100, offset = 0;
-    // Create a Random Requisition
-    await _createRandomRequisition(
-      nordigenObject,
-      testEndUserID,
-      testRedirectLink,
-    );
-    // Make Request
-    List<RequisitionModel> fetchedRequisitionModels =
-        await nordigenObject.getRequisitions(limit: limit, offset: offset);
-    // We should expect Requisitions less than or equal to (limit - offset)
-    expect(
-      fetchedRequisitionModels.isNotEmpty &&
-          fetchedRequisitionModels.length <= limit - offset,
-      true,
-    );
-  });
-
-  /// TEST 5.2
-  test('Simulate Step 5: List accounts from Specific Requisition', () async {
-    // API Set up
-    final NordigenAccountInfoAPI nordigenObject =
-        NordigenAccountInfoAPI(accessToken: accessToken);
-    // Make Request
-    final List<String> accountsIDs = await nordigenObject.getEndUserAccountIDs(
-      requisitionID: requisitionIDWithAccountAccess,
-    );
-    expect(accountsIDs.isNotEmpty, true);
-  });
-
-  /// TEST 6.1
-  test('Simulate Step 6: Access account meta data', () async {
-    // API Set up
-    final NordigenAccountInfoAPI nordigenObject =
-        NordigenAccountInfoAPI(accessToken: accessToken);
-    // GET accountsIDs
-    final List<String> accountsIDs = await nordigenObject.getEndUserAccountIDs(
-      requisitionID: requisitionIDWithAccountAccess,
-    );
-    final String accountID = accountsIDs[0];
-    // GET Account Meta Data
-    bool hasGetMetaDataFailed = false;
-    try {
-      await nordigenObject.getAccountMetaData(accountID: accountID);
-    } on ClientException {
-      hasGetMetaDataFailed = true;
-    }
-    expect(hasGetMetaDataFailed, false);
-  });
-
-  /// TEST 6.2
-  test('Simulate Step 6: Access account details', () async {
-    // API Set up
-    final NordigenAccountInfoAPI nordigenObject =
-    NordigenAccountInfoAPI(accessToken: accessToken);
-    // GET accountsIDs
-    final List<String> accountsIDs = await nordigenObject.getEndUserAccountIDs(
-      requisitionID: requisitionIDWithAccountAccess,
-    );
-    final String accountID = accountsIDs[0];
-    // Get Account Details
-    bool hasGetDetailsFailed = false;
-    try {
-      await nordigenObject.getAccountDetails(accountID: accountID);
-    } on ClientException {
-      hasGetDetailsFailed = true;
-    }
-    expect(hasGetDetailsFailed, false);
-  });
-
-  /// TEST 6.3
-  test('Simulate Step 6: Access account balances', () async {
-    // API Set up
-    final NordigenAccountInfoAPI nordigenObject =
-    NordigenAccountInfoAPI(accessToken: accessToken);
-    // GET accountsIDs
-    final List<String> accountsIDs = await nordigenObject.getEndUserAccountIDs(
-      requisitionID: requisitionIDWithAccountAccess,
-    );
-    final String accountID = accountsIDs[3];
-    // Get Account Details
-    bool hasGetBalancesFailed = false;
-    try {
-      await nordigenObject.getAccountBalances(accountID: accountID);
-    } on ClientException {
-      hasGetBalancesFailed = true;
-    }
-    expect(hasGetBalancesFailed, false);
-  });
-
-  /// TEST 6.4
-  test('Simulate Step 6: Access account transactions', () async {
-    // API Set up
-    final NordigenAccountInfoAPI nordigenObject =
-    NordigenAccountInfoAPI(accessToken: accessToken);
-    // GET accountsIDs
-    final List<String> accountsIDs = await nordigenObject.getEndUserAccountIDs(
-      requisitionID: requisitionIDWithAccountAccess,
-    );
-    final String accountID = accountsIDs[0];
-    // Get Account Details
-    bool hasGetTransactionsFailed = false;
-    try {
-      await nordigenObject.getAccountTransactions(accountID: accountID);
-    } on ClientException {
-      hasGetTransactionsFailed = true;
-    }
-    expect(hasGetTransactionsFailed, false);
-  });
+  /// TEST 6
+  step6Tests(accessToken, requisitionIDWithAccountAccess);
 }

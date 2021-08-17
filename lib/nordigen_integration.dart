@@ -95,21 +95,27 @@ class NordigenAccountInfoAPI {
     // Form the recieved dynamic Map into RequisitionModel for convenience.
     return EndUserAgreementModel.fromMap(fetchedData);
   }
-  
-  /// Get the End-User Agreements identified by [endUserID].
-  Future<List<EndUserAgreementModel>> getEndUserAgreementsUsingID({
+
+  /// Get all the End-User Agreements of the User identified by [endUserID].
+  Future<List<EndUserAgreementModel>> getEndUserAgreementsUsingUserID({
     required String endUserID,
   }) async {
     assert(endUserID.isNotEmpty);
     // Make GET request and fetch output.
     final Map<String, dynamic> fetchedData = await _nordigenGetter(
-      endpointUrl: 'https://ob.nordigen.com/api/agreements/enduser/?enduser_id=$endUserID',
+      endpointUrl:
+          'https://ob.nordigen.com/api/agreements/enduser/?enduser_id=$endUserID',
     );
     final List<dynamic> fetchedEndUserAgreements = fetchedData['results'];
     // Form the recieved dynamic Map into EndUserAgreementModel for convenience.
-    return fetchedEndUserAgreements.map<EndUserAgreementModel>((dynamic endUserAgreementData) => EndUserAgreementModel.fromMap(endUserAgreementData)).toList();
+    return fetchedEndUserAgreements
+        .map<EndUserAgreementModel>(
+          (dynamic endUserAgreementData) =>
+              EndUserAgreementModel.fromMap(endUserAgreementData),
+        )
+        .toList();
   }
-  
+
   /// Delete the End-User Agreement identified by [endUserAgreementID].
   ///
   /// Refer to Step 5 of Nordigen Account Information API documentation.
