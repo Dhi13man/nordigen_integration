@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nordigen_integration/nordigen_integration.dart';
 
 /// Tests associated with Step 2 of Nordigen API integration.
-/// 
+///
 /// Pass in Nordigen Access Token [accessToken] to the function.
 void step2Tests({required String accessToken}) {
   /// TEST 2.1
@@ -30,6 +30,8 @@ void step2Tests({required String accessToken}) {
     expect(aspsps.isNotEmpty, true);
     final ASPSP singleASPSP =
         await nordigenObject.getASPSPUsingID(aspspID: aspsps.first.id);
+
+    print(singleASPSP.logoURL);
     // Verify ASPSP recieved. Integrity check
     expect(aspsps.first.toString(), singleASPSP.toString());
   });

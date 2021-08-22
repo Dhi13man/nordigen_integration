@@ -393,7 +393,7 @@ class NordigenAccountInfoAPI {
     return output;
   }
 
-  /// Utility class to easily make GET requests to Nordigen API endpoints.
+  /// Utility class to easily make DELETE requests to Nordigen API endpoints.
   Future<dynamic> _nordigenDeleter({required String endpointUrl}) async {
     dynamic output = <dynamic, dynamic>{};
     try {

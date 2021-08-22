@@ -2,7 +2,9 @@
 
 ## [1.5.3] - 23rd August, 2021
 
-ASPSP Logos are now parsed too from fetched data. Stored as `String` URL.
+1. ASPSP Logos are now parsed too from fetched data. Stored as `String` URL.
+
+2. Dependency on Flutter removed. Truly a Dart/Flutter package now. Other dependencies updated.
 
 ## [1.5.2] - 17th August, 2021
 

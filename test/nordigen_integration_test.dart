@@ -10,11 +10,12 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 
 void main() {
   // Set up of common parameters for Testing.
-  // TODO: MAKE SURE TO FILL THIS IN BEFORE RUNNING UNIT TESTS.
+  // TODO: FILL NORDIGEN ACCESS TOKEN BEFORE RUNNING UNIT TESTS
   const String accessToken = 'YOUR_TOKEN';
   const String testEndUserID = '8234e18b-f360-48cc-8bcf-c8625596d74a';
   const String testAspspID = 'ABNAMRO_ABNAGB2LXXX';
   const String testRedirectLink = 'http://www.yourwebpage.com/';
+  // TODO: FILL REQUISTION ID WITH ACCOUNT ACCESS BEFORE RUNNING TESTS 5 and 6
   const String requisitionIDWithAccountAccess =
       'REQUISITION_WITH_ACCOUNT_ACCESS';
 

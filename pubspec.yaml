@@ -1,11 +1,10 @@
 name: nordigen_integration
-description: Dart/Flutter Package for Nordigen EU PSD2 AISP API Integration, with relevant Data Models.
-version: 1.5.2
+description: Dart/Flutter Package for Nordigen's EU PSD2 AISP Baniking API Integration, with relevant Data Models.
+version: 1.5.3
 homepage: https://github.com/Dhi13man/nordigen_integration
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.17.0"
 
 dependencies:
   http: ^0.13.3
@@ -15,5 +14,3 @@ dev_dependencies:
     sdk: flutter
   url_launcher: ^6.0.3
   pedantic: ^1.11.0
-  
-flutter:
