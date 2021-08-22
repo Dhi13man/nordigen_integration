@@ -11,6 +11,7 @@ class ASPSP {
     this.bic = '',
     this.transactionTotalDays = 90,
     required this.countries,
+    this.logo = '',
   });
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
@@ -30,6 +31,7 @@ class ASPSP {
       countries: (fetchedMap['countries'] as List<dynamic>)
           .map<String>((dynamic country) => country.toString())
           .toList(),
+      logo: fetchedMap['logo'] as String,
     );
   }
 
@@ -42,6 +44,7 @@ class ASPSP {
         'bic': bic,
         'transaction_total_days': transactionTotalDays,
         'countries': countries,
+        'logo': logo,
       };
 
   /// Identifier of this particular ASPSP
@@ -62,6 +65,9 @@ class ASPSP {
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override
   String toString() => jsonEncode(toMap());
+
+  /// Logo of the ASPSP.
+  final String logo;
 }
 
 /// End-user Agreement Data Model for Nordigen
