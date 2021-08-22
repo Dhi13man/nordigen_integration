@@ -31,7 +31,7 @@ class ASPSP {
       countries: (fetchedMap['countries'] as List<dynamic>)
           .map<String>((dynamic country) => country.toString())
           .toList(),
-      logo: fetchedMap['logo'] as String,
+      logo: (fetchedMap['logo'] ?? '') as String,
     );
   }
 
@@ -62,12 +62,12 @@ class ASPSP {
   /// Countries associated with the ASPSP
   final List<String> countries;
 
+  /// Logo of the ASPSP.
+  final String logo;
+
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override
   String toString() => jsonEncode(toMap());
-
-  /// Logo of the ASPSP.
-  final String logo;
 }
 
 /// End-user Agreement Data Model for Nordigen
