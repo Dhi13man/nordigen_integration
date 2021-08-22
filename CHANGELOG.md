@@ -1,5 +1,9 @@
 # Releases
 
+## [1.5.3] - 23rd August, 2021
+
+ASPSP Logos are now parsed too from fetched data. Stored as `String` URL.
+
 ## [1.5.2] - 17th August, 2021
 
 1. Implemented `getEndUserAgreementsUsingUserID({required String endUserID})` functionality to fetch End User Agreements for user identified by a `endUserID`. Big thanks to [@c-louis](https://github.com/c-louis) for getting it done.

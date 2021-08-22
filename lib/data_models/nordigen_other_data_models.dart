@@ -8,10 +8,10 @@ class ASPSP {
   const ASPSP({
     required this.id,
     required this.name,
+    required this.countries,
     this.bic = '',
     this.transactionTotalDays = 90,
-    required this.countries,
-    this.logo = '',
+    this.logoURL = '',
   });
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
@@ -31,7 +31,7 @@ class ASPSP {
       countries: (fetchedMap['countries'] as List<dynamic>)
           .map<String>((dynamic country) => country.toString())
           .toList(),
-      logo: (fetchedMap['logo'] ?? '') as String,
+      logoURL: (fetchedMap['logo'] ?? '') as String,
     );
   }
 
@@ -41,10 +41,10 @@ class ASPSP {
   Map<String, dynamic> toMap() => <String, dynamic>{
         'id': id,
         'name': name,
+        'countries': countries,
         'bic': bic,
         'transaction_total_days': transactionTotalDays,
-        'countries': countries,
-        'logo': logo,
+        'logo': logoURL,
       };
 
   /// Identifier of this particular ASPSP
@@ -62,8 +62,8 @@ class ASPSP {
   /// Countries associated with the ASPSP
   final List<String> countries;
 
-  /// Logo of the ASPSP.
-  final String logo;
+  /// URL of the Logo of the ASPSP as a [String].
+  final String logoURL;
 
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override

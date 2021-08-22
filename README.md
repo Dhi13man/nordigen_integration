@@ -104,9 +104,9 @@ There are also various other methods for implementing POST, GET and DELETE reque
 
 Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/> for most of the Data Schema and the mentioned URLs in the special cases.
 
-1. `ASPSP({required String id, required String name, String bic = '', int transactionTotalDays = 90, required List<String> countries})`
+1. `ASPSP({required String id, required String name, String bic = '', int transactionTotalDays = 90, required List<String> countries, String logoURL = ''})`
 
-    ASPSP (Bank) Data Model for Nordigen. Contains the `id` of the ASPSP, its `name`, `bic`, `transactionTotalDays` and the `countries` associated with the ASPSP.
+    ASPSP (Bank) Data Model for Nordigen. Contains the `id` of the ASPSP, its `name`, `bic`, `transactionTotalDays`, the `countries` associated with the ASPSP and  ASPSP's logo as a URL `logoURL` to it, if any.
 
 2. `EndUserAgreementModel({required String id, String created, String? accepted, int maxHistoricalDays = 90, int accessValidForDays = 90, required String endUserID, required String aspspID})`:
 
