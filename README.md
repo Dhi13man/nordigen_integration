@@ -1,7 +1,8 @@
 # nordigen_integration
 
-[![License](https://img.shields.io/github/license/dhi13man/nordigen_integration)](https://github.com/Dhi13man/nordigen_integration)
+[![License](https://img.shields.io/github/license/dhi13man/nordigen_integration)](https://github.com/Dhi13man/nordigen_integration/blob/main/LICENSE)
 [![Language](https://img.shields.io/badge/language-Dart-blue.svg)](https://dart.dev)
+[![Language](https://img.shields.io/badge/language-Flutter-blue.svg)](https://flutter.dev)
 [![Contributors](https://img.shields.io/github/contributors-anon/dhi13man/nordigen_integration?style=flat)](https://github.com/Dhi13man/nordigen_integration/)
 [![GitHub forks](https://img.shields.io/github/forks/dhi13man/nordigen_integration?style=social)](https://github.com/Dhi13man/nordigen_integration/network/members)
 [![GitHub Repo stars](https://img.shields.io/github/stars/dhi13man/nordigen_integration?style=social)](https://github.com/Dhi13man/nordigen_integration)
