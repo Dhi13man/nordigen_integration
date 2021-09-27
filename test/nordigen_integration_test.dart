@@ -1,4 +1,4 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 import 'stepwise_tests/step_2_tests.dart';
 import 'stepwise_tests/step_3_tests.dart';
@@ -8,10 +8,11 @@ import 'stepwise_tests/step_6_tests.dart';
 
 import 'package:nordigen_integration/nordigen_integration.dart';
 
+// TODO: FILL NORDIGEN ACCESS TOKEN BEFORE RUNNING UNIT TESTS
+const String accessToken = 'YOUR_TOKEN';
+
 void main() {
   // Set up of common parameters for Testing.
-  // TODO: FILL NORDIGEN ACCESS TOKEN BEFORE RUNNING UNIT TESTS
-  const String accessToken = 'YOUR_TOKEN';
   const String testEndUserID = '8234e18b-f360-48cc-8bcf-c8625596d74a';
   const String testAspspID = 'ABNAMRO_ABNAGB2LXXX';
   const String testRedirectLink = 'http://www.yourwebpage.com/';

@@ -1,5 +1,9 @@
 # Releases
 
+## [1.5.4] - 27th September, 2021
+
+1. Completely removed dependency on Flutter and Flutter based packages
+
 ## [1.5.3] - 23rd August, 2021
 
 1. ASPSP Logos are now parsed too from fetched data. Stored as `String` URL.

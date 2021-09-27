@@ -6,7 +6,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/dhi13man/nordigen_integration?style=social)](https://github.com/Dhi13man/nordigen_integration/network/members)
 [![GitHub Repo stars](https://img.shields.io/github/stars/dhi13man/nordigen_integration?style=social)](https://github.com/Dhi13man/nordigen_integration)
 [![Last Commit](https://img.shields.io/github/last-commit/dhi13man/nordigen_integration)](https://github.com/Dhi13man/nordigen_integration/)
-[![Build](https://github.com/Dhi13man/nordigen_integration/workflows/Build/badge.svg)](https://pub.dev/packages/nordigen_integration)
+[![Build](https://github.com/Dhi13man/nordigen_integration/workflows/Build/badge.svg)](https://github.com/Dhi13man/nordigen_integration/actions)
 [![nordigen_integration version](https://img.shields.io/pub/v/nordigen_integration.svg)](https://pub.dev/packages/nordigen_integration)
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/dhi13man)
@@ -14,8 +14,6 @@
 Development of a Null Safe Dart/Flutter Package for Nordigen EU PSD2 AISP Banking API Integration with relevant Data Models, proper encapsulation with the exposing of parameters, and succinct documentation.
 
 For more information about the API view [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
-
-[![nordigen_integration version](https://img.shields.io/pub/v/nordigen_integration.svg)](https://pub.dev/packages/nordigen_integration)
 
 ## Usage Steps
 

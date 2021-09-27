@@ -68,8 +68,10 @@ class TransactionData {
       remittanceInformationUnstructured:
           fetchedMap['remittanceInformationUnstructured'] as String?,
       remittanceInformationUnstructuredArray:
-      (fetchedMap['remittanceInformationUnstructuredArray']
-        as List<dynamic>?)?.map((dynamic item) => item as String).toList(),
+          (fetchedMap['remittanceInformationUnstructuredArray']
+                  as List<dynamic>?)
+              ?.map((dynamic item) => item as String)
+              .toList(),
       remittanceInformationStructured:
           fetchedMap['remittanceInformationStructured'] as String?,
       remittanceInformationStructuredArray:

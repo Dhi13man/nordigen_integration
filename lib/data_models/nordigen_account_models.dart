@@ -148,7 +148,7 @@ class AccountDetails {
 /// Refer https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/
 ///
 /// Contains the [id] of the Bank Account, its [created] and [lastAccessed] date
-/// and time as ISO String, [iban], [status] and the 
+/// and time as ISO String, [iban], [status] and the
 /// [aspspIdentifier] identifiying its ASPSP.
 class AccountMetaData {
   AccountMetaData({
