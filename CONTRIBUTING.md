@@ -8,6 +8,8 @@
 
 Thank you for investing your time in contributing to this project! Any contributions you make have a chance of reflecting in [the actual Package on Pub.dev](https://pub.dev/packages/nordigen_integration), and brightens up my day. :)
 
+Make sure you view [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) first before contributing!
+
 ## General Steps to Contribute
 
 1. Ensure you have [Dart](https://dart.dev/get-dart)/[Flutter](https://flutter.dev/docs/get-started/install) SDK installed.
@@ -28,11 +30,11 @@ Thank you for investing your time in contributing to this project! Any contribut
 
 8. Add relevant tests (if any) for the contribution you made to `./test` folder and an appropriate subfolder.
 
-9. **Get an [openrouteservice API Key](https://openrouteservice.org/dev/#/signup)** if you haven't already, and set it as the `apiKey` constant in `./test/nordigen_integration_test.dart` in place of `'test'`.
+9. **[Get an API Access Token](https://ob.nordigen.com)** if you haven't already, and set it as the `accessToken` constant in `./test/nordigen_integration_test.dart` in place of `'test'`.
 
 10. Run `dart test` to run the tests. **Ensure all tests run and pass before committing and/or pushing!**
 
-11. **Replace your `apiKey` with `'test'` again before committing and/or pushing**, or it will get leaked!
+11. **Replace your `accessToken` with `'test'` again before committing and/or pushing**, or it will get leaked!
 
 12. Commit your changes and push them to your local repository by running `git commit -am "my-commit-message" && git push origin <new-branch-name>`.
 

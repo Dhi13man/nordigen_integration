@@ -183,6 +183,10 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
 ----
 
+## Contributing
+
+Make sure you check out the [Contribution Guildelines](https://github.com/Dhi13man/nordigen_integration/blob/main/CONTRIBUTING.md) for information about how to contribute to the development of this package!
+
 ### Dependencies
 
 [http](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
