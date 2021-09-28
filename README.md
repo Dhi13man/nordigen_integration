@@ -189,7 +189,8 @@ Make sure you check out the [Contribution Guildelines](https://github.com/Dhi13m
 
 ### Dependencies
 
-[http](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
+- [Dart,](https://www.dartlang.org/) for the Dart SDK which this obviously runs on.
+- [http,](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
 
 ----
 
