@@ -16,6 +16,21 @@ Development of a Null Safe Dart/Flutter Package for Nordigen EU PSD2 AISP Bankin
 
 For more information about the API view [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
+## Contents
+
+- [nordigen_integration](#nordigen_integration)
+  - [Contents](#contents)
+  - [Usage Steps](#usage-steps)
+    - [Example Usage](#example-usage)
+  - [API Documentation](#api-documentation)
+    - [Available Methods](#available-methods)
+    - [Available Data Classes](#available-data-classes)
+  - [Contributing](#contributing)
+  - [Dependencies](#dependencies)
+  - [Tests Screenshot](#tests-screenshot)
+  - [Vote of Thanks](#vote-of-thanks)
+  - [General Information](#general-information)
+
 ## Usage Steps
 
 1. Go through the [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
@@ -28,9 +43,45 @@ For more information about the API view [Nordigen's Account Information API docu
 
 5. Utilize any of the available Data Classes to modularly and sufficiently store and process the information during any of the API usage steps. The Data Classes have functionality to be constructed `fromMap()` and to be easily converted back `toMap()` as well as to be serialized, at any point.
 
+### Example Usage
+
+```dart
+import 'package:nordigen_integration/nordigen_integration.dart';
+
+Future<void> main() async {
+    /// Step 1
+    final NordigenAccountInfoAPI apiInterface = NordigenAccountInfoAPI(
+        accessToken: 'YOUR_TOKEN',
+    );
+
+    /// Step 2 and then selecting the first ASPSP
+    final ASPSP firstBank =
+        (await apiInterface.getASPSPsForCountry(countryCode: 'gb')).first;
+
+    /// Step 4.1
+    final RequisitionModel requisition = await apiInterface.createRequisition(
+        endUserID: 'exampleEndUser',
+        redirect: 'http://www.yourwebpage.com/',
+        reference: 'exampleRef42069666',
+    );
+
+    /// Step 4.2
+    final String redirectLink =
+        await apiInterface.fetchRedirectLinkForRequisition(
+        requisitionID: requisition.id,
+        aspspID: firstBank.id,
+    );
+
+    /// Open and Validate [redirectLink] and proceed with other functionality.
+    print(redirectLink);
+}
+```
+
 ----
 
-## Available Methods
+## API Documentation
+
+### Available Methods
 
 1. `NordigenAccountInfoAPI({required String accessToken})` (Class constuctor)
 
@@ -108,9 +159,7 @@ There are also various other methods for implementing POST, GET and DELETE reque
 
 8. `getAccountMetaData({required String accountID})`
 
-----
-
-## Available Data Classes
+### Available Data Classes
 
 Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/> for most of the Data Schema and the mentioned URLs in the special cases.
 
@@ -149,67 +198,35 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
 ----
 
-### Example Usage
-
-    import 'package:nordigen_integration/nordigen_integration.dart';
-
-    Future<void> main() async {
-        /// Step 1
-        final NordigenAccountInfoAPI apiInterface = NordigenAccountInfoAPI(
-            accessToken: 'YOUR_TOKEN',
-        );
-
-        /// Step 2 and then selecting the first ASPSP
-        final ASPSP firstBank =
-            (await apiInterface.getASPSPsForCountry(countryCode: 'gb')).first;
-
-        /// Step 4.1
-        final RequisitionModel requisition = await apiInterface.createRequisition(
-            endUserID: 'exampleEndUser',
-            redirect: 'http://www.yourwebpage.com/',
-            reference: 'exampleRef42069666',
-        );
-
-        /// Step 4.2
-        final String redirectLink =
-            await apiInterface.fetchRedirectLinkForRequisition(
-            requisitionID: requisition.id,
-            aspspID: firstBank.id,
-        );
-
-        /// Open and Validate [redirectLink] and proceed with other functionality.
-        print(redirectLink);
-    }
-
-----
-
 ## Contributing
 
 Make sure you check out the [Contribution Guildelines](https://github.com/Dhi13man/nordigen_integration/blob/main/CONTRIBUTING.md) for information about how to contribute to the development of this package!
 
-### Dependencies
+## Dependencies
 
 - [Dart,](https://www.dartlang.org/) for the Dart SDK which this obviously runs on.
 - [http,](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
 
 ----
 
-### Tests Screenshot
+## Tests Screenshot
 
 ![Nordigen EU PSD2 AISP Integration Tests Successful Screenshot](https://raw.githubusercontent.com/Dhi13man/nordigen_integration/main/package_tests_success_screenshot.png)
 
 ----
 
-### In case of any bugs, reach out to me at [@Dhi13man](https://twitter.com/Dhi13man) or [file an issue](https://github.com/Dhi13man/nordigen_integration/issues)
+## Vote of Thanks
 
-### The first release of this package was sponsored by [Cashtic](https://cashtic.com). Show them some love! This package would not otherwise be possible
+1. In case of any bugs, reach out to me at [@Dhi13man](https://twitter.com/Dhi13man) or [file an issue](https://github.com/Dhi13man/nordigen_integration/issues)
 
-### Big thanks to contributors, including [@stantemo](https://github.com/stantemo) and [@c-louis](https://github.com/c-louis). Contribution is welcome, and makes my day brighter
+2. The first release of this package was sponsored by [Cashtic](https://cashtic.com). Show them some love! This package would not otherwise be possible
+
+3. Big thanks to contributors, including [@stantemo](https://github.com/stantemo) and [@c-louis](https://github.com/c-louis). Contribution is welcome, and makes my day brighter
 
 ----
 
-#### Getting Started
+## General Information
 
 This project is a starting point for a Dart [package](https://flutter.dev/developing-packages/), a library module containing code that can be shared easily across multiple Flutter or Dart projects.
 
-For help getting started with Flutter, view our [online documentation](https://flutter.dev/docs), which offers tutorials,samples, guidance on mobile development, and a full API reference.
+For help getting started with Flutter, view the [online documentation](https://flutter.dev/docs), which offers tutorials,samples, guidance on mobile development, and a full API reference.
