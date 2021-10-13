@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Build
+name: Build, Format, Test
 
 on:
   push:
@@ -38,3 +38,6 @@ jobs:
       # Ensure we didn't accidentally leak API key
       - name: Run tests
         run: dart test ./test/nordigen_integration_action_tests.dart
+        env:
+          EXEC_ENV: 'github_actions'
+          ORS_API_KEY: ${{ secrets.ORS_API_KEY }}
