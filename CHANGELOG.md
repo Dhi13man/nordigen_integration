@@ -1,5 +1,11 @@
 # Releases
 
+## [1.5.5] - 13th October, 2021
+
+1. Dev Dependency Migration: pedantic -> lints
+2. Dependency update.
+3. README changes and CONTRIBUTING guidelines added.
+
 ## [1.5.4] - 27th September, 2021
 
 1. Completely removed dependency on Flutter and Flutter based packages
