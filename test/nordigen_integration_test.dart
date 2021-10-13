@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:test/test.dart';
 
 import 'stepwise_tests/step_2_tests.dart';
@@ -8,10 +10,23 @@ import 'stepwise_tests/step_6_tests.dart';
 
 import 'package:nordigen_integration/nordigen_integration.dart';
 
-// TODO: FILL NORDIGEN ACCESS TOKEN BEFORE RUNNING UNIT TESTS
-const String accessToken = 'YOUR_TOKEN';
-
 void main() {
+// TODO: FILL NORDIGEN ACCESS TOKEN BEFORE RUNNING UNIT TESTS
+  String accessToken = 'YOUR_TOKEN';
+
+  // Change API key from environment if tests are running on Github Actions.
+  if ((Platform.environment['EXEC_ENV'] ?? '') == 'github_actions') {
+    // If running on Github Actions, the last pusher shouldn't have leaked
+    // their API key.
+    test(
+      'Ensure that Access Token has been reset.',
+      () => expect(accessToken, 'YOUR_TOKEN'),
+    );
+    // assert(accessToken == 'test');
+    // accessToken = Platform.environment['ORS_API_KEY']!;
+    return;
+  }
+
   // Set up of common parameters for Testing.
   const String testEndUserID = '8234e18b-f360-48cc-8bcf-c8625596d74a';
   const String testAspspID = 'ABNAMRO_ABNAGB2LXXX';

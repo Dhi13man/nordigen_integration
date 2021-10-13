@@ -37,7 +37,7 @@ jobs:
 
       # Ensure we didn't accidentally leak API key
       - name: Run tests
-        run: dart test ./test/nordigen_integration_action_tests.dart
+        run: dart test
         env:
           EXEC_ENV: 'github_actions'
-          ORS_API_KEY: ${{ secrets.ORS_API_KEY }}
+          ORS_API_KEY: ${{ secrets.NORDIGEN_API_KEY }}
