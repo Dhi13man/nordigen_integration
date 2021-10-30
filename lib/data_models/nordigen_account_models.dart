@@ -95,7 +95,7 @@ class AccountDetails {
   /// then two names might be noted here.
   final String? ownerName;
 
-  /// Name of the account, as assigned by the ASPSP.
+  /// Name of the account, as assigned by the Institution.
   final String? name;
 
   /// Name of the account as defined by the PSU within online channels.
@@ -119,8 +119,8 @@ class AccountDetails {
   /// The BIC associated to the account.
   final String? bic;
 
-  /// This data attribute is a field, where an ASPSP can name a cash account
-  /// associated to pending card transactions.
+  /// This data attribute is a field, where an Institution can name a cash
+  /// account associated to pending card transactions.
   final String? linkedAccounts;
 
   /// Specifies the usage of the account.
@@ -128,7 +128,7 @@ class AccountDetails {
   ///    ORGA: professional account
   final String? usage;
 
-  /// Specifications that might be provided by the ASPSP.
+  /// Specifications that might be provided by the Institution.
   final String? details;
 
   /// List of Balances associated with the account.
@@ -149,33 +149,27 @@ class AccountDetails {
 ///
 /// Contains the [id] of the Bank Account, its [created] and [lastAccessed] date
 /// and time as ISO String, [iban], [status] and the
-/// [aspspIdentifier] identifiying its ASPSP.
+/// [institutionIdentifier] identifiying its Institution.
 class AccountMetaData {
   AccountMetaData({
     required this.id,
     String? created,
     this.lastAccessed,
     required this.iban,
-    required this.aspspIdentifier,
+    required this.institutionIdentifier,
     this.status = '',
   }) : created = created ?? DateTime.now().toIso8601String();
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
-  factory AccountMetaData.fromMap(dynamic fetchedMap) {
-    // Validate data first.
-    assert(fetchedMap['id'] != null);
-    assert(fetchedMap['created'] != null);
-    assert(fetchedMap['iban'] != null);
-    assert(fetchedMap['aspsp_identifier'] != null);
-    return AccountMetaData(
-      id: fetchedMap['id'] as String,
-      created: fetchedMap['created'] as String,
+  factory AccountMetaData.fromMap(dynamic fetchedMap) =>
+    AccountMetaData(
+      id: fetchedMap['id']! as String,
+      created: fetchedMap['created']! as String,
       lastAccessed: fetchedMap['last_accessed'] as String?,
-      iban: fetchedMap['iban'] as String,
-      aspspIdentifier: fetchedMap['aspsp_identifier'] as String,
+      iban: fetchedMap['iban']! as String,
+      institutionIdentifier: fetchedMap['institution_identifier']! as String,
       status: (fetchedMap['status'] ?? '') as String,
     );
-  }
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
@@ -185,7 +179,7 @@ class AccountMetaData {
         'created': created,
         'last_accessed': lastAccessed,
         'iban': iban,
-        'aspsp_identifier': aspspIdentifier,
+        'institution_identifier': institutionIdentifier,
         'status': status,
       };
 
@@ -201,8 +195,8 @@ class AccountMetaData {
   /// The Account IBAN
   final String iban;
 
-  /// The ID of the ASPSP (bank) associated with this account.
-  final String aspspIdentifier;
+  /// The ID of the Institution (bank) associated with this account.
+  final String institutionIdentifier;
 
   /// The processing status of this account.
   final String status;

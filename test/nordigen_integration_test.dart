@@ -12,7 +12,7 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 
 void main() {
 // TODO: FILL NORDIGEN ACCESS TOKEN BEFORE RUNNING UNIT TESTS
-  String accessToken = 'YOUR_TOKEN';
+  String accessToken = 'test';
 
   // Change API key from environment if tests are running on Github Actions.
   if ((Platform.environment['EXEC_ENV'] ?? '') == 'github_actions') {
@@ -29,7 +29,7 @@ void main() {
 
   // Set up of common parameters for Testing.
   const String testEndUserID = '8234e18b-f360-48cc-8bcf-c8625596d74a';
-  const String testAspspID = 'ABNAMRO_ABNAGB2LXXX';
+  const String testInstitutionID = 'ABNAMRO_ABNAGB2LXXX';
   const String testRedirectLink = 'http://www.yourwebpage.com/';
   // TODO: FILL REQUISTION ID WITH ACCOUNT ACCESS BEFORE RUNNING TESTS 5 and 6
   const String requisitionIDWithAccountAccess =
@@ -60,14 +60,14 @@ void main() {
   step3Tests(
     accessToken: accessToken,
     testEndUserID: testEndUserID,
-    testAspspID: testAspspID,
+    testInstitutionID: testInstitutionID,
   );
 
   /// TEST 4
   step4Tests(
     accessToken: accessToken,
     testEndUserID: testEndUserID,
-    testAspspID: testAspspID,
+    testInstitutionID: testInstitutionID,
     testRedirectLink: testRedirectLink,
   );
 

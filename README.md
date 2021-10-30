@@ -54,9 +54,9 @@ Future<void> main() async {
         accessToken: 'YOUR_TOKEN',
     );
 
-    /// Step 2 and then selecting the first ASPSP
-    final ASPSP firstBank =
-        (await apiInterface.getASPSPsForCountry(countryCode: 'gb')).first;
+    /// Step 2 and then selecting the first Institution
+    final Institution firstBank =
+        (await apiInterface.getInstitutionsForCountry(countryCode: 'gb')).first;
 
     /// Step 4.1
     final RequisitionModel requisition = await apiInterface.createRequisition(
@@ -69,7 +69,7 @@ Future<void> main() async {
     final String redirectLink =
         await apiInterface.fetchRedirectLinkForRequisition(
         requisitionID: requisition.id,
-        aspspID: firstBank.id,
+        institutionID: firstBank.id,
     );
 
     /// Open and Validate [redirectLink] and proceed with other functionality.
@@ -89,27 +89,27 @@ Future<void> main() async {
 
     Analogous to Step 1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-2. `getASPSPsForCountry({required String countryCode})`
+2. `getInstitutionsForCountry({required String countryCode})`
 
-    Gets the ASPSPs (Banks) in the Country represented by the given two-letter `countryCode` (ISO 3166).
+    Gets the Institutions (Banks) in the Country represented by the given two-letter `countryCode` (ISO 3166).
 
     Analogous to Step 2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-3. `createEndUserAgreement({required String endUserID, required String aspspID, int maxHistoricalDays = 90})`
+3. `createEndUserAgreement({required String endUserID, required String institutionID, int maxHistoricalDays = 90})`
 
-    Creates an End User Agreement for the given `endUserID`, `aspspID` and for the given `maxHistoricalDays` (default 90 days) and returns the resulting `EndUserAgreementModel`.
+    Creates an End User Agreement for the given `endUserID`, `institutionID` and for the given `maxHistoricalDays` (default 90 days) and returns the resulting `EndUserAgreementModel`.
 
     Analogous to Step 3 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
 4. `createRequisition({required String endUserID, required String redirect, required String reference, List<String> agreements = const <String>[]})`
 
-    Create a Requisition for the given `endUserID` and returns the resulting `RequisitionModel`. `reference` is additional layer of unique ID. Should match Step 3 if done. `redirect` is the link where the end user will be redirected after finishing authentication in ASPSP. `agreements` is as an array of ID(s) from Step 3 or empty array if that step was skipped.
+    Create a Requisition for the given `endUserID` and returns the resulting `RequisitionModel`. `reference` is additional layer of unique ID. Should match Step 3 if done. `redirect` is the link where the end user will be redirected after finishing authentication in institution. `agreements` is as an array of ID(s) from Step 3 or empty array if that step was skipped.
 
     Analogous to Step 4.1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-5. `fetchRedirectLinkForRequisition({required String aspspID, required String requisitionID})`
+5. `fetchRedirectLinkForRequisition({required String institutionID, required String requisitionID})`
 
-    Provides a redirect link for the Requisition represented by the `requisitionID` passed in, for the ASPSP represented by the given `aspspID`.
+    Provides a redirect link for the Requisition represented by the `requisitionID` passed in, for the Institution represented by the given `institutionID`.
 
     Analogous to Step 4.2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
@@ -143,7 +143,7 @@ Future<void> main() async {
 
 There are also various other methods for implementing POST, GET and DELETE requests across various endpoints in Nordigen Server, which are self explanatory:
 
-1. `getASPSPUsingID({required String aspspID})`
+1. `getinstitutionUsingID({required String institutionID})`
 
 2. `getEndUserAgreementUsingID({required String endUserAgreementID})`
 
@@ -163,20 +163,20 @@ There are also various other methods for implementing POST, GET and DELETE reque
 
 Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/> for most of the Data Schema and the mentioned URLs in the special cases.
 
-1. `ASPSP({required String id, required String name, String bic = '', int transactionTotalDays = 90, required List<String> countries, String logoURL = ''})`
+1. `Institution({required String id, required String name, String bic = '', int transactionTotalDays = 90, required List<String> countries, String logoURL = ''})`
 
-    ASPSP (Bank) Data Model for Nordigen. Contains the `id` of the ASPSP, its `name`, `bic`, `transactionTotalDays`, the `countries` associated with the ASPSP and  ASPSP's logo as a URL `logoURL` to it, if any.
+    Institution (Bank) Data Model for Nordigen. Contains the `id` of the institution, its `name`, `bic`, `transactionTotalDays`, the `countries` associated with the institution and institution's logo as a URL `logoURL` to it, if any.
 
-2. `EndUserAgreementModel({required String id, String created, String? accepted, int maxHistoricalDays = 90, int accessValidForDays = 90, required String endUserID, required String aspspID})`:
+2. `EndUserAgreementModel({required String id, String created, String? accepted, int maxHistoricalDays = 90, int accessValidForDays = 90, required String endUserID, required String institutionID})`:
 
-    End-user Agreement Data Model for Nordigen. Contains the `id` of the Agreement, its `created` time string, `accepted`, the number of `maxHistoricalDays` and `accessValidForDays`, and the `endUserID` and `aspspID` relevant to the Agreement.
+    End-user Agreement Data Model for Nordigen. Contains the `id` of the Agreement, its `created` time string, `accepted`, the number of `maxHistoricalDays` and `accessValidForDays`, and the `endUserID` and `institutionID` relevant to the Agreement.
 
 3. `RequisitionModel({required String id, required String redirectURL, required String reference, String status = '', List<String> agreements = const <String>[], List<String> accounts = const <String>[], required String endUserID})`:
 
     Requisition Data Model for Nordigen. Contains the `id` of the Requisition, its `status`, end-user `agreements`, the `redirectURL` to which it should redirect, `reference` ID if any, `accounts` associated, and the associated `endUserID`.
 
-4. `AccountMetaData({required String id, String created, String? lastAccessed, String iban, String aspspIdentifier, String status = ''})`
-   Account meta-data model for Nordigen. Contains the `id` of the Bank Account, its `created` and `lastAccessed` date and time, `iban`, `status` and the `aspspIdentifier` identifiying its ASPSP. Refer to <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>
+4. `AccountMetaData({required String id, String created, String? lastAccessed, String iban, String institutionIdentifier, String status = ''})`
+   Account meta-data model for Nordigen. Contains the `id` of the Bank Account, its `created` and `lastAccessed` date and time, `iban`, `status` and the `institutionIdentifier` identifiying its Institution. Refer to <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>
 
 5. `AccountDetails({String? id, String? iban, String? msisdn, required String currency, String? ownerName, String? name, String? displayName, String? product, String? cashAccountType, String? status, String? bic, String? linkedAccounts, String? usage, String? details, List<Balance>? balances, List<String>? links})`:
 

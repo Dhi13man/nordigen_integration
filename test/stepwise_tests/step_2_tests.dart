@@ -7,32 +7,32 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 /// Pass in Nordigen Access Token [accessToken] to the function.
 void step2Tests({required String accessToken}) {
   /// TEST 2.1
-  test('Simulate Step 2: Choose a Bank/ASPSP', () async {
+  test('Simulate Step 2: Choose a Bank/Institution', () async {
     // API and Parameters Set up
     final NordigenAccountInfoAPI nordigenObject =
         NordigenAccountInfoAPI(accessToken: accessToken);
     // Make Request
-    final List<ASPSP> aspsps =
-        await nordigenObject.getASPSPsForCountry(countryCode: 'gb');
-    // Should not be empty as we have 'gb' country-code ASPSPs
-    expect(aspsps.isNotEmpty, true);
+    final List<Institution> institutions =
+        await nordigenObject.getInstitutionsForCountry(countryCode: 'gb');
+    // Should not be empty as we have 'gb' country-code Institutions
+    expect(institutions.isNotEmpty, true);
   });
 
   /// TEST 2.2
-  test('GET a single ASPSP by ID', () async {
+  test('GET a single Institution by ID', () async {
     // API and Parameters Set up
     final NordigenAccountInfoAPI nordigenObject =
         NordigenAccountInfoAPI(accessToken: accessToken);
     // Make Request
-    final List<ASPSP> aspsps =
-        await nordigenObject.getASPSPsForCountry(countryCode: 'gb');
-    // Should not be empty as we have 'gb' country-code ASPSPs
-    expect(aspsps.isNotEmpty, true);
-    final ASPSP singleASPSP =
-        await nordigenObject.getASPSPUsingID(aspspID: aspsps.first.id);
+    final List<Institution> institutions =
+        await nordigenObject.getInstitutionsForCountry(countryCode: 'gb');
+    // Should not be empty as we have 'gb' country-code Institutions
+    expect(institutions.isNotEmpty, true);
+    final Institution singleInstitution =
+        await nordigenObject.getInstitutionUsingID(institutionID: institutions.first.id);
 
-    print(singleASPSP.logoURL);
-    // Verify ASPSP recieved. Integrity check
-    expect(aspsps.first.toString(), singleASPSP.toString());
+    print(singleInstitution.logoURL);
+    // Verify Institution recieved. Integrity check
+    expect(institutions.first.toString(), singleInstitution.toString());
   });
 }

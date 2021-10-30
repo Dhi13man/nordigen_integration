@@ -25,54 +25,57 @@ class NordigenAccountInfoAPI {
   /// Client initialization as we repeated requests to the same Server.
   final http.Client _client = http.Client();
 
-  /// Gets the ASPSPs (Banks) for the given [countryCode].
+  /// Gets the Institutions (Banks) for the given [countryCode].
   ///
   /// Refer to Step 2 of Nordigen Account Information API documentation.
   /// [countryCode] is just two-letter country code (ISO 3166).
-  Future<List<ASPSP>> getASPSPsForCountry({required String countryCode}) async {
+  Future<List<Institution>> getInstitutionsForCountry(
+      {required String countryCode}) async {
     assert(countryCode.isNotEmpty);
     // Make GET request and fetch output.
     final List<dynamic> fetchedData = await _nordigenGetter(
           endpointUrl:
-              'https://ob.nordigen.com/api/aspsps/?country=$countryCode',
+              'https://ob.nordigen.com/api/v2/institutions/?country=$countryCode',
         ) ??
         <dynamic>[];
-    // Map the recieved List<dynamic> into List<ASPSP> Data Format.
+    // Map the recieved List<dynamic> into List<Institution> Data Format.
     return fetchedData
-        .map<ASPSP>(
-          (dynamic aspspMapItem) => ASPSP.fromMap(aspspMapItem),
+        .map<Institution>(
+          (dynamic institutionItem) => Institution.fromMap(institutionItem),
         )
         .toList();
   }
 
-  /// Get the ASPSP identified by [aspspID].
-  Future<ASPSP> getASPSPUsingID({required String aspspID}) async {
-    assert(aspspID.isNotEmpty);
+  /// Get the Institution identified by [institutionID].
+  Future<Institution> getInstitutionUsingID(
+      {required String institutionID}) async {
+    assert(institutionID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
-      endpointUrl: 'https://ob.nordigen.com/api/aspsps/$aspspID/',
+      endpointUrl:
+          'https://ob.nordigen.com/api/v2/institutions/$institutionID/',
     );
     // Form the recieved dynamic Map into RequisitionModel for convenience.
-    return ASPSP.fromMap(fetchedData);
+    return Institution.fromMap(fetchedData);
   }
 
-  /// Create an End User Agreement for the given [endUserID], ASPSP identified
-  /// by [aspspID], and for the given [maxHistoricalDays] (default 90 days).
+  /// Create an End User Agreement for given [endUserID], Institution identified
+  /// by [institutionID], and for given [maxHistoricalDays] (default 90 days).
   ///
   /// Refer to Step 3 of Nordigen Account Information API documentation.
   Future<EndUserAgreementModel> createEndUserAgreement({
     required String endUserID,
-    required String aspspID,
+    required String institutionID,
     int maxHistoricalDays = 90,
   }) async {
-    // Prepare the ASPSP ID that the function will work with
+    // Prepare the Institution ID that the function will work with.
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
       endpointUrl: 'https://ob.nordigen.com/api/agreements/enduser/',
       data: <String, dynamic>{
         // API accepts days as String
         'max_historical_days': maxHistoricalDays.toString(),
-        'aspsp_id': aspspID,
+        'institution_id': institutionID,
         'enduser_id': endUserID,
       },
     );
@@ -133,7 +136,7 @@ class NordigenAccountInfoAPI {
   ///
   /// [reference] is additional layer of unique ID. Should match Step 3 if done.
   /// [redirect] is the link where the end user will be redirected after
-  /// finishing authentication in ASPSP.
+  /// finishing authentication in Institution.
   /// [agreements] is as an array of ID(s) from Step 3 or empty array
   /// if that step was skipped.
   Future<RequisitionModel> createRequisition({
@@ -157,18 +160,18 @@ class NordigenAccountInfoAPI {
   }
 
   /// Provides a redirect link to the Requisition represented by the
-  /// [requisitionID] passed in and for the ASPSP represented by [aspspID].
+  /// [requisitionID] passed in and for the Institution represented by [institutionID].
   ///
   /// Refer to Step 4.2 of Nordigen Account Information API documentation.
   Future<String> fetchRedirectLinkForRequisition({
-    required String aspspID,
+    required String institutionID,
     required String requisitionID,
   }) async {
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
       endpointUrl:
           'https://ob.nordigen.com/api/requisitions/$requisitionID/links/',
-      data: <String, dynamic>{'aspsp_id': aspspID},
+      data: <String, dynamic>{'institution_id': institutionID},
     );
     // Extract the redirectURL and output it.
     return fetchedData['initiate'].toString();
@@ -339,7 +342,7 @@ class NordigenAccountInfoAPI {
           headers: <String, String>{
             'accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Token $_accessToken',
+            'Authorization': 'Bearer $_accessToken',
           },
           body: jsonEncode(data),
         );
@@ -349,7 +352,7 @@ class NordigenAccountInfoAPI {
           headers: <String, String>{
             'accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Token $_accessToken',
+            'Authorization': 'Bearer $_accessToken',
           },
           body: jsonEncode(data),
         );
@@ -376,7 +379,7 @@ class NordigenAccountInfoAPI {
         requestURL,
         headers: <String, String>{
           'accept': 'application/json',
-          'Authorization': 'Token $_accessToken',
+          'Authorization': 'Bearer $_accessToken',
         },
       );
       if ((response.statusCode / 100).floor() == 2) // Request Success Condition
@@ -402,7 +405,7 @@ class NordigenAccountInfoAPI {
         requestURL,
         headers: <String, String>{
           'accept': 'application/json',
-          'Authorization': 'Token $_accessToken',
+          'Authorization': 'Bearer $_accessToken',
         },
       );
       if ((response.statusCode / 100).floor() == 2) // Request Success Condition

@@ -131,7 +131,8 @@ class TransactionData {
   /// Identifier of this particular Transaction
   final String? id;
 
-  /// Identification of the transaction as used for reference given by ASPSP.
+  /// Identification of the transaction as used for reference 
+  /// given by Institution.
   final String? entryReference;
 
   /// Identification of Mandates, e.g. a SEPA Mandate ID
@@ -143,7 +144,8 @@ class TransactionData {
   /// 	Identification of Creditors, e.g. a SEPA Creditor ID
   final String? creditorId;
 
-  /// Date when an entry is posted to an account on ASPSP's books. As [String].
+  /// Date when an entry is posted to an account on Institution's books 
+  /// as [String].
   final String? bookingDate;
 
   /// Date at which assets become available to the account owner in case of a
@@ -192,7 +194,8 @@ class TransactionData {
   /// Structured Remittance information Array about the Transaction (if any)
   final List<dynamic>? remittanceInformationStructuredArray;
 
-  /// Might be used by the ASPSP to transport additional transaction information
+  /// Might be used by the Institution to transport additional transaction
+  /// information.
   final String? additionalInformation;
 
   /// Is used if and only if the bookingStatus entry equals "information"
@@ -201,11 +204,12 @@ class TransactionData {
   /// The transaction's purpose code (if any)
   final String? purposeCode;
 
-  /// Bank transaction code as used by the ASPSP and using the
+  /// Bank transaction code as used by the Institution and using the
   /// sub elements of this structured code defined by ISO20022.
   final String? bankTransactionCode;
 
-  /// Proprietary bank transaction code as used within community/within an ASPSP
+  /// Proprietary bank transaction code as used within community/within an 
+  /// Institution.
   final String? proprietaryBankTransactionCode;
 
   ///	This is the balance after this transaction.

@@ -70,9 +70,9 @@
 //     final NordigenAccountInfoAPI apiInterface = NordigenAccountInfoAPI(
 //       accessToken: token,
 //     );
-//     return FutureBuilder<List<ASPSP>>(
-//       future: apiInterface.getASPSPsForCountry(countryCode: 'gb'),
-//       builder: (BuildContext context, AsyncSnapshot<List<ASPSP>> snapshot) {
+//     return FutureBuilder<List<Institution>>(
+//       future: apiInterface.getInstitutionsForCountry(countryCode: 'gb'),
+//       builder: (BuildContext context, AsyncSnapshot<List<Institution>> snapshot) {
 //         if (!snapshot.hasData)
 //           return Column(
 //             mainAxisAlignment: MainAxisAlignment.center,
@@ -82,7 +82,7 @@
 //               CircularProgressIndicator(),
 //             ],
 //           );
-//         final List<ASPSP> banks = snapshot.data ?? <ASPSP>[];
+//         final List<Institution> banks = snapshot.data ?? <Institution>[];
 //         final String randomReference = Random().nextInt(99999999).toString();
 //         return ListView.builder(
 //           itemCount: banks.length,
@@ -95,7 +95,7 @@
 //                   reference: randomReference,
 //                 ))
 //                     .id,
-//                 aspspID: banks[index].id,
+//                 institutionID: banks[index].id,
 //               ),
 //             ),
 //             title: Text(banks[index].name),

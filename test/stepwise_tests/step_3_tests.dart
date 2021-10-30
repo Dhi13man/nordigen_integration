@@ -5,12 +5,12 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 
 /// Tests associated with Step 3 of Nordigen API integration.
 ///
-/// Pass in Nordigen Access Token [accessToken], [testEndUserID], [testAspspID]
+/// Pass in Nordigen Access Token [accessToken], [testEndUserID], [testInstitutionID]
 /// to the function.
 void step3Tests({
   required String accessToken,
   required String testEndUserID,
-  required String testAspspID,
+  required String testInstitutionID,
 }) {
   /// TEST 3.1
   test('Simulate Step 3: Create an End-User Agreement', () async {
@@ -24,13 +24,13 @@ void step3Tests({
         await nordigenObject.createEndUserAgreement(
       maxHistoricalDays: maxHistoricalDays,
       endUserID: testEndUserID,
-      aspspID: testAspspID,
+      institutionID: testInstitutionID,
     );
     // Data Integrity check
     expect(endUserAgreementModel.endUserID, testEndUserID);
-    expect(endUserAgreementModel.aspspID, testAspspID);
+    expect(endUserAgreementModel.institutionID, testInstitutionID);
     expect(endUserAgreementModel.maxHistoricalDays, maxHistoricalDays);
-    expect(endUserAgreementModel.aspspID, testAspspID);
+    expect(endUserAgreementModel.institutionID, testInstitutionID);
   });
 
   /// TEST 3.2
@@ -59,7 +59,7 @@ void step3Tests({
     final EndUserAgreementModel endUserAgreement =
         await nordigenObject.createEndUserAgreement(
       endUserID: testEndUserID,
-      aspspID: testAspspID,
+      institutionID: testInstitutionID,
     );
     // GET the created Agreement and compare.
     final EndUserAgreementModel fetchedEndUserAgreement =

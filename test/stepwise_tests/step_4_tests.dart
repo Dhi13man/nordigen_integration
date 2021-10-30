@@ -7,12 +7,12 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 
 /// Tests associated with Step 4 of Nordigen API integration.
 ///
-/// Pass in Nordigen Access Token [accessToken], [testEndUserID], [testAspspID],
+/// Pass in Nordigen Access Token [accessToken], [testEndUserID], [testInstitutionID],
 /// [testRedirectLink] to the function.
 void step4Tests({
   required String accessToken,
   required String testEndUserID,
-  required String testAspspID,
+  required String testInstitutionID,
   required String testRedirectLink,
 }) {
   /// TEST 4.1
@@ -45,7 +45,7 @@ void step4Tests({
     // Make Request
     final String fetchedRedirectLink =
         await nordigenObject.fetchRedirectLinkForRequisition(
-      aspspID: testAspspID,
+      institutionID: testInstitutionID,
       requisitionID: requisitionModel.id,
     );
     expect(Uri.tryParse(fetchedRedirectLink) != null, true);

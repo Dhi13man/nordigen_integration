@@ -1,11 +1,11 @@
 part of 'package:nordigen_integration/nordigen_integration.dart';
 
-/// ASPSP (Bank) Data Model for Nordigen
+/// Institution (Bank) Data Model for Nordigen
 ///
-/// Contains the [id] of the ASPSP, its [name], [bic], [totalTransactionDays]
-/// and the [countries] associated with the ASPSP.
-class ASPSP {
-  const ASPSP({
+/// Contains the [id] of the Institution, its [name], [bic], [totalTransactionDays]
+/// and the [countries] associated with the Institution.
+class Institution {
+  const Institution({
     required this.id,
     required this.name,
     required this.countries,
@@ -15,12 +15,12 @@ class ASPSP {
   });
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
-  factory ASPSP.fromMap(dynamic fetchedMap) {
+  factory Institution.fromMap(dynamic fetchedMap) {
     // Validate data first.
     assert(fetchedMap['id'] != null);
     assert(fetchedMap['name'] != null);
     assert(fetchedMap['countries'] != null);
-    return ASPSP(
+    return Institution(
       id: fetchedMap['id'] as String,
       name: fetchedMap['name'] as String,
       bic: (fetchedMap['bic'] ?? '') as String,
@@ -47,22 +47,22 @@ class ASPSP {
         'logo': logoURL,
       };
 
-  /// Identifier of this particular ASPSP
+  /// Identifier of this particular Institution
   final String id;
 
-  /// ASPSP Name
+  /// Institution Name
   final String name;
 
-  /// BIC of the ASPSP.
+  /// BIC of the Institution.
   final String bic;
 
-  /// Represents the total transaction days for the ASPSP.
+  /// Represents the total transaction days for the Institution.
   final int transactionTotalDays;
 
-  /// Countries associated with the ASPSP
+  /// Countries associated with the Institution
   final List<String> countries;
 
-  /// URL of the Logo of the ASPSP as a [String].
+  /// URL of the Logo of the Institution as a [String].
   final String logoURL;
 
   /// Returns the class data converted to a map as a Serialized JSON String.
@@ -74,7 +74,7 @@ class ASPSP {
 ///
 /// Contains the [id] of the Agreement, its [created] time string, [accepted],
 /// the number of [maxHistoricalDays] and [accessValidForDays],
-/// and the [endUserID] and [aspspID] relevant to the Agreement.
+/// and the [endUserID] and [institutionID] relevant to the Agreement.
 class EndUserAgreementModel {
   EndUserAgreementModel({
     required this.id,
@@ -83,31 +83,27 @@ class EndUserAgreementModel {
     this.maxHistoricalDays = 90,
     this.accessValidForDays = 90,
     required this.endUserID,
-    required this.aspspID,
+    required this.institutionID,
   }) : created = created ?? DateTime.now().toIso8601String();
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory EndUserAgreementModel.fromMap(dynamic fetchedMap) {
     // Validate data first.
-    assert(fetchedMap['id'] != null);
-    assert(fetchedMap['created'] != null);
-    assert(fetchedMap['enduser_id'] != null);
-    assert(fetchedMap['aspsp_id'] != null);
     return EndUserAgreementModel(
-      id: fetchedMap['id'] as String,
-      created: fetchedMap['created'] as String,
+      id: fetchedMap['id']! as String,
+      created: fetchedMap['created']! as String,
       accepted: fetchedMap['accepted'] as String?,
       maxHistoricalDays: fetchedMap['max_historical_days'] as int,
       accessValidForDays: fetchedMap['access_valid_for_days'] as int,
-      endUserID: fetchedMap['enduser_id'] as String,
-      aspspID: fetchedMap['aspsp_id'] as String,
+      endUserID: fetchedMap['enduser_id']! as String,
+      institutionID: fetchedMap['institution_id']! as String,
     );
   }
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
   /// Map Keys: "id", "created", "accepted", "max_historical_days",
-  /// "access_valid_for_days", "enduser_id" and "aspsp_id"
+  /// "access_valid_for_days", "enduser_id" and "institution_id"
   Map<String, dynamic> toMap() => <String, dynamic>{
         'id': id,
         'created': created,
@@ -115,7 +111,7 @@ class EndUserAgreementModel {
         'max_historical_days': maxHistoricalDays,
         'access_valid_for_days': accessValidForDays,
         'enduser_id': endUserID,
-        'aspsp_id': aspspID,
+        'institution_id': institutionID,
       };
 
   /// Identifier of this particular End User Agreement
@@ -136,8 +132,8 @@ class EndUserAgreementModel {
   /// User ID associated with the transaction (typically UUID)
   final String endUserID;
 
-  /// ID of the ASPSP (bank) associated with the transaction
-  final String aspspID;
+  /// ID of the Institution (bank) associated with the transaction
+  final String institutionID;
 
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override
@@ -200,7 +196,7 @@ class RequisitionModel {
   /// Identifier (typically UUID) of this Requisition used to link accounts
   final String id;
 
-  /// Link where end user will be redirected for authenticating in ASPSP.
+  /// Link where end user will be redirected for authenticating in Institution.
   final String redirectURL;
 
   /// Status of the Requisition

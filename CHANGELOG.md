@@ -1,5 +1,12 @@
 # Releases
 
+## [1.7.0] - Unreleased
+
+1. **BREAKING:** Migrate to Nordigen API version 2.
+   1. TOKEN -> BEARER
+   2. Acces Token -> User Secrets based authorization.
+   3. Name conventions changed from \*ASPSP\* -> \*Institution\*
+
 ## [1.5.5] - 13th October, 2021
 
 1. Dev Dependency Migration: pedantic -> lints

@@ -6,9 +6,9 @@ Future<void> main() async {
     accessToken: 'YOUR_TOKEN',
   );
 
-  /// Step 2 and then selecting the first ASPSP
-  final ASPSP firstBank =
-      (await apiInterface.getASPSPsForCountry(countryCode: 'gb')).first;
+  /// Step 2 and then selecting the first Bank/Institution
+  final Institution firstBank =
+      (await apiInterface.getInstitutionsForCountry(countryCode: 'gb')).first;
 
   /// Step 4.1
   final RequisitionModel requisition = await apiInterface.createRequisition(
@@ -21,7 +21,7 @@ Future<void> main() async {
   final String redirectLink =
       await apiInterface.fetchRedirectLinkForRequisition(
     requisitionID: requisition.id,
-    aspspID: firstBank.id,
+    institutionID: firstBank.id,
   );
 
   /// Open and Validate [redirectLink] and proceed with other functionality.
