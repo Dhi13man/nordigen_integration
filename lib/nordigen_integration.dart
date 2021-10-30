@@ -324,6 +324,13 @@ class NordigenAccountInfoAPI {
         .toList();
   }
 
+  /// Generate headers for requests.
+  Map<String, String> get _headers => <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_accessToken',
+      };
+
   /// Utility class to easily make POST requests to Nordigen API endpoints.
   ///
   /// [requestType] can be 'POST' or 'PUT'.
@@ -332,93 +339,64 @@ class NordigenAccountInfoAPI {
     Map<String, dynamic> data = const <String, dynamic>{},
     String requestType = 'POST',
   }) async {
-    dynamic output = <dynamic, dynamic>{};
-    try {
-      final Uri requestURL = Uri.parse(endpointUrl);
-      http.Response response;
-      if (requestType == 'PUT')
-        response = await _client.put(
-          requestURL,
-          headers: <String, String>{
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $_accessToken',
-          },
-          body: jsonEncode(data),
-        );
-      else
-        response = await _client.post(
-          requestURL,
-          headers: <String, String>{
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $_accessToken',
-          },
-          body: jsonEncode(data),
-        );
-      if ((response.statusCode / 100).floor() == 2) // Request Success Condition
-        output = jsonDecode(utf8.decoder.convert(response.bodyBytes));
-      else
-        throw http.ClientException(
-          'Error Code: ${response.statusCode}, '
-          // ignore: lines_longer_than_80_chars
-          'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
-        );
-    } catch (e) {
-      throw http.ClientException('POST Request Failed: $e');
-    }
-    return output;
+    final Uri requestURL = Uri.parse(endpointUrl);
+    http.Response response;
+    if (requestType == 'PUT')
+      response = await _client.put(
+        requestURL,
+        headers: _headers,
+        body: jsonEncode(data),
+      );
+    else
+      response = await _client.post(
+        requestURL,
+        headers: _headers,
+        body: jsonEncode(data),
+      );
+    if ((response.statusCode / 100).floor() == 2) {
+      return jsonDecode(utf8.decoder.convert(response.bodyBytes));
+    } else
+      throw http.ClientException(
+        'Error Code: ${response.statusCode}, '
+        // ignore: lines_longer_than_80_chars
+        'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
+      );
   }
 
   /// Utility class to easily make GET requests to Nordigen API endpoints.
   Future<dynamic> _nordigenGetter({required String endpointUrl}) async {
-    dynamic output = <dynamic, dynamic>{};
-    try {
-      final Uri requestURL = Uri.parse(endpointUrl);
-      final http.Response response = await _client.get(
-        requestURL,
-        headers: <String, String>{
-          'accept': 'application/json',
-          'Authorization': 'Bearer $_accessToken',
-        },
+    final Uri requestURL = Uri.parse(endpointUrl);
+    final http.Response response = await _client.get(
+      requestURL,
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Authorization': 'Bearer $_accessToken',
+      },
+    );
+    if ((response.statusCode / 100).floor() == 2) {
+      return jsonDecode(utf8.decoder.convert(response.bodyBytes));
+    } else
+      throw http.ClientException(
+        'Error Code: ${response.statusCode}, '
+        // ignore: lines_longer_than_80_chars
+        'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
       );
-      if ((response.statusCode / 100).floor() == 2) // Request Success Condition
-        output = jsonDecode(utf8.decoder.convert(response.bodyBytes));
-      else
-        throw http.ClientException(
-          'Error Code: ${response.statusCode}, '
-          // ignore: lines_longer_than_80_chars
-          'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
-        );
-    } catch (e) {
-      throw http.ClientException('GET Request Failed: $e');
-    }
-    return output;
   }
 
   /// Utility class to easily make DELETE requests to Nordigen API endpoints.
   Future<dynamic> _nordigenDeleter({required String endpointUrl}) async {
-    dynamic output = <dynamic, dynamic>{};
-    try {
-      final Uri requestURL = Uri.parse(endpointUrl);
-      final http.Response response = await _client.delete(
-        requestURL,
-        headers: <String, String>{
-          'accept': 'application/json',
-          'Authorization': 'Bearer $_accessToken',
-        },
+    final Uri requestURL = Uri.parse(endpointUrl);
+    final http.Response response = await _client.delete(
+      requestURL,
+      headers: _headers,
+    );
+    if ((response.statusCode / 100).floor() == 2) {
+      return jsonDecode(utf8.decoder.convert(response.bodyBytes));
+    } else
+      throw http.ClientException(
+        'Error Code: ${response.statusCode}, '
+        // ignore: lines_longer_than_80_chars
+        'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
       );
-      if ((response.statusCode / 100).floor() == 2) // Request Success Condition
-        output = utf8.decoder.convert(response.bodyBytes);
-      else
-        throw http.ClientException(
-          'Error Code: ${response.statusCode}, '
-          // ignore: lines_longer_than_80_chars
-          'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
-        );
-    } catch (e) {
-      throw http.ClientException('DELETE Request Failed: $e');
-    }
-    return output;
   }
 }
