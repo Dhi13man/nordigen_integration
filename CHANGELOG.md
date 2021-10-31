@@ -11,6 +11,8 @@
 
 3. Breakdown of the entire `NordigenAccountInfoAPI` class code into various parted modular extensions for better code readability.
 
+4. Better tests.
+
 ## [1.5.5] - 13th October, 2021
 
 1. Dev Dependency Migration: pedantic -> lints
