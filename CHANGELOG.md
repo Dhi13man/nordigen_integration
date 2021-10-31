@@ -1,8 +1,12 @@
 # Releases
 
+## [1.7.1] - 31st October, 2021
+
+1. Documentation fixes.
+
 ## [1.7.0] - 31st October, 2021
 
-1. **BREAKING:** Migrate to Nordigen API version 2.
+1. **BREAKING:** Migrate to Nordigen API version 2. (Remain in version 1.5.5 or below to user API v1. Will be depreciated soon.)
    1. TOKEN -> BEARER
    2. Access Token -> User Secrets based authorization.
    3. Name conventions changed from \*ASPSP\* -> \*Institution\*.
