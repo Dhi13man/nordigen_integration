@@ -14,11 +14,6 @@ Future<void> main() async {
   // TODO: FILL NORDIGEN SECRETS BEFORE RUNNING UNIT TESTS
   String secretID = 'test';
   String secretKey = 'test';
-  final NordigenAccountInfoAPI nordigenObject =
-      await NordigenAccountInfoAPI.fromSecret(
-    secretID: secretID,
-    secretKey: secretKey,
-  );
 
   // Change API key from environment if tests are running on Github Actions.
   if (Platform.environment['EXEC_ENV'] == 'github_actions') {
@@ -36,6 +31,12 @@ Future<void> main() async {
     // secretKey = Platform.environment['ORS_SECRET_KEY']!;
     return;
   }
+
+  final NordigenAccountInfoAPI nordigenObject =
+      await NordigenAccountInfoAPI.fromSecret(
+    secretID: secretID,
+    secretKey: secretKey,
+  );
 
   // Set up of common parameters for Testing.
   const String testEndUserID = '8234e18b-f360-48cc-8bcf-c8625596d74a';
