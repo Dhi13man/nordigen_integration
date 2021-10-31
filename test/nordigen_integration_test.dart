@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
-import 'stepwise_tests/institutions_tests.dart';
-import 'stepwise_tests/agreements_tests.dart';
-import 'stepwise_tests/requisitions_tests.dart';
-import 'stepwise_tests/step_5_tests.dart';
-import 'stepwise_tests/step_6_tests.dart';
+import './batch_tests/institutions_tests.dart';
+import './batch_tests/agreements_tests.dart';
+import './batch_tests/requisitions_tests.dart';
+import './batch_tests/step_5_tests.dart';
+import './batch_tests/step_6_tests.dart';
 
 import 'package:nordigen_integration/nordigen_integration.dart';
 
