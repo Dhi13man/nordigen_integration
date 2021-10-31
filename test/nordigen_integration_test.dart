@@ -10,20 +10,30 @@ import 'stepwise_tests/step_6_tests.dart';
 
 import 'package:nordigen_integration/nordigen_integration.dart';
 
-void main() {
-// TODO: FILL NORDIGEN ACCESS TOKEN BEFORE RUNNING UNIT TESTS
-  String accessToken = 'test';
+void main() async {
+  // TODO: FILL NORDIGEN SECRETS BEFORE RUNNING UNIT TESTS
+  String secretID = 'test';
+  String secretKey = 'test';
+  final NordigenAccountInfoAPI nordigenObject =
+      await NordigenAccountInfoAPI.fromSecret(
+    secretID: secretID,
+    secretKey: secretKey,
+  );
 
   // Change API key from environment if tests are running on Github Actions.
   if ((Platform.environment['EXEC_ENV'] ?? '') == 'github_actions') {
     // If running on Github Actions, the last pusher shouldn't have leaked
     // their API key.
     test(
-      'Ensure that Access Token has been reset.',
-      () => expect(accessToken, 'YOUR_TOKEN'),
+      'Ensure that User Secrets have been reset.',
+      () {
+        expect(secretID, 'test');
+        expect(secretKey, 'test');
+      },
     );
-    // assert(accessToken == 'test');
-    // accessToken = Platform.environment['ORS_API_KEY']!;
+    // assert(secretID == 'test' && secretKey == 'test');
+    // secretID = Platform.environment['ORS_SECRET_ID']!;
+    // secretKey = Platform.environment['ORS_SECRET_KEY']!;
     return;
   }
 
@@ -38,50 +48,66 @@ void main() {
   /// TEST 0
   test(
     'Ensure that Access Token is changed before actual tests.',
-    () => expect(accessToken != 'YOUR_TOKEN', true),
+    () => expect(secretID != 'test' && secretKey != 'test', true),
   );
 
-  /// TEST 1
-  test('Simulate Step 1: Initialize with Access Token', () {
-    bool isClassInitSuccessful = true;
-    try {
-      NordigenAccountInfoAPI(accessToken: accessToken);
-    } catch (_) {
-      isClassInitSuccessful = false;
-    }
-    // API set up should not have any exceptions.
-    expect(isClassInitSuccessful, true);
-  });
+  group(
+    'Simulate Step 1',
+    () => test('Create and get Access Token: [NordigenAccountInfoAPI]', () {
+      bool isClassInitSuccessful = true;
+      try {
+        NordigenAccountInfoAPI.createAccessToken(
+          secretID: secretID,
+          secretKey: secretKey,
+        );
+      } catch (_) {
+        isClassInitSuccessful = false;
+      }
+      // API set up should not have any exceptions.
+      expect(isClassInitSuccessful, true);
+    }),
+  );
 
-  /// TEST 2
-  step2Tests(accessToken: accessToken);
+  group('Simulate Step 2', () => step2Tests(nordigenObject: nordigenObject));
 
   /// TEST 3
-  step3Tests(
-    accessToken: accessToken,
-    testEndUserID: testEndUserID,
-    testInstitutionID: testInstitutionID,
+  group(
+    'Simulate Step 3',
+    () => step3Tests(
+      nordigenObject: nordigenObject,
+      testEndUserID: testEndUserID,
+      testInstitutionID: testInstitutionID,
+    ),
   );
 
   /// TEST 4
-  step4Tests(
-    accessToken: accessToken,
-    testEndUserID: testEndUserID,
-    testInstitutionID: testInstitutionID,
-    testRedirectLink: testRedirectLink,
+  group(
+    'Simulate Step 4',
+    () => step4Tests(
+      nordigenObject: nordigenObject,
+      testEndUserID: testEndUserID,
+      testInstitutionID: testInstitutionID,
+      testRedirectLink: testRedirectLink,
+    ),
   );
 
   /// TEST 5
-  step5Tests(
-    accessToken: accessToken,
-    testEndUserID: testEndUserID,
-    testRedirectLink: testRedirectLink,
-    requisitionIDWithAccountAccess: requisitionIDWithAccountAccess,
+  group(
+    'Simulate Step 5',
+    () => step5Tests(
+      nordigenObject: nordigenObject,
+      testEndUserID: testEndUserID,
+      testRedirectLink: testRedirectLink,
+      requisitionIDWithAccountAccess: requisitionIDWithAccountAccess,
+    ),
   );
 
   /// TEST 6
-  step6Tests(
-    accessToken: accessToken,
-    requisitionIDWithAccountAccess: requisitionIDWithAccountAccess,
+  group(
+    'Simulate Step 6',
+    () => step6Tests(
+      nordigenObject: nordigenObject,
+      requisitionIDWithAccountAccess: requisitionIDWithAccountAccess,
+    ),
   );
 }

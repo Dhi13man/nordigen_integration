@@ -161,15 +161,14 @@ class AccountMetaData {
   }) : created = created ?? DateTime.now().toIso8601String();
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
-  factory AccountMetaData.fromMap(dynamic fetchedMap) =>
-    AccountMetaData(
-      id: fetchedMap['id']! as String,
-      created: fetchedMap['created']! as String,
-      lastAccessed: fetchedMap['last_accessed'] as String?,
-      iban: fetchedMap['iban']! as String,
-      institutionIdentifier: fetchedMap['institution_identifier']! as String,
-      status: (fetchedMap['status'] ?? '') as String,
-    );
+  factory AccountMetaData.fromMap(dynamic fetchedMap) => AccountMetaData(
+        id: fetchedMap['id']! as String,
+        created: fetchedMap['created']! as String,
+        lastAccessed: fetchedMap['last_accessed'] as String?,
+        iban: fetchedMap['iban']! as String,
+        institutionIdentifier: fetchedMap['institution_identifier']! as String,
+        status: (fetchedMap['status'] ?? '') as String,
+      );
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///

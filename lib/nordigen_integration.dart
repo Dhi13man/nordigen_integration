@@ -12,10 +12,17 @@ part 'package:nordigen_integration/data_models/nordigen_transaction_model.dart';
 
 /// Encapsulation of the Nordigen Open Account Information API functions.
 ///
-/// For more information about the API: https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/
-///
-/// Requires an Nordignen Access token available from https://ob.nordigen.com/
+/// Requires either (as per https://ob.nordigen.com/user-secrets/):
+/// 1. a Nordigen Access Token that has already been generated, to initialize
+/// using [NordigenAccountInfoAPI] constructor.
+/// 
+/// 2. a Nordigen secret_id and secret_key, to generate a new access token and 
+/// initialize using [NordigenAccountInfoAPI.fromSecret]:
+/// 
+/// For more information about the API: 
+/// https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/
 class NordigenAccountInfoAPI {
+  /// Initialize the Nordigen API with a pre-generated Nordigen Access Token.
   NordigenAccountInfoAPI({required String accessToken})
       : _accessToken = accessToken;
 
@@ -24,6 +31,58 @@ class NordigenAccountInfoAPI {
 
   /// Client initialization as we repeated requests to the same Server.
   final http.Client _client = http.Client();
+
+  /// Initialize the Nordigen API with Access Token generated using Nordigen
+  /// user [secretID] (secret_id) and [secretKey] (secret_key).
+  /// 
+  /// This is a convenience method that will generate a Nordigen Access Token
+  /// for you and return a [Future] that resolves to the initialized
+  /// [NordigenAccountInfoAPI] object using that Access Token.
+  static Future<NordigenAccountInfoAPI> fromSecret({
+    required String secretID,
+    required String secretKey,
+  }) async {
+    final Map<String, dynamic> data = await createAccessToken(
+      secretID: secretID,
+      secretKey: secretKey,
+    );
+    return NordigenAccountInfoAPI(accessToken: data['access']!);
+  }
+
+  /// Static functionality to generate a Nordigen Access Token using a Nordigen
+  /// user [secretID] (secret_id) and [secretKey] (secret_key).
+  ///
+  /// Returns a [Future] that resolves to a [Map] containing the generated
+  /// Nordigen Access Token Data.
+  /// 
+  /// Throws a [http.ClientException] if the request fails.
+  static Future<Map<String, dynamic>> createAccessToken({
+    required String secretID,
+    required String secretKey,
+  }) async {
+    final Map<String, String> data = <String, String>{
+      'secret_id': secretID,
+      'secret_key': secretKey,
+    };
+    // Make POST request and fetch output.
+    final http.Response response = await http.post(
+      Uri.parse('https://ob.nordigen.com/api/v2/token/new/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
+      },
+      body: json.encode(data),
+    );
+
+    if ((response.statusCode / 100).floor() == 2) {
+      return jsonDecode(utf8.decoder.convert(response.bodyBytes));
+    } else
+      throw http.ClientException(
+        'Error Code: ${response.statusCode}, '
+        // ignore: lines_longer_than_80_chars
+        'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
+      );
+  }
 
   /// Gets the Institutions (Banks) for the given [countryCode].
   ///
@@ -68,7 +127,6 @@ class NordigenAccountInfoAPI {
     required String institutionID,
     int maxHistoricalDays = 90,
   }) async {
-    // Prepare the Institution ID that the function will work with.
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
       endpointUrl: 'https://ob.nordigen.com/api/agreements/enduser/',
@@ -160,7 +218,8 @@ class NordigenAccountInfoAPI {
   }
 
   /// Provides a redirect link to the Requisition represented by the
-  /// [requisitionID] passed in and for the Institution represented by [institutionID].
+  /// [requisitionID] passed in, and for the Institution represented
+  /// by [institutionID].
   ///
   /// Refer to Step 4.2 of Nordigen Account Information API documentation.
   Future<String> fetchRedirectLinkForRequisition({

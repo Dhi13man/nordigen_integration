@@ -131,7 +131,7 @@ class TransactionData {
   /// Identifier of this particular Transaction
   final String? id;
 
-  /// Identification of the transaction as used for reference 
+  /// Identification of the transaction as used for reference
   /// given by Institution.
   final String? entryReference;
 
@@ -144,7 +144,7 @@ class TransactionData {
   /// 	Identification of Creditors, e.g. a SEPA Creditor ID
   final String? creditorId;
 
-  /// Date when an entry is posted to an account on Institution's books 
+  /// Date when an entry is posted to an account on Institution's books
   /// as [String].
   final String? bookingDate;
 
@@ -208,7 +208,7 @@ class TransactionData {
   /// sub elements of this structured code defined by ISO20022.
   final String? bankTransactionCode;
 
-  /// Proprietary bank transaction code as used within community/within an 
+  /// Proprietary bank transaction code as used within community/within an
   /// Institution.
   final String? proprietaryBankTransactionCode;
 
