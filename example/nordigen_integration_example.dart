@@ -12,10 +12,18 @@ Future<void> main() async {
   final Institution firstBank =
       (await apiInterface.getInstitutionsForCountry(countryCode: 'gb')).first;
 
-  /// Step 4.1
+  /// Step 3
+  final EndUserAgreementModel endUserAgreementModel =
+      await nordigenObject.createEndUserAgreement(
+    maxHistoricalDays: 90,
+    accessValidForDays: 90,
+    institutionID: testInstitutionID,
+  );
+
+  /// Step 4
   final RequisitionModel requisition =
       await apiInterface.createRequisitionandBuildLink(
-    agreement: '',
+    agreement: endUserAgreementModel.id,
     institutionID: firstBank.id,
     redirect: 'http://www.yourwebpage.com/',
     reference: 'exampleRef42069666',

@@ -2,7 +2,8 @@
 
 ## [1.7.1] - 31st October, 2021
 
-1. Documentation fixes.
+1. Documentation fixes for Nordigen API v2.
+2. Example fixes for Nordigen API v2.
 
 ## [1.7.0] - 31st October, 2021
 
