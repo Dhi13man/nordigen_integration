@@ -7,51 +7,32 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 
 /// Tests associated with Step 4 of Nordigen API integration.
 ///
-/// Pass in Nordigen Access Token [nordigenObject], [testEndUserID],
-/// [testInstitutionID], [testRedirectLink] to the function.
-void step4Tests({
+/// Pass in Nordigen Access Token [nordigenObject], [testInstitutionID],
+/// [testRedirectLink] to the function.
+void requisitionsTests({
   required NordigenAccountInfoAPI nordigenObject,
-  required String testEndUserID,
   required String testInstitutionID,
   required String testRedirectLink,
 }) {
   /// TEST 4.1
   test(
-    '4.1: Create a Requisition: [createRandomRequisition]',
+    'Step 4: Build a Link: [createRequisitionandBuildLink]',
     () async {
       // Create a Random Requisition
       final RequisitionModel requisitionModel = await createRandomRequisition(
         nordigenObject,
-        testEndUserID,
+        testInstitutionID,
         testRedirectLink,
       );
       // Integrity checks
-      expect(requisitionModel.endUserID, testEndUserID);
+      expect(requisitionModel.institutionID, testInstitutionID);
       expect(requisitionModel.redirectURL, testRedirectLink);
+      expect(Uri.tryParse(requisitionModel.redirectURL) != null, true);
+      expect(Uri.tryParse(requisitionModel.link) != null, true);
     },
   );
 
-  /// TEST 4.2
-  test(
-    '4.2: Build a Link: [fetchRedirectLinkForRequisition]',
-    () async {
-      // Create a Random Requisition
-      final RequisitionModel requisitionModel = await createRandomRequisition(
-        nordigenObject,
-        testEndUserID,
-        testRedirectLink,
-      );
-      // Make Request
-      final String fetchedRedirectLink =
-          await nordigenObject.fetchRedirectLinkForRequisition(
-        institutionID: testInstitutionID,
-        requisitionID: requisitionModel.id,
-      );
-      expect(Uri.tryParse(fetchedRedirectLink) != null, true);
-    },
-  );
-
-  /// TEST 4.3
+  /// TEST 4.23
   test(
     'GET and DELETE a single Requisition by ID: [getRequisitionUsingID]'
     ' and [deleteRequisitionUsingID]',
@@ -59,7 +40,7 @@ void step4Tests({
       // Create a Random Requisition
       final RequisitionModel requisitionModel = await createRandomRequisition(
         nordigenObject,
-        testEndUserID,
+        testInstitutionID,
         testRedirectLink,
       );
       // GET the created Agreement and compare.
@@ -79,6 +60,30 @@ void step4Tests({
         hasRequestFailed = true;
       }
       expect(hasRequestFailed, true); // If successfully deleted, should fail.
+    },
+  );
+
+  /// TEST 5.1
+  test(
+    'GET Multiple Requisitions from Server: [getRequisitions]',
+    () async {
+      const int limit = 100, offset = 0;
+      // Create a Random Requisition
+      await createRandomRequisition(
+        nordigenObject,
+        testInstitutionID,
+        testRedirectLink,
+      );
+
+      // Make Request
+      final List<RequisitionModel> fetchedRequisitionModels =
+          await nordigenObject.getRequisitions(limit: limit, offset: offset);
+      // We should expect Requisitions less than or equal to (limit - offset)
+      expect(
+        fetchedRequisitionModels.isNotEmpty &&
+            fetchedRequisitionModels.length <= limit - offset,
+        true,
+      );
     },
   );
 }

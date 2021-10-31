@@ -1,8 +1,8 @@
 import 'package:test/test.dart';
 
-import '../utilities/create_random_requisition.dart';
-
 import 'package:nordigen_integration/nordigen_integration.dart';
+
+import '../utilities/create_random_requisition.dart';
 
 /// Tests associated with Step 5 of Nordigen API integration.
 ///
@@ -10,37 +10,36 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 /// [testRedirectLink], [requisitionIDWithAccountAccess] to the function.
 void step5Tests({
   required NordigenAccountInfoAPI nordigenObject,
-  required String testEndUserID,
-  required String testRedirectLink,
   required String requisitionIDWithAccountAccess,
+  required String testInstitutionID,
+  required String testRedirectLink,
 }) {
   /// TEST 5.1
   test(
-    'GET Multiple Requisitions from Server: [getRequisitions]',
+    'List accounts from Random Accountless Requisition: [getEndUserAccountIDs]',
     () async {
-      const int limit = 100, offset = 0;
       // Create a Random Requisition
-      await createRandomRequisition(
+      final RequisitionModel requisitionModel = await createRandomRequisition(
         nordigenObject,
-        testEndUserID,
+        testInstitutionID,
         testRedirectLink,
       );
-
       // Make Request
-      final List<RequisitionModel> fetchedRequisitionModels =
-          await nordigenObject.getRequisitions(limit: limit, offset: offset);
-      // We should expect Requisitions less than or equal to (limit - offset)
-      expect(
-        fetchedRequisitionModels.isNotEmpty &&
-            fetchedRequisitionModels.length <= limit - offset,
-        true,
+      final List<String> accountsIDs =
+          await nordigenObject.getEndUserAccountIDs(
+        requisitionID: requisitionModel.id,
+      );
+      // The random requisition has no accounts.
+      expect(accountsIDs.isEmpty, true);
+      await nordigenObject.deleteRequisitionUsingID(
+        requisitionID: requisitionModel.id,
       );
     },
   );
 
   /// TEST 5.2
   test(
-    'List accounts from Specific Requisition: [getEndUserAccountIDs]',
+    'List accounts from Requisition with Accounts: [getEndUserAccountIDs]',
     () async {
       // Make Request
       final List<String> accountsIDs =

@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
-import 'stepwise_tests/step_2_tests.dart';
-import 'stepwise_tests/step_3_tests.dart';
-import 'stepwise_tests/step_4_tests.dart';
+import 'stepwise_tests/institutions_tests.dart';
+import 'stepwise_tests/agreements_tests.dart';
+import 'stepwise_tests/requisitions_tests.dart';
 import 'stepwise_tests/step_5_tests.dart';
 import 'stepwise_tests/step_6_tests.dart';
 
@@ -52,7 +52,7 @@ Future<void> main() async {
   );
 
   group(
-    'Simulate Step 1',
+    'Simulate Step 1 (/token)',
     () => test('Create and get Access Token: [NordigenAccountInfoAPI]', () {
       bool isClassInitSuccessful = true;
       try {
@@ -68,12 +68,15 @@ Future<void> main() async {
     }),
   );
 
-  group('Simulate Step 2', () => step2Tests(nordigenObject: nordigenObject));
+  group(
+    'Simulate Step 2 and /institutions Tests',
+    () => institutionsTests(nordigenObject: nordigenObject),
+  );
 
   /// TEST 3
   group(
-    'Simulate Step 3',
-    () => step3Tests(
+    'Simulate Step 3 and /agreements Tests',
+    () => agreementsTests(
       nordigenObject: nordigenObject,
       testEndUserID: testEndUserID,
       testInstitutionID: testInstitutionID,
@@ -82,10 +85,9 @@ Future<void> main() async {
 
   /// TEST 4
   group(
-    'Simulate Step 4',
-    () => step4Tests(
+    'Simulate Step 4 and /requisitions Tests',
+    () => requisitionsTests(
       nordigenObject: nordigenObject,
-      testEndUserID: testEndUserID,
       testInstitutionID: testInstitutionID,
       testRedirectLink: testRedirectLink,
     ),
@@ -96,9 +98,9 @@ Future<void> main() async {
     'Simulate Step 5',
     () => step5Tests(
       nordigenObject: nordigenObject,
-      testEndUserID: testEndUserID,
-      testRedirectLink: testRedirectLink,
       requisitionIDWithAccountAccess: requisitionIDWithAccountAccess,
+      testInstitutionID: testInstitutionID,
+      testRedirectLink: testRedirectLink,
     ),
   );
 

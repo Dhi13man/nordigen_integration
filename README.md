@@ -114,41 +114,47 @@ Future<void> main() async {
 
     Analogous to Step 3 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-6. `createRequisition({required String endUserID, required String redirect, required String reference, List<String> agreements = const <String>[]})`
+6. `acceptEndUserAgreement({required String endUserAgreementID, required String ipAddress, required String userAgent})`
+
+    Accepts the End User Agreement identified by `endUserAgreementID` and returns a `Future` resolving to the resulting `EndUserAgreementModel`.
+
+    Accepts the user agreement using given `userAgent` and `ipAddress`. This determine whether you have permission to accept the Agreement or not. Will throw a Error Code 403 (You do not have permission to perform this action) otherwise.
+
+7. `createRequisition({required String endUserID, required String redirect, required String reference, List<String> agreements = const <String>[]})`
 
     Create a Requisition for the given `endUserID` and returns the resulting `RequisitionModel`. `reference` is additional layer of unique ID. Should match Step 3 if done. `redirect` is the link where the end user will be redirected after finishing authentication in institution. `agreements` is as an array of ID(s) from Step 3 or empty array if that step was skipped.
 
     Analogous to Step 4.1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-7. `fetchRedirectLinkForRequisition({required String institutionID, required String requisitionID})`
+8. `fetchRedirectLinkForRequisition({required String institutionID, required String requisitionID})`
 
     Provides a redirect link for the Requisition represented by the `requisitionID` passed in, for the Institution represented by the given `institutionID`.
 
     Analogous to Step 4.2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-8. `getRequisitionFromID({required String requisitionID})`
+9. `getRequisitionFromID({required String requisitionID})`
 
     Gets the Requisition identified by `requisitionID`.
 
-9. `getEndUserAccountIDs({required String requisitionID})`
+10. `getEndUserAccountIDs({required String requisitionID})`
 
     Gets the Account IDs of the User for the Requisition identified by `requisitionID`.
 
     Analogous to Step 5 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-10. `getAccountDetails({required String accountID})`
+11. `getAccountDetails({required String accountID})`
 
     Gets the Details of the Bank Account identified by `accountID`. Account Model follows schema in <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>.
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Details.
 
-11. `getAccountTransactions({required String accountID})`
+12. `getAccountTransactions({required String accountID})`
 
     Gets the Transactions of the Bank Account identified by `accountID` as a `Map<String, List<TransactionData>>` with keys `'booked'` and `'pending'` representing List of Booked and pending transactions respectively.
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Transactions.
 
-12. `getAccountBalances({required String accountID})`
+13. `getAccountBalances({required String accountID})`
 
     Gets the Balances of the Bank Account identified by `accountID` as `dynamic`. Will be depreciated later when documentation provides example of potentially fetched Balance Data.
 
@@ -186,9 +192,9 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
     End-user Agreement Data Model for Nordigen. Contains the `id` of the Agreement, its `created` time string, `accepted`, the number of `maxHistoricalDays` and `accessValidForDays`, and the `accessScope` and `institutionID` relevant to the Agreement.
 
-3. `RequisitionModel({required String id, required String redirectURL, required String reference, String status = '', List<String> agreements = const <String>[], List<String> accounts = const <String>[], required String endUserID})`:
+3. `RequisitionModel({required String id, required String created, required String redirectURL, RequisitionStatus status = const RequisitionStatus(short: '', long: '', description: ''), required String institutionID, String agreement, required String reference, List<String> accounts = const <String>[], String userLanguage='EN', required String link})`:
 
-    Requisition Data Model for Nordigen. Contains the `id` of the Requisition, its `status`, end-user `agreements`, the `redirectURL` to which it should redirect, `reference` ID if any, `accounts` associated, and the associated `endUserID`.
+    Requisition Data Model for Nordigen. Contains the `id` of the Requisition, `created` timestamp String, its `status`, associated end-user `agreement`, the `link` which is to be opened for verification, the `redirectURL` to which it should redirect, `reference` ID if any, `accounts` associated, and the associated `institutionID`.
 
 4. `AccountMetaData({required String id, String created, String? lastAccessed, String iban, String institutionIdentifier, String status = ''})`
    Account meta-data model for Nordigen. Contains the `id` of the Bank Account, its `created` and `lastAccessed` date and time, `iban`, `status` and the `institutionIdentifier` identifiying its Institution. Refer to <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>

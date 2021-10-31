@@ -6,17 +6,17 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 
 /// Requisition of random reference ID is generated for testing purpose.
 ///
-/// Needs a [nordigenObject] for API access, [testEndUserID] and
+/// Needs a [nordigenObject] for API access, [testInstitutionID] and
 /// [testRedirectLink] for [RequisitionModel] fetching from Nordigen Server.s
 Future<RequisitionModel> createRandomRequisition(
   NordigenAccountInfoAPI nordigenObject,
-  String testEndUserID,
+  String testInstitutionID,
   String testRedirectLink,
 ) async {
   final String randomReference = Random().nextInt(99999999).toString();
   final RequisitionModel requisitionModel =
-      await nordigenObject.createRequisition(
-    endUserID: testEndUserID,
+      await nordigenObject.createRequisitionandBuildLink(
+    institutionID: testInstitutionID,
     redirect: testRedirectLink,
     reference: randomReference,
   );

@@ -7,14 +7,14 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 ///
 /// Pass in Nordigen Access Token [nordigenObject], [testEndUserID],
 /// [testInstitutionID] to the function.
-void step3Tests({
+void agreementsTests({
   required NordigenAccountInfoAPI nordigenObject,
   required String testEndUserID,
   required String testInstitutionID,
 }) {
   /// TEST 3.1
   test(
-    'Create an End-User Agreement: [createEndUserAgreement]',
+    'Step 3: Create an End-User Agreement: [createEndUserAgreement]',
     () async {
       const int maxHistoricalDays = 1, accessValidForDays = 2;
 
@@ -29,6 +29,30 @@ void step3Tests({
       expect(endUserAgreementModel.institutionID, testInstitutionID);
       expect(endUserAgreementModel.maxHistoricalDays, maxHistoricalDays);
       expect(endUserAgreementModel.accessValidForDays, accessValidForDays);
+    },
+  );
+
+  /// TEST 3.1
+  test(
+    'Cross-Validate [createEndUserAgreement] and [acceptEndUserAgreement]',
+    () async {
+      final EndUserAgreementModel endUserAgreementModelCreated =
+          await nordigenObject.createEndUserAgreement(
+        institutionID: testInstitutionID,
+      );
+      // TODO: Need a proper ipAddress, Agent with permission to test this.
+      final EndUserAgreementModel endUserAgreementModelAccepted =
+          await nordigenObject.acceptEndUserAgreement(
+        endUserAgreementID: endUserAgreementModelCreated.id,
+        ipAddress: 'test',
+        userAgent: 'test',
+      );
+
+      // Data Integrity check
+      expect(
+        endUserAgreementModelCreated.toString(),
+        endUserAgreementModelAccepted.toString(),
+      );
     },
   );
 

@@ -13,19 +13,14 @@ Future<void> main() async {
       (await apiInterface.getInstitutionsForCountry(countryCode: 'gb')).first;
 
   /// Step 4.1
-  final RequisitionModel requisition = await apiInterface.createRequisition(
-    endUserID: 'exampleEndUser',
+  final RequisitionModel requisition =
+      await apiInterface.createRequisitionandBuildLink(
+    agreement: '',
+    institutionID: firstBank.id,
     redirect: 'http://www.yourwebpage.com/',
     reference: 'exampleRef42069666',
   );
 
-  /// Step 4.2
-  final String redirectLink =
-      await apiInterface.fetchRedirectLinkForRequisition(
-    requisitionID: requisition.id,
-    institutionID: firstBank.id,
-  );
-
-  /// Open and Validate [redirectLink] and proceed with other functionality.
-  print(redirectLink);
+  /// Open and Validate in [link] and proceed with other functionality.
+  print(requisition.link);
 }

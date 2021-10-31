@@ -5,10 +5,10 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 /// Tests associated with Step 2 of Nordigen API integration.
 ///
 /// Pass in Nordigen Access Token [apiObject] to the function.
-void step2Tests({required NordigenAccountInfoAPI nordigenObject}) {
+void institutionsTests({required NordigenAccountInfoAPI nordigenObject}) {
   /// TEST 2.1
   test(
-    'Choose a Bank/Institution: [getInstitutionsForCountry]',
+    'Step 2: Choose a Bank/Institution: [getInstitutionsForCountry]',
     () async {
       // Make Request
       final List<Institution> institutions =
