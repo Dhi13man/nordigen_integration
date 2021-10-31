@@ -59,10 +59,10 @@ Future<void> main() async {
 
     /// Step 3
     final EndUserAgreementModel endUserAgreementModel =
-        await nordigenObject.createEndUserAgreement(
+        await apiInterface.createEndUserAgreement(
         maxHistoricalDays: 90,
         accessValidForDays: 90,
-        institutionID: testInstitutionID,
+        institutionID: firstBank.id,
     );
 
     /// Step 4
@@ -74,7 +74,7 @@ Future<void> main() async {
     );
 
     /// Open and validate in [link] and proceed with other functionality.
-    print(requisition.link);
+    print('Validate: ${requisition.link}');
 }
 ```
 
@@ -125,7 +125,7 @@ Future<void> main() async {
 7. `createRequisitionandBuildLink({required String redirect, required String institutionID, String? agreement, required String reference, String? userLanguage})`
 
     Create a Requisition for the given `institutionID` and returns a `Future` resolving to the resulting `RequisitionModel`.
-    
+
     `reference` is additional layer of unique ID. Should match Step 3 if done. `redirect` is the link where the end user will be redirected after finishing authentication in institution. `agreement` is the identifier of the agreement from Step 3 and `userLanguage` is the language code of the language used in verification.
 
     Analogous to Step 4 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).

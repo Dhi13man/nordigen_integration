@@ -14,10 +14,10 @@ Future<void> main() async {
 
   /// Step 3
   final EndUserAgreementModel endUserAgreementModel =
-      await nordigenObject.createEndUserAgreement(
+      await apiInterface.createEndUserAgreement(
     maxHistoricalDays: 90,
     accessValidForDays: 90,
-    institutionID: testInstitutionID,
+    institutionID: firstBank.id,
   );
 
   /// Step 4
@@ -30,5 +30,5 @@ Future<void> main() async {
   );
 
   /// Open and Validate in [link] and proceed with other functionality.
-  print(requisition.link);
+  print('Validate: ${requisition.link}');
 }
