@@ -1,16 +1,22 @@
 # Releases
 
-## [1.7.0] - Unreleased
+## [1.7.0] - 31st October, 2021
 
 1. **BREAKING:** Migrate to Nordigen API version 2.
    1. TOKEN -> BEARER
-   2. Acces Token -> User Secrets based authorization.
-   3. Name conventions changed from \*ASPSP\* -> \*Institution\*
+   2. Access Token -> User Secrets based authorization.
+   3. Name conventions changed from \*ASPSP\* -> \*Institution\*.
+
+2. Addition of new features, including: Accepting of End-User Agreements (PATCH /api/v2/agreements/enduser/{id}/accept/), updated Data Models.
+
+3. Breakdown of the entire `NordigenAccountInfoAPI` class code into various parted modular extensions for better code readability.
 
 ## [1.5.5] - 13th October, 2021
 
 1. Dev Dependency Migration: pedantic -> lints
+
 2. Dependency update.
+
 3. README changes and CONTRIBUTING guidelines added.
 
 ## [1.5.4] - 27th September, 2021
