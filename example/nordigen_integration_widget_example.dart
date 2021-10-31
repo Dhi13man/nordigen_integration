@@ -72,7 +72,10 @@
 //     );
 //     return FutureBuilder<List<Institution>>(
 //       future: apiInterface.getInstitutionsForCountry(countryCode: 'gb'),
-//       builder: (BuildContext context, AsyncSnapshot<List<Institution>> snapshot) {
+//       builder: (
+//         BuildContext context,
+//         AsyncSnapshot<List<Institution>> snapshot,
+//       ) {
 //         if (!snapshot.hasData)
 //           return Column(
 //             mainAxisAlignment: MainAxisAlignment.center,

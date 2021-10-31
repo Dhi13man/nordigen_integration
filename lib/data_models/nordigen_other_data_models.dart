@@ -2,8 +2,8 @@ part of 'package:nordigen_integration/nordigen_integration.dart';
 
 /// Institution (Bank) Data Model for Nordigen
 ///
-/// Contains the [id] of the Institution, its [name], [bic], [totalTransactionDays]
-/// and the [countries] associated with the Institution.
+/// Contains the [id] of the Institution, its [name], [bic],
+/// [totalTransactionDays] and the [countries] associated with the Institution.
 class Institution {
   const Institution({
     required this.id,
@@ -15,25 +15,19 @@ class Institution {
   });
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
-  factory Institution.fromMap(dynamic fetchedMap) {
-    // Validate data first.
-    assert(fetchedMap['id'] != null);
-    assert(fetchedMap['name'] != null);
-    assert(fetchedMap['countries'] != null);
-    return Institution(
-      id: fetchedMap['id'] as String,
-      name: fetchedMap['name'] as String,
-      bic: (fetchedMap['bic'] ?? '') as String,
-      transactionTotalDays: int.tryParse(
-            (fetchedMap['transaction_total_days'] ?? '90') as String,
-          ) ??
-          90,
-      countries: (fetchedMap['countries'] as List<dynamic>)
-          .map<String>((dynamic country) => country.toString())
-          .toList(),
-      logoURL: (fetchedMap['logo'] ?? '') as String,
-    );
-  }
+  factory Institution.fromMap(dynamic fetchedMap) => Institution(
+        id: fetchedMap['id']! as String,
+        name: fetchedMap['name']! as String,
+        bic: (fetchedMap['bic'] ?? '') as String,
+        transactionTotalDays: int.tryParse(
+              (fetchedMap['transaction_total_days'] ?? '90') as String,
+            ) ??
+            90,
+        countries: (fetchedMap['countries']! as List<dynamic>)
+            .map<String>((dynamic country) => country.toString())
+            .toList(),
+        logoURL: (fetchedMap['logo'] ?? '') as String,
+      );
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///

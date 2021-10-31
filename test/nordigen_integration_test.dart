@@ -10,7 +10,7 @@ import 'stepwise_tests/step_6_tests.dart';
 
 import 'package:nordigen_integration/nordigen_integration.dart';
 
-void main() async {
+Future<void> main() async {
   // TODO: FILL NORDIGEN SECRETS BEFORE RUNNING UNIT TESTS
   String secretID = 'test';
   String secretKey = 'test';
@@ -21,7 +21,7 @@ void main() async {
   );
 
   // Change API key from environment if tests are running on Github Actions.
-  if ((Platform.environment['EXEC_ENV'] ?? '') == 'github_actions') {
+  if (Platform.environment['EXEC_ENV'] == 'github_actions') {
     // If running on Github Actions, the last pusher shouldn't have leaked
     // their API key.
     test(
