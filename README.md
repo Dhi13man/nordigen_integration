@@ -108,9 +108,9 @@ Future<void> main() async {
 
     Analogous to Step 2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-5. `createEndUserAgreement({required String endUserID, required String institutionID, int maxHistoricalDays = 90})`
+5. `createEndUserAgreement({required String institutionID, int maxHistoricalDays = 90, int accessValidForDays = 90, List<String> accessScope = const <String>['balances', 'details', 'transactions']})`
 
-    Creates an End User Agreement for the given `endUserID`, `institutionID` and for the given `maxHistoricalDays` (default 90 days) and returns the resulting `EndUserAgreementModel`.
+    Create an End User Agreement for given Institution identified by `institutionID`, account access period for given `accessValidForDays` and `maxHistoricalDays` of transaction histoy (default 90 days each) and returns a `Future` resolving to the resulting `EndUserAgreementModel`.
 
     Analogous to Step 3 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
@@ -160,17 +160,19 @@ There are also various other methods for implementing POST, GET and DELETE reque
 
 2. `getEndUserAgreementUsingID({required String endUserAgreementID})`
 
-3. `getEndUserAgreementsUsingUserID({required String endUserID})`
+3. `getEndUserAgreementTextUsingID({required String endUserAgreementID})`
 
-4. `deleteEndUserAgreementUsingID({required String endUserAgreementID})`
+4. `getEndUserAgreements({int limit = 100, int offset = 0})`
 
-5. `getRequisitions({int limit = 100, int offset = 0,})`
+5. `deleteEndUserAgreementUsingID({required String endUserAgreementID})`
 
-6. `getRequisitionUsingID({required String requisitionID})`
+6. `getRequisitions({int limit = 100, int offset = 0,})`
 
-7. `deleteRequisitionUsingID({required String requisitionID})`
+7. `getRequisitionUsingID({required String requisitionID})`
 
-8. `getAccountMetaData({required String accountID})`
+8. `deleteRequisitionUsingID({required String requisitionID})`
+
+9. `getAccountMetaData({required String accountID})`
 
 ### Available Data Classes
 
@@ -180,9 +182,9 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
     Institution (Bank) Data Model for Nordigen. Contains the `id` of the institution, its `name`, `bic`, `transactionTotalDays`, the `countries` associated with the institution and institution's logo as a URL `logoURL` to it, if any.
 
-2. `EndUserAgreementModel({required String id, String created, String? accepted, int maxHistoricalDays = 90, int accessValidForDays = 90, required String endUserID, required String institutionID})`:
+2. `EndUserAgreementModel({required String id, String created, int maxHistoricalDays = 90, int accessValidForDays = 90, List<String> accessScope = const <String>['balances', 'details', 'transactions'], String? accepted, required String institutionID})`:
 
-    End-user Agreement Data Model for Nordigen. Contains the `id` of the Agreement, its `created` time string, `accepted`, the number of `maxHistoricalDays` and `accessValidForDays`, and the `endUserID` and `institutionID` relevant to the Agreement.
+    End-user Agreement Data Model for Nordigen. Contains the `id` of the Agreement, its `created` time string, `accepted`, the number of `maxHistoricalDays` and `accessValidForDays`, and the `accessScope` and `institutionID` relevant to the Agreement.
 
 3. `RequisitionModel({required String id, required String redirectURL, required String reference, String status = '', List<String> agreements = const <String>[], List<String> accounts = const <String>[], required String endUserID})`:
 

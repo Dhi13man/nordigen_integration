@@ -92,9 +92,9 @@ class NordigenAccountInfoAPI {
   ///
   /// Refer to Step 2 of Nordigen Account Information API documentation.
   /// [countryCode] is just two-letter country code (ISO 3166).
-  Future<List<Institution>> getInstitutionsForCountry(
-      {required String countryCode}) async {
-    assert(countryCode.isNotEmpty);
+  Future<List<Institution>> getInstitutionsForCountry({
+    required String countryCode,
+  }) async {
     // Make GET request and fetch output.
     final List<dynamic> fetchedData = await _nordigenGetter(
           endpointUrl:
@@ -110,9 +110,9 @@ class NordigenAccountInfoAPI {
   }
 
   /// Get the Institution identified by [institutionID].
-  Future<Institution> getInstitutionUsingID(
-      {required String institutionID}) async {
-    assert(institutionID.isNotEmpty);
+  Future<Institution> getInstitutionUsingID({
+    required String institutionID,
+  }) async {
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
       endpointUrl:
@@ -122,23 +122,45 @@ class NordigenAccountInfoAPI {
     return Institution.fromMap(fetchedData);
   }
 
-  /// Create an End User Agreement for given [endUserID], Institution identified
-  /// by [institutionID], and for given [maxHistoricalDays] (default 90 days).
+  /// Create an End User Agreement for given Institution identified
+  /// by [institutionID], account access period for given [accessValidForDays]
+  /// and [maxHistoricalDays] of transaction histoy (default 90 days each).
+  ///
+  /// The aggreement can have scopes given by ([List]) [accessScope] which can
+  /// only contain values 'balances', 'details' or 'transactions'. (defaults to
+  /// all 3). Throws [ArgumentError] if [accessScope] contains invalid values.
   ///
   /// Refer to Step 3 of Nordigen Account Information API documentation.
   Future<EndUserAgreementModel> createEndUserAgreement({
-    required String endUserID,
     required String institutionID,
     int maxHistoricalDays = 90,
+    int accessValidForDays = 90,
+    List<String> accessScope = const <String>[
+      'balances',
+      'details',
+      'transactions',
+    ],
   }) async {
+    // Validate [accessScope]. Only 'balances', 'details' and 'transactions'
+    if (accessScope.any(
+      (String scope) =>
+          scope != 'balances' && scope != 'details' && scope != 'transactions',
+    )) {
+      throw ArgumentError(
+        'Invalid accessScope value. '
+        'Only values \'balances\', \'details\', \'transactions\' are allowed.',
+      );
+    }
+
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
-      endpointUrl: 'https://ob.nordigen.com/api/agreements/enduser/',
+      endpointUrl: 'https://ob.nordigen.com/api/v2/agreements/enduser/',
       data: <String, dynamic>{
         // API accepts days as String
         'max_historical_days': maxHistoricalDays.toString(),
+        'access_valid_for_days': accessValidForDays,
         'institution_id': institutionID,
-        'enduser_id': endUserID,
+        'access_scope': accessScope,
       },
     );
     // Form the recieved dynamic Map into EndUserAgreementModel for convenience.
@@ -151,25 +173,41 @@ class NordigenAccountInfoAPI {
   Future<EndUserAgreementModel> getEndUserAgreementUsingID({
     required String endUserAgreementID,
   }) async {
-    assert(endUserAgreementID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/agreements/enduser/$endUserAgreementID/',
+          'https://ob.nordigen.com/api/v2/agreements/enduser/$endUserAgreementID/',
     );
     // Form the recieved dynamic Map into RequisitionModel for convenience.
     return EndUserAgreementModel.fromMap(fetchedData);
   }
 
-  /// Get all the End-User Agreements of the User identified by [endUserID].
-  Future<List<EndUserAgreementModel>> getEndUserAgreementsUsingUserID({
-    required String endUserID,
+  /// Show the text of end-user agreement identified by [endUserAgreementID].
+  ///
+  /// https://nordigen.com/en/account_information_documenation/integration/parameters-and-responses/#/agreements/retrieve%20EUA%20text
+  Future<dynamic> getEndUserAgreementTextUsingID({
+    required String endUserAgreementID,
   }) async {
-    assert(endUserID.isNotEmpty);
+    // Make GET request and fetch output.
+    final dynamic fetchedData = await _nordigenGetter(
+      endpointUrl:
+          'https://ob.nordigen.com/api/v2/agreements/enduser/$endUserAgreementID/text/',
+    );
+    return fetchedData;
+  }
+
+  /// Get all the End-User Agreements.
+  ///
+  /// Limited by [limit] (defaults to 100). [offset] (defaults to 0) gives which
+  /// index of Agreements to start from.
+  Future<List<EndUserAgreementModel>> getEndUserAgreements({
+    int limit = 100,
+    int offset = 0,
+  }) async {
     // Make GET request and fetch output.
     final Map<String, dynamic> fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/agreements/enduser/?enduser_id=$endUserID',
+          'https://ob.nordigen.com/api/v2/agreements/enduser/?limit=$limit&offset=$offset',
     );
     final List<dynamic> fetchedEndUserAgreements = fetchedData['results'];
     // Form the recieved dynamic Map into EndUserAgreementModel for convenience.
@@ -184,12 +222,12 @@ class NordigenAccountInfoAPI {
   /// Delete the End-User Agreement identified by [endUserAgreementID].
   ///
   /// Refer to Step 5 of Nordigen Account Information API documentation.
-  Future<void> deleteEndUserAgreementUsingID({
+  Future<Map<String, dynamic>> deleteEndUserAgreementUsingID({
     required String endUserAgreementID,
   }) async =>
       await _nordigenDeleter(
         endpointUrl:
-            'https://ob.nordigen.com/api/agreements/enduser/$endUserAgreementID/',
+            'https://ob.nordigen.com/api/v2/agreements/enduser/$endUserAgreementID/',
       );
 
   /// Create a Requisition for the given [endUserID].
@@ -209,7 +247,7 @@ class NordigenAccountInfoAPI {
   }) async {
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
-      endpointUrl: 'https://ob.nordigen.com/api/requisitions/',
+      endpointUrl: 'https://ob.nordigen.com/api/v2/requisitions/',
       data: <String, dynamic>{
         'redirect': redirect,
         'reference': reference,
@@ -233,7 +271,7 @@ class NordigenAccountInfoAPI {
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
       endpointUrl:
-          'https://ob.nordigen.com/api/requisitions/$requisitionID/links/',
+          'https://ob.nordigen.com/api/v2/requisitions/$requisitionID/links/',
       data: <String, dynamic>{'institution_id': institutionID},
     );
     // Extract the redirectURL and output it.
@@ -250,7 +288,7 @@ class NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final Map<String, dynamic> fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/requisitions/?limit=$limit&offset=$offset',
+          'https://ob.nordigen.com/api/v2/requisitions/?limit=$limit&offset=$offset',
     );
     final List<dynamic> fetchedRequisitions = fetchedData['results'];
     // Form the recieved dynamic Map into RequisitionModel for convenience.
@@ -269,7 +307,8 @@ class NordigenAccountInfoAPI {
     assert(requisitionID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
-      endpointUrl: 'https://ob.nordigen.com/api/requisitions/$requisitionID/',
+      endpointUrl:
+          'https://ob.nordigen.com/api/v2/requisitions/$requisitionID/',
     );
     // Form the recieved dynamic Map into RequisitionModel for convenience.
     return RequisitionModel.fromMap(fetchedData);
@@ -282,7 +321,8 @@ class NordigenAccountInfoAPI {
     required String requisitionID,
   }) async =>
       await _nordigenDeleter(
-        endpointUrl: 'https://ob.nordigen.com/api/requisitions/$requisitionID/',
+        endpointUrl:
+            'https://ob.nordigen.com/api/v2/requisitions/$requisitionID/',
       );
 
   /// Get the Account IDs of the User,
@@ -307,7 +347,7 @@ class NordigenAccountInfoAPI {
     assert(accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
-      endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/',
+      endpointUrl: 'https://ob.nordigen.com/api/v2/accounts/$accountID/',
     );
     // Form the received dynamic Map into AccountMetaData for convenience.
     return AccountMetaData.fromMap(fetchedData);
@@ -324,7 +364,8 @@ class NordigenAccountInfoAPI {
     assert(accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
-      endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/details/',
+      endpointUrl:
+          'https://ob.nordigen.com/api/v2/accounts/$accountID/details/',
     );
     assert(fetchedData['account'] != null);
     // Form the recieved dynamic Map into BankAccountDetails for convenience.
@@ -344,7 +385,7 @@ class NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/accounts/$accountID/transactions/',
+          'https://ob.nordigen.com/api/v2/accounts/$accountID/transactions/',
     );
     // No Transactions retrieved case.
     if (fetchedData['transactions'] == null)
@@ -378,7 +419,8 @@ class NordigenAccountInfoAPI {
     assert(accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetched = await _nordigenGetter(
-      endpointUrl: 'https://ob.nordigen.com/api/accounts/$accountID/balances/',
+      endpointUrl:
+          'https://ob.nordigen.com/api/v2/accounts/$accountID/balances/',
     );
     final List<dynamic> fetchedData = fetched['balances'] ?? <dynamic>[];
     // Form the recieved dynamic Map into BankAccountDetails for convenience.

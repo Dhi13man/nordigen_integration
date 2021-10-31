@@ -30,7 +30,6 @@ void step2Tests({required NordigenAccountInfoAPI nordigenObject}) {
       final Institution singleInstitution = await nordigenObject
           .getInstitutionUsingID(institutionID: institutions.first.id);
 
-      print(singleInstitution.logoURL);
       // Verify Institution recieved. Integrity check
       expect(institutions.first.toString(), singleInstitution.toString());
     },

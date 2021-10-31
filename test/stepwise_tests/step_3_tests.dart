@@ -16,36 +16,34 @@ void step3Tests({
   test(
     'Create an End-User Agreement: [createEndUserAgreement]',
     () async {
-      const int maxHistoricalDays = 1;
+      const int maxHistoricalDays = 1, accessValidForDays = 2;
 
       // TEST creation
       final EndUserAgreementModel endUserAgreementModel =
           await nordigenObject.createEndUserAgreement(
         maxHistoricalDays: maxHistoricalDays,
-        endUserID: testEndUserID,
+        accessValidForDays: accessValidForDays,
         institutionID: testInstitutionID,
       );
       // Data Integrity check
-      expect(endUserAgreementModel.endUserID, testEndUserID);
       expect(endUserAgreementModel.institutionID, testInstitutionID);
       expect(endUserAgreementModel.maxHistoricalDays, maxHistoricalDays);
-      expect(endUserAgreementModel.institutionID, testInstitutionID);
+      expect(endUserAgreementModel.accessValidForDays, accessValidForDays);
     },
   );
 
   /// TEST 3.2
   test(
-    'GET all Agreements for User: [getEndUserAgreementsUsingUserID]',
+    'GET all Agreements with limit: [getEndUserAgreements]',
     () async {
+      const int limit = 2;
       // TEST creation
       final List<EndUserAgreementModel> endUserAgreementModels =
-          await nordigenObject.getEndUserAgreementsUsingUserID(
-        endUserID: testEndUserID,
-      );
+          await nordigenObject.getEndUserAgreements(limit: limit);
       // List should not be empty as Step 3 makes a End-User Agreement
       expect(endUserAgreementModels.isEmpty, false);
       // Verify end user ID of the first End-User Agreement. Integrity Check.
-      expect(endUserAgreementModels[0].endUserID, testEndUserID);
+      expect(endUserAgreementModels.length, lessThanOrEqualTo(limit));
     },
   );
 
@@ -56,7 +54,6 @@ void step3Tests({
     () async {
       final EndUserAgreementModel endUserAgreement =
           await nordigenObject.createEndUserAgreement(
-        endUserID: testEndUserID,
         institutionID: testInstitutionID,
       );
       // GET the created Agreement and compare.

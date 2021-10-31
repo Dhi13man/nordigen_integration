@@ -64,35 +64,35 @@ class Institution {
   String toString() => jsonEncode(toMap());
 }
 
-/// End-user Agreement Data Model for Nordigen
+/// End-user Agreement Data Model for Nordigen.
 ///
 /// Contains the [id] of the Agreement, its [created] time string, [accepted],
 /// the number of [maxHistoricalDays] and [accessValidForDays],
-/// and the [endUserID] and [institutionID] relevant to the Agreement.
+/// and the [accessScope] and [institutionID] relevant to the Agreement.
 class EndUserAgreementModel {
   EndUserAgreementModel({
     required this.id,
     String? created,
-    this.accepted,
     this.maxHistoricalDays = 90,
     this.accessValidForDays = 90,
-    required this.endUserID,
+    this.accessScope = const <String>['balances', 'details', 'transactions'],
+    this.accepted,
     required this.institutionID,
   }) : created = created ?? DateTime.now().toIso8601String();
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
-  factory EndUserAgreementModel.fromMap(dynamic fetchedMap) {
-    // Validate data first.
-    return EndUserAgreementModel(
-      id: fetchedMap['id']! as String,
-      created: fetchedMap['created']! as String,
-      accepted: fetchedMap['accepted'] as String?,
-      maxHistoricalDays: fetchedMap['max_historical_days'] as int,
-      accessValidForDays: fetchedMap['access_valid_for_days'] as int,
-      endUserID: fetchedMap['enduser_id']! as String,
-      institutionID: fetchedMap['institution_id']! as String,
-    );
-  }
+  factory EndUserAgreementModel.fromMap(dynamic fetchedMap) =>
+      EndUserAgreementModel(
+        id: fetchedMap['id']! as String,
+        created: fetchedMap['created']! as String,
+        maxHistoricalDays: fetchedMap['max_historical_days'] as int,
+        accessValidForDays: fetchedMap['access_valid_for_days'] as int,
+        accessScope: (fetchedMap['access_scope'] as List<dynamic>)
+            .map<String>((dynamic e) => e.toString())
+            .toList(),
+        accepted: fetchedMap['accepted'] as String?,
+        institutionID: fetchedMap['institution_id']! as String,
+      );
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
@@ -101,10 +101,10 @@ class EndUserAgreementModel {
   Map<String, dynamic> toMap() => <String, dynamic>{
         'id': id,
         'created': created,
-        'accepted': accepted,
         'max_historical_days': maxHistoricalDays,
         'access_valid_for_days': accessValidForDays,
-        'enduser_id': endUserID,
+        'access_scope': accessScope,
+        'accepted': accepted,
         'institution_id': institutionID,
       };
 
@@ -114,9 +114,6 @@ class EndUserAgreementModel {
   /// Time of End User Agreement creation in ISO8601 DateTime [String] Format
   final String created;
 
-  /// Time of End User Agreement acceptance (if any) in ISO8601 DateTime String
-  final String? accepted;
-
   /// Maximum Historical Days for the agreement.
   final int maxHistoricalDays;
 
@@ -124,7 +121,10 @@ class EndUserAgreementModel {
   final int accessValidForDays;
 
   /// User ID associated with the transaction (typically UUID)
-  final String endUserID;
+  final List<String> accessScope;
+
+  /// Time of End User Agreement acceptance (if any) in ISO8601 DateTime String
+  final String? accepted;
 
   /// ID of the Institution (bank) associated with the transaction
   final String institutionID;
