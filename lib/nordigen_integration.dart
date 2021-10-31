@@ -12,6 +12,7 @@ part 'package:nordigen_integration/data_models/nordigen_requisition_model.dart';
 part 'package:nordigen_integration/data_models/nordigen_transaction_model.dart';
 
 // Extensions
+part 'package:nordigen_integration/extensions/token.dart';
 part 'package:nordigen_integration/extensions/institutions.dart';
 part 'package:nordigen_integration/extensions/agreements.dart';
 part 'package:nordigen_integration/extensions/requisitions.dart';
@@ -51,7 +52,8 @@ class NordigenAccountInfoAPI {
     required String secretID,
     required String secretKey,
   }) async {
-    final Map<String, dynamic> data = await createAccessToken(
+    final Map<String, dynamic> data =
+        await NordigenTokenEndpoints.createAccessToken(
       secretID: secretID,
       secretKey: secretKey,
     );
@@ -59,41 +61,19 @@ class NordigenAccountInfoAPI {
   }
 
   /// Static functionality to generate a Nordigen Access Token using a Nordigen
-  /// user [secretID] (secret_id) and [secretKey] (secret_key).
-  ///
-  /// Returns a [Future] that resolves to a [Map] containing the generated
-  /// Nordigen Access Token Data.
-  ///
-  /// Throws a [http.ClientException] if the request fails.
+  /// user [secretID] (secret_id) and [secretKey] (secret_key). JWT pair getter.
   ///
   /// https://ob.nordigen.com/user-secrets/
+  ///
+  /// https://nordigen.com/en/account_information_documenation/integration/parameters-and-responses/#/token/JWT%20Obtain
   static Future<Map<String, dynamic>> createAccessToken({
     required String secretID,
     required String secretKey,
-  }) async {
-    final Map<String, String> data = <String, String>{
-      'secret_id': secretID,
-      'secret_key': secretKey,
-    };
-    // Make POST request and fetch output.
-    final http.Response response = await http.post(
-      Uri.parse('https://ob.nordigen.com/api/v2/token/new/'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'accept': 'application/json'
-      },
-      body: json.encode(data),
-    );
-
-    if ((response.statusCode / 100).floor() == 2) {
-      return jsonDecode(utf8.decoder.convert(response.bodyBytes));
-    } else
-      throw http.ClientException(
-        'Error Code: ${response.statusCode}, '
-        // ignore: lines_longer_than_80_chars
-        'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
+  }) =>
+      NordigenTokenEndpoints.createAccessToken(
+        secretID: secretID,
+        secretKey: secretKey,
       );
-  }
 
   /// Generate headers for requests.
   Map<String, String> get _headers => <String, String>{
@@ -142,10 +122,7 @@ class NordigenAccountInfoAPI {
     final Uri requestURL = Uri.parse(endpointUrl);
     final http.Response response = await _client.get(
       requestURL,
-      headers: <String, String>{
-        'accept': 'application/json',
-        'Authorization': 'Bearer $_accessToken',
-      },
+      headers: _headers,
     );
     if ((response.statusCode / 100).floor() == 2) {
       return jsonDecode(utf8.decoder.convert(response.bodyBytes));
