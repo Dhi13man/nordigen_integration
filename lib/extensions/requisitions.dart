@@ -26,7 +26,7 @@ extension NordigenRequisitionsEndpoints on NordigenAccountInfoAPI {
   ///
   /// If [userLanguage] is not defined a language set in browser will be used
   /// to determine language.
-  Future<RequisitionModel> createRequisitionandBuildLink({
+  Future<RequisitionModel> createRequisitionAndBuildLink({
     required String redirect,
     required String institutionID,
     String? agreement,

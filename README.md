@@ -66,7 +66,7 @@ Future<void> main() async {
     );
 
     /// Step 4
-    final RequisitionModel requisition = await apiInterface.createRequisitionandBuildLink(
+    final RequisitionModel requisition = await apiInterface.createRequisitionAndBuildLink(
         agreement: endUserAgreementModel.id,
         institutionID: firstBank.id,
         redirect: 'http://www.yourwebpage.com/',
@@ -122,7 +122,7 @@ Future<void> main() async {
 
     Accepts the user agreement using given `userAgent` and `ipAddress`. This determine whether you have permission to accept the Agreement or not. Will throw a Error Code 403 (You do not have permission to perform this action) otherwise.
 
-7. `createRequisitionandBuildLink({required String redirect, required String institutionID, String? agreement, required String reference, String? userLanguage})`
+7. `createRequisitionAndBuildLink({required String redirect, required String institutionID, String? agreement, required String reference, String? userLanguage})`
 
     Create a Requisition for the given `institutionID` and returns a `Future` resolving to the resulting `RequisitionModel`.
 

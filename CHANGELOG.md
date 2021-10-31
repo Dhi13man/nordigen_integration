@@ -1,5 +1,9 @@
 # Releases
 
+## [1.7.2] - 31st October, 2021
+
+- **BREAKING:** createRequisitionandBuildLink -> createRequisitionAndBuildLink camelCase fix.
+
 ## [1.7.1] - 31st October, 2021
 
 1. Documentation fixes for Nordigen API v2.

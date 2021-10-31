@@ -22,7 +22,7 @@ Future<void> main() async {
 
   /// Step 4
   final RequisitionModel requisition =
-      await apiInterface.createRequisitionandBuildLink(
+      await apiInterface.createRequisitionAndBuildLink(
     agreement: endUserAgreementModel.id,
     institutionID: firstBank.id,
     redirect: 'http://www.yourwebpage.com/',

@@ -15,7 +15,7 @@ Future<RequisitionModel> createRandomRequisition(
 ) async {
   final String randomReference = Random().nextInt(99999999).toString();
   final RequisitionModel requisitionModel =
-      await nordigenObject.createRequisitionandBuildLink(
+      await nordigenObject.createRequisitionAndBuildLink(
     institutionID: testInstitutionID,
     redirect: testRedirectLink,
     reference: randomReference,
