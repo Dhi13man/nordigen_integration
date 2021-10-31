@@ -14,7 +14,7 @@
 
 Development of a Null Safe Dart/Flutter Package for Nordigen EU PSD2 AISP Banking API Integration with relevant Data Models, proper encapsulation with the exposing of parameters, and succinct documentation.
 
-For more information about the API view [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
+For more information about the API, view [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
 ## Contents
 
@@ -35,9 +35,9 @@ For more information about the API view [Nordigen's Account Information API docu
 
 1. Go through the [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-2. Register and get the API Access Token from <https://ob.nordigen.com>.
+2. Register and get the User Secrets from <https://ob.nordigen.com/user-secrets/>.
 
-3. Initialise the `NordigenAccountInfoAPI` Class with the token recieved from Step 2.
+3. Initialise the `NordigenAccountInfoAPI` Class with the token recieved from Usage Step 2.
 
 4. Call any of the `NordigenAccountInfoAPI` Class methods to directly interact with Nordigen Server's endpoints while having the internal requests and relevant headers abstracted, based on your need.
 
@@ -50,9 +50,8 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 
 Future<void> main() async {
     /// Step 1
-    final NordigenAccountInfoAPI apiInterface = NordigenAccountInfoAPI(
-        accessToken: 'YOUR_TOKEN',
-    );
+  final NordigenAccountInfoAPI apiInterface =
+      await NordigenAccountInfoAPI.fromSecret(secretID: 'secret_id', secretKey: 'secret_key');
 
     /// Step 2 and then selecting the first Institution
     final Institution firstBank =
@@ -85,57 +84,71 @@ Future<void> main() async {
 
 1. `NordigenAccountInfoAPI({required String accessToken})` (Class constuctor)
 
-    Call it with `accessToken` parameter which is the access token recieved from <https://ob.nordigen.com/>, to access API features.
+    Call it with `accessToken` parameter which is the access token generated using [User Secrets](https://ob.nordigen.com/user-secrets/), to access API features.
 
     Analogous to Step 1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-2. `getInstitutionsForCountry({required String countryCode})`
+2. `static Future<NordigenAccountInfoAPI> fromSecret({required String secretID, required String secretKey})` (static convenience method to generate interface using Secrets)
+
+    Call it with `secretID` and `secretKey` parameters which are the user's [User Secrets](https://ob.nordigen.com/user-secrets/).
+
+    Returns a `Future` that resolves to the initialized `NordigenAccountInfoAPI` object using the Access Token that was generated using the secrets.
+
+    Analogous to Step 1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
+
+3. `static Future<Map<String, dynamic>> createAccessToken({required String secretID, required String secretKey})`
+
+    Call it with `secretID` and `secretKey` parameters which are the user's [User Secrets](https://ob.nordigen.com/user-secrets/).
+
+    Returns a `Future` that resolves to a `Map<String, dynamic>` containing the information about the Access Token that was generated using the secrets.
+
+4. `getInstitutionsForCountry({required String countryCode})`
 
     Gets the Institutions (Banks) in the Country represented by the given two-letter `countryCode` (ISO 3166).
 
     Analogous to Step 2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-3. `createEndUserAgreement({required String endUserID, required String institutionID, int maxHistoricalDays = 90})`
+5. `createEndUserAgreement({required String endUserID, required String institutionID, int maxHistoricalDays = 90})`
 
     Creates an End User Agreement for the given `endUserID`, `institutionID` and for the given `maxHistoricalDays` (default 90 days) and returns the resulting `EndUserAgreementModel`.
 
     Analogous to Step 3 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-4. `createRequisition({required String endUserID, required String redirect, required String reference, List<String> agreements = const <String>[]})`
+6. `createRequisition({required String endUserID, required String redirect, required String reference, List<String> agreements = const <String>[]})`
 
     Create a Requisition for the given `endUserID` and returns the resulting `RequisitionModel`. `reference` is additional layer of unique ID. Should match Step 3 if done. `redirect` is the link where the end user will be redirected after finishing authentication in institution. `agreements` is as an array of ID(s) from Step 3 or empty array if that step was skipped.
 
     Analogous to Step 4.1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-5. `fetchRedirectLinkForRequisition({required String institutionID, required String requisitionID})`
+7. `fetchRedirectLinkForRequisition({required String institutionID, required String requisitionID})`
 
     Provides a redirect link for the Requisition represented by the `requisitionID` passed in, for the Institution represented by the given `institutionID`.
 
     Analogous to Step 4.2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-6. `getRequisitionFromID({required String requisitionID})`
+8. `getRequisitionFromID({required String requisitionID})`
 
     Gets the Requisition identified by `requisitionID`.
 
-7. `getEndUserAccountIDs({required String requisitionID})`
+9. `getEndUserAccountIDs({required String requisitionID})`
 
     Gets the Account IDs of the User for the Requisition identified by `requisitionID`.
 
     Analogous to Step 5 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
 
-8. `getAccountDetails({required String accountID})`
+10. `getAccountDetails({required String accountID})`
 
     Gets the Details of the Bank Account identified by `accountID`. Account Model follows schema in <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>.
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Details.
 
-9. `getAccountTransactions({required String accountID})`
+11. `getAccountTransactions({required String accountID})`
 
     Gets the Transactions of the Bank Account identified by `accountID` as a `Map<String, List<TransactionData>>` with keys `'booked'` and `'pending'` representing List of Booked and pending transactions respectively.
 
     Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Transactions.
 
-10. `getAccountBalances({required String accountID})`
+12. `getAccountBalances({required String accountID})`
 
     Gets the Balances of the Bank Account identified by `accountID` as `dynamic`. Will be depreciated later when documentation provides example of potentially fetched Balance Data.
 

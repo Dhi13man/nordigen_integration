@@ -2,8 +2,10 @@ import 'package:nordigen_integration/nordigen_integration.dart';
 
 Future<void> main() async {
   /// Step 1
-  final NordigenAccountInfoAPI apiInterface = NordigenAccountInfoAPI(
-    accessToken: 'YOUR_TOKEN',
+  final NordigenAccountInfoAPI apiInterface =
+      await NordigenAccountInfoAPI.fromSecret(
+    secretID: 'secret_id',
+    secretKey: 'secret_key',
   );
 
   /// Step 2 and then selecting the first Bank/Institution

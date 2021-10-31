@@ -47,7 +47,7 @@ void main() async {
 
   /// TEST 0
   test(
-    'Ensure that Access Token is changed before actual tests.',
+    'Ensure that User Secrets are changed before actual tests.',
     () => expect(secretID != 'test' && secretKey != 'test', true),
   );
 

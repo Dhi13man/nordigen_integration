@@ -15,11 +15,11 @@ part 'package:nordigen_integration/data_models/nordigen_transaction_model.dart';
 /// Requires either (as per https://ob.nordigen.com/user-secrets/):
 /// 1. a Nordigen Access Token that has already been generated, to initialize
 /// using [NordigenAccountInfoAPI] constructor.
-/// 
-/// 2. a Nordigen secret_id and secret_key, to generate a new access token and 
+///
+/// 2. a Nordigen secret_id and secret_key, to generate a new access token and
 /// initialize using [NordigenAccountInfoAPI.fromSecret]:
-/// 
-/// For more information about the API: 
+///
+/// For more information about the API:
 /// https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/
 class NordigenAccountInfoAPI {
   /// Initialize the Nordigen API with a pre-generated Nordigen Access Token.
@@ -34,10 +34,12 @@ class NordigenAccountInfoAPI {
 
   /// Initialize the Nordigen API with Access Token generated using Nordigen
   /// user [secretID] (secret_id) and [secretKey] (secret_key).
-  /// 
+  ///
   /// This is a convenience method that will generate a Nordigen Access Token
   /// for you and return a [Future] that resolves to the initialized
   /// [NordigenAccountInfoAPI] object using that Access Token.
+  ///
+  /// https://ob.nordigen.com/user-secrets/
   static Future<NordigenAccountInfoAPI> fromSecret({
     required String secretID,
     required String secretKey,
@@ -54,8 +56,10 @@ class NordigenAccountInfoAPI {
   ///
   /// Returns a [Future] that resolves to a [Map] containing the generated
   /// Nordigen Access Token Data.
-  /// 
+  ///
   /// Throws a [http.ClientException] if the request fails.
+  ///
+  /// https://ob.nordigen.com/user-secrets/
   static Future<Map<String, dynamic>> createAccessToken({
     required String secretID,
     required String secretKey,

@@ -12,7 +12,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build_format_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,4 +40,5 @@ jobs:
         run: dart test
         env:
           EXEC_ENV: 'github_actions'
-          ORS_API_KEY: ${{ secrets.NORDIGEN_API_KEY }}
+          ORS_SECRET_ID: ${{ secrets.ORS_SECRET_ID }}
+          ORS_SECRET_KEY: ${{ secrets.ORS_SECRET_KEY }}
