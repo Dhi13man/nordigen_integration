@@ -79,6 +79,9 @@ class NordigenAccountInfoAPI {
   Map<String, String> get _headers => <String, String>{
         'accept': 'application/json',
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': '*',
         'Authorization': 'Bearer $_accessToken',
       };
 

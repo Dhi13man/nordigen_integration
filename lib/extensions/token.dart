@@ -25,7 +25,10 @@ extension NordigenTokenEndpoints on NordigenAccountInfoAPI {
       Uri.parse('https://ob.nordigen.com/api/v2/token/new/'),
       headers: <String, String>{
         'Content-Type': 'application/json',
-        'accept': 'application/json'
+        'accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': '*',
       },
       body: json.encode(data),
     );

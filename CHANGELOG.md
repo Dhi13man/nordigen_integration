@@ -2,7 +2,9 @@
 
 ## [1.7.3] - 1st November, 2021
 
-- **BREAKING (HOTFIX):** `AccountMetaData.institutionIdentifier` -> `AccountMetaData.institutionID` with new map key `institution_id` instead of `institution_identifier` in Nordigen Accounts Endpoint v2 API.
+1. **BREAKING (HOTFIX):** `AccountMetaData.institutionIdentifier` -> `AccountMetaData.institutionID` with new map key `institution_id` instead of `institution_identifier` in Nordigen Accounts Endpoint v2 API.
+
+2. CORS implementation for Flutter Web. Not sure if it fixes things yet.
 
 ## [1.7.2] - 31st October, 2021
 
