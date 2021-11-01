@@ -149,14 +149,14 @@ class AccountDetails {
 ///
 /// Contains the [id] of the Bank Account, its [created] and [lastAccessed] date
 /// and time as ISO String, [iban], [status] and the
-/// [institutionIdentifier] identifiying its Institution.
+/// [institutionID] identifiying its Institution.
 class AccountMetaData {
   AccountMetaData({
     required this.id,
     String? created,
     this.lastAccessed,
     required this.iban,
-    required this.institutionIdentifier,
+    required this.institutionID,
     this.status = '',
   }) : created = created ?? DateTime.now().toIso8601String();
 
@@ -166,8 +166,10 @@ class AccountMetaData {
         created: fetchedMap['created']! as String,
         lastAccessed: fetchedMap['last_accessed'] as String?,
         iban: fetchedMap['iban']! as String,
-        institutionIdentifier: fetchedMap['institution_identifier']! as String,
-        status: (fetchedMap['status'] ?? '') as String,
+        institutionID: fetchedMap['institution_id']! as String,
+        status: fetchedMap['status'] is String?
+            ? fetchedMap['status'] ?? ''
+            : fetchedMap['status']?.toString() ?? '',
       );
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
@@ -178,7 +180,7 @@ class AccountMetaData {
         'created': created,
         'last_accessed': lastAccessed,
         'iban': iban,
-        'institution_identifier': institutionIdentifier,
+        'institution_id': institutionID,
         'status': status,
       };
 
@@ -195,7 +197,7 @@ class AccountMetaData {
   final String iban;
 
   /// The ID of the Institution (bank) associated with this account.
-  final String institutionIdentifier;
+  final String institutionID;
 
   /// The processing status of this account.
   final String status;
