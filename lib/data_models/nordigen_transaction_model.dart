@@ -56,7 +56,7 @@ class TransactionData {
         amount: fetchedMap['transactionAmount']['amount'] as String,
         currency: fetchedMap['transactionAmount']['currency'] as String,
       ),
-      currencyExchange: fetchedMap['currencyExchange'] as List<dynamic>?,
+      currencyExchange: fetchedMap['currencyExchange'] as Map<dynamic, dynamic>?,
       creditorName: fetchedMap['creditorName'] as String?,
       creditorAccount: fetchedMap['creditorAccount'] as Map<String, dynamic>?,
       creditorAgent: fetchedMap['creditorAgent'] as String?,
@@ -155,8 +155,8 @@ class TransactionData {
   /// Transaction amount details associated with this.
   final AmountData transactionAmount;
 
-  /// Array of Report Exchnage Rate.
-  final List<dynamic>? currencyExchange;
+  /// Map of Report Exchnage Rate.
+  final Map<dynamic, dynamic>? currencyExchange;
 
   /// Name of the Transaction creditor if a "Debited" transaction
   final String? creditorName;
