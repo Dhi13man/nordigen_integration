@@ -1,5 +1,11 @@
 # Releases
 
+## [1.7.4] - 30th January, 2022
+
+1. **Bug Fix:** As per PR #6, fix TransactionData's currencyExchange type by [antoineraulin](https://github.com/antoineraulin).
+2. Updates post PR #6 for stricter typing.
+3. AmountData Model given missing `fromMap` method.
+
 ## [1.7.3] - 1st November, 2021
 
 1. **BREAKING (HOTFIX):** `AccountMetaData.institutionIdentifier` -> `AccountMetaData.institutionID` with new map key `institution_id` instead of `institution_identifier` in Nordigen Accounts Endpoint v2 API.
