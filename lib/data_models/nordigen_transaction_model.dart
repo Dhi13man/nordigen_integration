@@ -39,58 +39,54 @@ class TransactionData {
   });
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
-  factory TransactionData.fromMap(dynamic fetchedMap) {
-    // Validate data first.
-    assert(fetchedMap['transactionAmount'] != null);
-    assert(fetchedMap['transactionAmount']['amount'] != null);
-    assert(fetchedMap['transactionAmount']['currency'] != null);
-    return TransactionData(
-      id: fetchedMap['transactionId'] as String?,
-      entryReference: fetchedMap['entryReference'] as String?,
-      mandateId: fetchedMap['mandateId'] as String?,
-      checkId: fetchedMap['checkId'] as String?,
-      creditorId: fetchedMap['creditorId'] as String?,
-      bookingDate: fetchedMap['bookingDate'] as String?,
-      valueDate: fetchedMap['valueDate'] as String?,
-      transactionAmount: AmountData(
-        amount: fetchedMap['transactionAmount']['amount'] as String,
-        currency: fetchedMap['transactionAmount']['currency'] as String,
-      ),
-      currencyExchange: fetchedMap['currencyExchange'] as Map<dynamic, dynamic>?,
-      creditorName: fetchedMap['creditorName'] as String?,
-      creditorAccount: fetchedMap['creditorAccount'] as Map<String, dynamic>?,
-      creditorAgent: fetchedMap['creditorAgent'] as String?,
-      ultimateCreditor: fetchedMap['ultimateCreditor'] as String?,
-      debtorName: fetchedMap['debtorName'] as String?,
-      debtorAccount: fetchedMap['debtorAccount'] as Map<String, dynamic>?,
-      debtorAgent: fetchedMap['debtorAgent'] as String?,
-      ultimateDebtor: fetchedMap['ultimateDebtor'] as String?,
-      remittanceInformationUnstructured:
-          fetchedMap['remittanceInformationUnstructured'] as String?,
-      remittanceInformationUnstructuredArray:
-          (fetchedMap['remittanceInformationUnstructuredArray']
-                  as List<dynamic>?)
-              ?.map((dynamic item) => item as String)
-              .toList(),
-      remittanceInformationStructured:
-          fetchedMap['remittanceInformationStructured'] as String?,
-      remittanceInformationStructuredArray:
-          fetchedMap['remittanceInformationStructuredArray'] as List<dynamic>?,
-      additionalInformation: fetchedMap['additionalInformation'] as String?,
-      additionalInformationStructured:
-          fetchedMap['additionalInformationStructured'] as dynamic,
-      purposeCode: fetchedMap['purposeCode'] as String?,
-      bankTransactionCode: fetchedMap['bankTransactionCode'] as String?,
-      proprietaryBankTransactionCode:
-          fetchedMap['proprietaryBankTransactionCode'] as String?,
-      // Verify key of balanceAfterTransaction from
-      // https://nordigen.com/en/docs/account-information/output/transactions/
-      balanceAfterTransaction: fetchedMap['balanceAfterTransaction'] != null
-          ? Balance?.fromMap(fetchedMap['balanceAfterTransaction'])
-          : null,
-      links: fetchedMap['_links'] as List<String>?,
-    );
-  }
+  ///
+  /// Value in the [fetchedMap] for 'transactionAmount' key, corresponding to
+  /// [transactionAmount] field, is required as per API docs.
+  factory TransactionData.fromMap(dynamic fetchedMap) => TransactionData(
+        id: fetchedMap['transactionId'] as String?,
+        entryReference: fetchedMap['entryReference'] as String?,
+        mandateId: fetchedMap['mandateId'] as String?,
+        checkId: fetchedMap['checkId'] as String?,
+        creditorId: fetchedMap['creditorId'] as String?,
+        bookingDate: fetchedMap['bookingDate'] as String?,
+        valueDate: fetchedMap['valueDate'] as String?,
+        transactionAmount: AmountData.fromMap(fetchedMap['transactionAmount']!),
+        currencyExchange:
+            fetchedMap['currencyExchange'] as Map<String, dynamic>?,
+        creditorName: fetchedMap['creditorName'] as String?,
+        creditorAccount: fetchedMap['creditorAccount'] as Map<String, dynamic>?,
+        creditorAgent: fetchedMap['creditorAgent'] as String?,
+        ultimateCreditor: fetchedMap['ultimateCreditor'] as String?,
+        debtorName: fetchedMap['debtorName'] as String?,
+        debtorAccount: fetchedMap['debtorAccount'] as Map<String, dynamic>?,
+        debtorAgent: fetchedMap['debtorAgent'] as String?,
+        ultimateDebtor: fetchedMap['ultimateDebtor'] as String?,
+        remittanceInformationUnstructured:
+            fetchedMap['remittanceInformationUnstructured'] as String?,
+        remittanceInformationUnstructuredArray:
+            (fetchedMap['remittanceInformationUnstructuredArray']
+                    as List<dynamic>?)
+                ?.map<String>((dynamic item) => item as String)
+                .toList(),
+        remittanceInformationStructured:
+            fetchedMap['remittanceInformationStructured'] as String?,
+        remittanceInformationStructuredArray:
+            fetchedMap['remittanceInformationStructuredArray']
+                as List<dynamic>?,
+        additionalInformation: fetchedMap['additionalInformation'] as String?,
+        additionalInformationStructured:
+            fetchedMap['additionalInformationStructured'] as dynamic,
+        purposeCode: fetchedMap['purposeCode'] as String?,
+        bankTransactionCode: fetchedMap['bankTransactionCode'] as String?,
+        proprietaryBankTransactionCode:
+            fetchedMap['proprietaryBankTransactionCode'] as String?,
+        // Verify key of balanceAfterTransaction from
+        // https://nordigen.com/en/docs/account-information/output/transactions/
+        balanceAfterTransaction: fetchedMap['balanceAfterTransaction'] != null
+            ? Balance?.fromMap(fetchedMap['balanceAfterTransaction'])
+            : null,
+        links: fetchedMap['_links'] as List<String>?,
+      );
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
@@ -155,8 +151,8 @@ class TransactionData {
   /// Transaction amount details associated with this.
   final AmountData transactionAmount;
 
-  /// Map of Report Exchnage Rate.
-  final Map<dynamic, dynamic>? currencyExchange;
+  /// Map of Report Exchange Rate.
+  final Map<String, dynamic>? currencyExchange;
 
   /// Name of the Transaction creditor if a "Debited" transaction
   final String? creditorName;

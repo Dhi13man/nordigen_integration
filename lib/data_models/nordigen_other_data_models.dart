@@ -138,6 +138,15 @@ class EndUserAgreementModel {
 class AmountData {
   const AmountData({required this.amount, required this.currency});
 
+  /// Forms a [AmountData] from a [Map] of [String] keys and [dynamic] values.
+  ///
+  /// Keys: "amount" and "currency" and their values are both required as
+  /// per API docs.
+  factory AmountData.fromMap(Map<String, dynamic> map) => AmountData(
+        amount: map['amount']! as String,
+        currency: map['currency']! as String,
+      );
+
   final String currency;
   final String amount;
 
