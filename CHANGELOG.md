@@ -1,5 +1,12 @@
 # Releases
 
+## [2.0.0] - Unreleased
+
+1. Integration of Categorisation and Insights API: [#5](https://github.com/Dhi13man/nordigen_integration/issues/5)
+2. **Potentially Breaking:** Extension of Accounts API Data Models to incorporate premium Data Layer: [#7](https://github.com/Dhi13man/nordigen_integration/issues/7)
+
+Big thanks to [antoineraulin](https://github.com/antoineraulin) for making this possible.
+
 ## [1.7.4] - 30th January, 2022
 
 1. **Bug Fix:** As per PR #6, fix TransactionData's currencyExchange type by [antoineraulin](https://github.com/antoineraulin).
