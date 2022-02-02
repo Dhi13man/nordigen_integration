@@ -240,9 +240,9 @@ Make sure you check out the [Contribution Guildelines](https://github.com/Dhi13m
 
 1. In case of any bugs, reach out to me at [@Dhi13man](https://twitter.com/Dhi13man) or [file an issue](https://github.com/Dhi13man/nordigen_integration/issues)
 
-2. The first release of this package was sponsored by [Cashtic](https://cashtic.com). Show them some love! This package would not otherwise be possible
+2. Big thanks to contributors, including [antoineraulin](https://github.com/antoineraulin), [@stantemo](https://github.com/stantemo) and [@c-louis](https://github.com/c-louis). Contribution is welcome, and makes my day brighter
 
-3. Big thanks to contributors, including [@stantemo](https://github.com/stantemo) and [@c-louis](https://github.com/c-louis). Contribution is welcome, and makes my day brighter
+3. The first release of this package was sponsored by [Cashtic](https://cashtic.com). Show them some love! This package would not otherwise be possible
 
 ----
 
