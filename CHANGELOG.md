@@ -4,6 +4,7 @@
 
 1. Integration of Categorisation and Insights API: [#5](https://github.com/Dhi13man/nordigen_integration/issues/5)
 2. **Potentially Breaking:** Extension of Accounts API Data Models to incorporate premium Data Layer: [#7](https://github.com/Dhi13man/nordigen_integration/issues/7)
+3. Lint compliances.
 
 Big thanks to [antoineraulin](https://github.com/antoineraulin) for making this possible.
 
