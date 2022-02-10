@@ -35,12 +35,13 @@ extension NordigenTokenEndpoints on NordigenAccountInfoAPI {
 
     if ((response.statusCode / 100).floor() == 2) {
       return jsonDecode(utf8.decoder.convert(response.bodyBytes));
-    } else
+    } else {
       throw http.ClientException(
         'Error Code: ${response.statusCode}, '
         // ignore: lines_longer_than_80_chars
         'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
       );
+    }
   }
 
   /// Refresh Access Token.
@@ -61,11 +62,12 @@ extension NordigenTokenEndpoints on NordigenAccountInfoAPI {
 
     if ((response.statusCode / 100).floor() == 2) {
       return jsonDecode(utf8.decoder.convert(response.bodyBytes));
-    } else
+    } else {
       throw http.ClientException(
         'Error Code: ${response.statusCode}, '
         // ignore: lines_longer_than_80_chars
         'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
       );
+    }
   }
 }

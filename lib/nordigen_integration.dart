@@ -97,27 +97,29 @@ class NordigenAccountInfoAPI {
     assert(requestType == 'POST' || requestType == 'PUT');
     final Uri requestURL = Uri.parse(endpointUrl);
     http.Response response;
-    if (requestType == 'PUT')
+    if (requestType == 'PUT') {
       response = await _client.put(
         requestURL,
         headers: _headers,
         body: jsonEncode(data),
       );
-    else
+    } else {
       response = await _client.post(
         requestURL,
         headers: _headers,
         body: jsonEncode(data),
       );
+    }
     if ((response.statusCode / 100).floor() == 2) {
       return jsonDecode(utf8.decoder.convert(response.bodyBytes));
-    } else
+    } else {
       throw http.ClientException(
         'Error Code: ${response.statusCode}, '
         // ignore: lines_longer_than_80_chars
         'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
         requestURL,
       );
+    }
   }
 
   /// Utility class to easily make GET requests to Nordigen API endpoints.
@@ -129,13 +131,14 @@ class NordigenAccountInfoAPI {
     );
     if ((response.statusCode / 100).floor() == 2) {
       return jsonDecode(utf8.decoder.convert(response.bodyBytes));
-    } else
+    } else {
       throw http.ClientException(
         'Error Code: ${response.statusCode}, '
         // ignore: lines_longer_than_80_chars
         'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
         requestURL,
       );
+    }
   }
 
   /// Utility class to easily make DELETE requests to Nordigen API endpoints.
@@ -147,12 +150,13 @@ class NordigenAccountInfoAPI {
     );
     if ((response.statusCode / 100).floor() == 2) {
       return jsonDecode(utf8.decoder.convert(response.bodyBytes));
-    } else
+    } else {
       throw http.ClientException(
         'Error Code: ${response.statusCode}, '
         // ignore: lines_longer_than_80_chars
         'Reason: ${jsonDecode(utf8.decoder.convert(response.bodyBytes))["detail"]}',
         requestURL,
       );
+    }
   }
 }

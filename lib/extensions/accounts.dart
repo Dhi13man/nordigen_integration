@@ -64,8 +64,9 @@ extension NordigenAccountsEndpoints on NordigenAccountInfoAPI {
           'https://ob.nordigen.com/api/v2/accounts/$accountID/transactions/',
     );
     // No Transactions retrieved case.
-    if (fetchedData['transactions'] == null)
+    if (fetchedData['transactions'] == null) {
       return <String, List<TransactionData>>{};
+    }
     final List<dynamic> bookedTransactions =
             fetchedData['transactions']['booked'] ?? <dynamic>[],
         pendingTransactions =

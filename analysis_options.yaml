@@ -22,9 +22,6 @@ linter:
     # Sometimes parameterizing all constants makes it less readable
     prefer_const_literals_to_create_immutables: false
 
-    # One liner flow control structure bodies don't need curly braces
-    curly_braces_in_flow_control_structures: false
-
     # Field initializers in const classes are pretty convenient
     avoid_field_initializers_in_const_classes: false
 
