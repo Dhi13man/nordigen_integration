@@ -16,7 +16,7 @@ class TransactionData {
     this.bookingDate,
     this.valueDate,
     required this.transactionAmount,
-    this.currencyExchange,
+    this.currencyExchange = const <Map<String, String>>[],
     this.creditorName,
     this.creditorAccount,
     this.creditorAgent,
@@ -51,8 +51,10 @@ class TransactionData {
         bookingDate: fetchedMap['bookingDate'] as String?,
         valueDate: fetchedMap['valueDate'] as String?,
         transactionAmount: AmountData.fromMap(fetchedMap['transactionAmount']!),
-        currencyExchange:
-            fetchedMap['currencyExchange'] as Map<String, dynamic>?,
+        currencyExchange: (fetchedMap['currencyExchange'] as List<dynamic>?)
+            ?.map((dynamic e) =>
+                Map<String, String>.from(e as Map<dynamic, dynamic>))
+            .toList() as List<Map<String, String>>,
         creditorName: fetchedMap['creditorName'] as String?,
         creditorAccount: fetchedMap['creditorAccount'] as Map<String, dynamic>?,
         creditorAgent: fetchedMap['creditorAgent'] as String?,
@@ -83,7 +85,7 @@ class TransactionData {
         // Verify key of balanceAfterTransaction from
         // https://nordigen.com/en/docs/account-information/output/transactions/
         balanceAfterTransaction: fetchedMap['balanceAfterTransaction'] != null
-            ? Balance?.fromMap(fetchedMap['balanceAfterTransaction'])
+            ? Balance.fromMap(fetchedMap['balanceAfterTransaction'])
             : null,
         links: fetchedMap['_links'] as List<String>?,
       );
@@ -152,7 +154,7 @@ class TransactionData {
   final AmountData transactionAmount;
 
   /// Map of Report Exchange Rate.
-  final Map<String, dynamic>? currencyExchange;
+  final List<Map<String, String>> currencyExchange;
 
   /// Name of the Transaction creditor if a "Debited" transaction
   final String? creditorName;
