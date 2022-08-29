@@ -52,11 +52,12 @@ class TransactionData {
         valueDate: fetchedMap['valueDate'] as String?,
         transactionAmount: AmountData.fromMap(fetchedMap['transactionAmount']!),
         currencyExchange: (fetchedMap['currencyExchange'] as List<dynamic>?)
-            ?.map(
-              (dynamic e) =>
-                  Map<String, dynamic>.from(e as Map<dynamic, dynamic>),
-            )
-            .toList() ?? const <Map<String, dynamic>>[],
+                ?.map(
+                  (dynamic e) =>
+                      Map<String, dynamic>.from(e as Map<dynamic, dynamic>),
+                )
+                .toList() ??
+            const <Map<String, dynamic>>[],
         creditorName: fetchedMap['creditorName'] as String?,
         creditorAccount: fetchedMap['creditorAccount'] as Map<String, dynamic>?,
         creditorAgent: fetchedMap['creditorAgent'] as String?,

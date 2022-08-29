@@ -43,7 +43,6 @@ Future<void> main() async {
         expect(transactionData.transactionAmount.currency, 'EUR');
         expect(transactionData.currencyExchange.length, 1);
       }),
-
       test('Parse List of sample Account Model Transaction Data', () {
         // Arrange - Sample Data
         const List<Map<String, dynamic>> sampleTransactionMapList =
