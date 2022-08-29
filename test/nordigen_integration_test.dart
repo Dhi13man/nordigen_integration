@@ -11,7 +11,7 @@ import './batch_tests/step_6_tests.dart';
 import 'package:nordigen_integration/nordigen_integration.dart';
 
 Future<void> main() async {
-  // TODO: FILL NORDIGEN SECRETS BEFORE RUNNING UNIT TESTS
+  // TODO: FILL NORDIGEN SECRETS BEFORE RUNNING Integration Test
   String secretID = 'test';
   String secretKey = 'test';
 
