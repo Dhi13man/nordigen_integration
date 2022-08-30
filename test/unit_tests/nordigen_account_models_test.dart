@@ -41,7 +41,7 @@ Future<void> main() async {
         expect(transactionData.valueDate, '2022-08-15');
         expect(transactionData.transactionAmount.amount, '-14.54');
         expect(transactionData.transactionAmount.currency, 'EUR');
-        expect(transactionData.currencyExchange.length, 1);
+        expect(transactionData.currencyExchange!.length, 1);
       }),
       test('Parse List of sample Account Model Transaction Data', () {
         // Arrange - Sample Data
@@ -125,7 +125,7 @@ Future<void> main() async {
               transactionMap['transactionAmount']['amount']);
           expect(transactionData.transactionAmount.currency,
               transactionMap['transactionAmount']['currency']);
-          expect(transactionData.currencyExchange.length,
+          expect(transactionData.currencyExchange?.length ?? 0,
               transactionMap['currencyExchange']?.length ?? 0);
         }
       })

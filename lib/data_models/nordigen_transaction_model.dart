@@ -16,7 +16,7 @@ class TransactionData {
     this.bookingDate,
     this.valueDate,
     required this.transactionAmount,
-    this.currencyExchange = const <Map<String, dynamic>>[],
+    this.currencyExchange,
     this.creditorName,
     this.creditorAccount,
     this.creditorAgent,
@@ -56,8 +56,7 @@ class TransactionData {
                   (dynamic e) =>
                       Map<String, dynamic>.from(e as Map<dynamic, dynamic>),
                 )
-                .toList() ??
-            const <Map<String, dynamic>>[],
+                .toList(),
         creditorName: fetchedMap['creditorName'] as String?,
         creditorAccount: fetchedMap['creditorAccount'] as Map<String, dynamic>?,
         creditorAgent: fetchedMap['creditorAgent'] as String?,
@@ -157,7 +156,7 @@ class TransactionData {
   final AmountData transactionAmount;
 
   /// Map of Report Exchange Rate.
-  final List<Map<String, dynamic>> currencyExchange;
+  final List<Map<String, dynamic>>? currencyExchange;
 
   /// Name of the Transaction creditor if a "Debited" transaction
   final String? creditorName;
