@@ -51,8 +51,12 @@ class TransactionData {
         bookingDate: fetchedMap['bookingDate'] as String?,
         valueDate: fetchedMap['valueDate'] as String?,
         transactionAmount: AmountData.fromMap(fetchedMap['transactionAmount']!),
-        currencyExchange:
-            fetchedMap['currencyExchange'] as Map<String, dynamic>?,
+        currencyExchange: (fetchedMap['currencyExchange'] as List<dynamic>?)
+            ?.map(
+              (dynamic e) =>
+                  Map<String, dynamic>.from(e as Map<dynamic, dynamic>),
+            )
+            .toList(),
         creditorName: fetchedMap['creditorName'] as String?,
         creditorAccount: fetchedMap['creditorAccount'] as Map<String, dynamic>?,
         creditorAgent: fetchedMap['creditorAgent'] as String?,
@@ -83,7 +87,7 @@ class TransactionData {
         // Verify key of balanceAfterTransaction from
         // https://nordigen.com/en/docs/account-information/output/transactions/
         balanceAfterTransaction: fetchedMap['balanceAfterTransaction'] != null
-            ? Balance?.fromMap(fetchedMap['balanceAfterTransaction'])
+            ? Balance.fromMap(fetchedMap['balanceAfterTransaction'])
             : null,
         links: fetchedMap['_links'] as List<String>?,
       );
@@ -152,7 +156,7 @@ class TransactionData {
   final AmountData transactionAmount;
 
   /// Map of Report Exchange Rate.
-  final Map<String, dynamic>? currencyExchange;
+  final List<Map<String, dynamic>>? currencyExchange;
 
   /// Name of the Transaction creditor if a "Debited" transaction
   final String? creditorName;
