@@ -9,6 +9,7 @@ part of 'package:nordigen_integration/nordigen_integration.dart';
 class TransactionData {
   const TransactionData({
     this.id,
+    this.endToEndId,
     this.entryReference,
     this.mandateId,
     this.checkId,
@@ -44,6 +45,7 @@ class TransactionData {
   /// [transactionAmount] field, is required as per API docs.
   factory TransactionData.fromMap(dynamic fetchedMap) => TransactionData(
         id: fetchedMap['transactionId'] as String?,
+        endToEndId: fetchedMap['endToEndId'] as String?,
         entryReference: fetchedMap['entryReference'] as String?,
         mandateId: fetchedMap['mandateId'] as String?,
         checkId: fetchedMap['checkId'] as String?,
@@ -97,6 +99,7 @@ class TransactionData {
   /// Map Keys: https://nordigen.com/en/docs/account-information/output/transactions/
   Map<String, dynamic> toMap() => <String, dynamic>{
         'transactionId': id,
+        'endToEndId': endToEndId,
         'entryReference': debtorName,
         'mandateId': mandateId,
         'checkId': checkId,
@@ -130,6 +133,9 @@ class TransactionData {
 
   /// Identifier of this particular Transaction
   final String? id;
+
+  /// Unique end to end ID
+  final String? endToEndId;
 
   /// Identification of the transaction as used for reference
   /// given by Institution.
