@@ -9,6 +9,7 @@ Future<void> main() async {
         // Arrange - Sample Data
         const Map<String, dynamic> sampleTransactionMap = <String, dynamic>{
           'transactionId': 'uuid',
+          'endToEndId': 'PNR17989245,KNR351239',
           'bookingDate': '2022-08-15',
           'valueDate': '2022-08-15',
           'transactionAmount': <String, String>{
@@ -37,6 +38,7 @@ Future<void> main() async {
 
         // Assert - Check Data
         expect(transactionData.id, 'uuid');
+        expect(transactionData.endToEndId, 'PNR17989245,KNR351239');
         expect(transactionData.bookingDate, '2022-08-15');
         expect(transactionData.valueDate, '2022-08-15');
         expect(transactionData.transactionAmount.amount, '-14.54');
@@ -49,6 +51,7 @@ Future<void> main() async {
             <Map<String, dynamic>>[
           <String, dynamic>{
             'transactionId': 'uuid',
+            'endToEndId': 'PNR17989245,KNR351239',
             'bookingDate': '2022-08-15',
             'valueDate': '2022-08-15',
             'transactionAmount': <String, String>{
@@ -119,6 +122,7 @@ Future<void> main() async {
 
           // Assert - Check Data
           expect(transactionData.id, transactionMap['transactionId']);
+          expect(transactionData.endToEndId, transactionMap['endToEndId']);
           expect(transactionData.bookingDate, transactionMap['bookingDate']);
           expect(transactionData.valueDate, transactionMap['valueDate']);
           expect(transactionData.transactionAmount.amount,
