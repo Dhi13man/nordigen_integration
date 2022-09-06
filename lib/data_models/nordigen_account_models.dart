@@ -10,6 +10,7 @@ class AccountDetails {
   const AccountDetails({
     this.id,
     this.iban,
+    this.bban,
     this.msisdn,
     required this.currency,
     this.ownerName,
@@ -33,6 +34,7 @@ class AccountDetails {
     return AccountDetails(
       id: fetchedMap['resourceId'] as String?,
       iban: fetchedMap['iban'] as String?,
+      bban: fetchedMap['bban'] as String?,
       msisdn: fetchedMap['msisdn'] as String?,
       currency: fetchedMap['currency'] as String,
       ownerName: fetchedMap['ownerName'] as String?,
@@ -61,6 +63,7 @@ class AccountDetails {
   Map<String, dynamic> toMap() => <String, dynamic>{
         'resourceId': id,
         'iban': iban,
+        'bban': bban,
         'msisdn': msisdn,
         'currency': currency,
         'ownerName': ownerName,
@@ -84,6 +87,9 @@ class AccountDetails {
 
   /// This data element is used for payment accounts which have no IBAN.
   final String? iban;
+
+  // This data element is used for payment accounts which have no IBAN
+  final String? bban;
 
   /// An alias to a payment account via a registered mobile phone number.
   final String? msisdn;
