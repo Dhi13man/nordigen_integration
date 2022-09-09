@@ -6,6 +6,13 @@
 2. **Potentially Breaking:** Extension of Accounts API Data Models to incorporate premium Data Layer: [#7](https://github.com/Dhi13man/nordigen_integration/issues/7)
 3. Lint compliances.
 
+## [1.7.6] - 9th September 2021
+
+1. Parse bban property in account details: [#12](https://github.com/Dhi13man/nordigen_integration/pull/12)
+2. Add parsing of endToEndId property: [#11](https://github.com/Dhi13man/nordigen_integration/pull/11)
+
+Big thanks to [tolik505](https://github.com/tolik505) for these contributions.
+
 ## [1.7.5] - 30th August 2021
 
 1. **Bug Fix:** Fixing the issue of `TransactionData` model not containing `currencyExchange` as a List: [#8](https://github.com/Dhi13man/nordigen_integration/issues/8)

@@ -1,6 +1,6 @@
 name: nordigen_integration
 description: Dart/Flutter Package for Nordigen's EU PSD2 AISP Banking API Integration, with relevant Data Models.
-version: 1.7.5
+version: 1.7.6
 homepage: https://github.com/Dhi13man/nordigen_integration/
 repository: https://github.com/dhi13man/nordigen_integration/
 issue_tracker: https://github.com/Dhi13man/nordigen_integration/issues/
