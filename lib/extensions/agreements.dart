@@ -33,7 +33,8 @@ extension NordigenAgreementsEndpoints on NordigenAccountInfoAPI {
 
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
-      endpointUrl: 'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/',
+      endpointUrl:
+          'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/',
       data: <String, dynamic>{
         // API accepts days as String
         'max_historical_days': maxHistoricalDays.toString(),

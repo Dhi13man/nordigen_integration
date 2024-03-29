@@ -35,7 +35,8 @@ extension NordigenRequisitionsEndpoints on NordigenAccountInfoAPI {
   }) async {
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
-      endpointUrl: 'https://bankaccountdata.gocardless.com/api/v2/requisitions/',
+      endpointUrl:
+          'https://bankaccountdata.gocardless.com/api/v2/requisitions/',
       data: <String, dynamic>{
         'redirect': redirect,
         'institution_id': institutionID,

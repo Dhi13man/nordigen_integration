@@ -23,7 +23,8 @@ extension NordigenAccountsEndpoints on NordigenAccountInfoAPI {
     assert(accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
-      endpointUrl: 'https://bankaccountdata.gocardless.com/api/v2/accounts/$accountID/',
+      endpointUrl:
+          'https://bankaccountdata.gocardless.com/api/v2/accounts/$accountID/',
     );
     // Form the received dynamic Map into AccountMetaData for convenience.
     return AccountMetaData.fromMap(fetchedData);
