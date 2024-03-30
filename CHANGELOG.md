@@ -1,10 +1,9 @@
 # Releases
 
-## [2.0.0] - Unreleased
+## [1.7.7] - 31st March 2024
 
-1. Integration of Categorisation and Insights API: [#5](https://github.com/Dhi13man/nordigen_integration/issues/5)
-2. **Potentially Breaking:** Extension of Accounts API Data Models to incorporate premium Data Layer: [#7](https://github.com/Dhi13man/nordigen_integration/issues/7)
-3. Lint compliances.
+- Gocardless API base URL changes as per [#13](https://github.com/Dhi13man/nordigen_integration/pull/13/files) by [tolik505](https://github.com/tolik505).
+- Upgrading major versions of dependencies without breaking
 
 ## [1.7.6] - 9th September 2021
 

@@ -31,14 +31,15 @@ part 'package:nordigen_integration/extensions/accounts.dart';
 /// https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/
 class NordigenAccountInfoAPI {
   /// Initialize the Nordigen API with a pre-generated Nordigen Access Token.
-  NordigenAccountInfoAPI({required String accessToken})
-      : _accessToken = accessToken;
+  NordigenAccountInfoAPI({required String accessToken, http.Client? client})
+      : _accessToken = accessToken,
+        _client = client ?? http.Client();
 
   /// Nordigen API Access token required to access API functionality.
   final String _accessToken;
 
   /// Client initialization as we repeated requests to the same Server.
-  final http.Client _client = http.Client();
+  final http.Client _client;
 
   /// Initialize the Nordigen API with Access Token generated using Nordigen
   /// user [secretID] (secret_id) and [secretKey] (secret_key).
