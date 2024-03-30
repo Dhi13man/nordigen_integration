@@ -6,7 +6,7 @@ repository: https://github.com/dhi13man/nordigen_integration/
 issue_tracker: https://github.com/Dhi13man/nordigen_integration/issues/
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.12.0 <4.0.0"
 
 dependencies:
   http: ^1.2.0
