@@ -3,6 +3,7 @@
 ## [1.7.7] - 31st March 2024
 
 - Gocardless API base URL changes as per [#13](https://github.com/Dhi13man/nordigen_integration/pull/13/files) by [tolik505](https://github.com/tolik505).
+- Add ability for clients to pass in their own HTTP client instance for connection pooling.
 - Upgrading major versions of dependencies without breaking
 
 ## [1.7.6] - 9th September 2021
