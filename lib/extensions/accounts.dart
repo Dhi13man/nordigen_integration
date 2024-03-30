@@ -23,7 +23,8 @@ extension NordigenAccountsEndpoints on NordigenAccountInfoAPI {
     assert(accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
-      endpointUrl: 'https://ob.nordigen.com/api/v2/accounts/$accountID/',
+      endpointUrl:
+          'https://bankaccountdata.gocardless.com/api/v2/accounts/$accountID/',
     );
     // Form the received dynamic Map into AccountMetaData for convenience.
     return AccountMetaData.fromMap(fetchedData);
@@ -41,7 +42,7 @@ extension NordigenAccountsEndpoints on NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/v2/accounts/$accountID/details/',
+          'https://bankaccountdata.gocardless.com/api/v2/accounts/$accountID/details/',
     );
     assert(fetchedData['account'] != null);
     // Form the recieved dynamic Map into BankAccountDetails for convenience.
@@ -61,7 +62,7 @@ extension NordigenAccountsEndpoints on NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/v2/accounts/$accountID/transactions/',
+          'https://bankaccountdata.gocardless.com/api/v2/accounts/$accountID/transactions/',
     );
     // No Transactions retrieved case.
     if (fetchedData['transactions'] == null) {
@@ -97,7 +98,7 @@ extension NordigenAccountsEndpoints on NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final dynamic fetched = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/v2/accounts/$accountID/balances/',
+          'https://bankaccountdata.gocardless.com/api/v2/accounts/$accountID/balances/',
     );
     final List<dynamic> fetchedData = fetched['balances'] ?? <dynamic>[];
     // Form the recieved dynamic Map into BankAccountDetails for convenience.

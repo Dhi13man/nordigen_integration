@@ -22,7 +22,7 @@ extension NordigenTokenEndpoints on NordigenAccountInfoAPI {
     };
     // Make POST request and fetch output.
     final http.Response response = await http.post(
-      Uri.parse('https://ob.nordigen.com/api/v2/token/new/'),
+      Uri.parse('https://bankaccountdata.gocardless.com/api/v2/token/new/'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'accept': 'application/json',
@@ -55,7 +55,7 @@ extension NordigenTokenEndpoints on NordigenAccountInfoAPI {
   }) async {
     // Make POST request and fetch output.
     final http.Response response = await http.post(
-      Uri.parse('https://ob.nordigen.com/api/v2/token/refresh/'),
+      Uri.parse('https://bankaccountdata.gocardless.com/api/v2/token/refresh/'),
       headers: _headers,
       body: json.encode(<String, String>{'refresh': refresh}),
     );

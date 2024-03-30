@@ -35,7 +35,8 @@ extension NordigenRequisitionsEndpoints on NordigenAccountInfoAPI {
   }) async {
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
-      endpointUrl: 'https://ob.nordigen.com/api/v2/requisitions/',
+      endpointUrl:
+          'https://bankaccountdata.gocardless.com/api/v2/requisitions/',
       data: <String, dynamic>{
         'redirect': redirect,
         'institution_id': institutionID,
@@ -58,7 +59,7 @@ extension NordigenRequisitionsEndpoints on NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final Map<String, dynamic> fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/v2/requisitions/?limit=$limit&offset=$offset',
+          'https://bankaccountdata.gocardless.com/api/v2/requisitions/?limit=$limit&offset=$offset',
     );
     final List<dynamic> fetchedRequisitions = fetchedData['results'];
     // Form the recieved dynamic Map into RequisitionModel for convenience.
@@ -78,7 +79,7 @@ extension NordigenRequisitionsEndpoints on NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/v2/requisitions/$requisitionID/',
+          'https://bankaccountdata.gocardless.com/api/v2/requisitions/$requisitionID/',
     );
     // Form the recieved dynamic Map into RequisitionModel for convenience.
     return RequisitionModel.fromMap(fetchedData);
@@ -92,6 +93,6 @@ extension NordigenRequisitionsEndpoints on NordigenAccountInfoAPI {
   }) async =>
       await _nordigenDeleter(
         endpointUrl:
-            'https://ob.nordigen.com/api/v2/requisitions/$requisitionID/',
+            'https://bankaccountdata.gocardless.com/api/v2/requisitions/$requisitionID/',
       );
 }

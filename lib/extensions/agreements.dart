@@ -33,7 +33,8 @@ extension NordigenAgreementsEndpoints on NordigenAccountInfoAPI {
 
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
-      endpointUrl: 'https://ob.nordigen.com/api/v2/agreements/enduser/',
+      endpointUrl:
+          'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/',
       data: <String, dynamic>{
         // API accepts days as String
         'max_historical_days': maxHistoricalDays.toString(),
@@ -62,7 +63,7 @@ extension NordigenAgreementsEndpoints on NordigenAccountInfoAPI {
     // Make POST request and fetch output.
     final dynamic fetchedData = await _nordigenPoster(
       endpointUrl:
-          'https://ob.nordigen.com/api/v2/agreements/enduser/$endUserAgreementID/accept/',
+          'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/$endUserAgreementID/accept/',
       data: <String, dynamic>{
         'user_agent': userAgent,
         'ip_address': ipAddress,
@@ -82,7 +83,7 @@ extension NordigenAgreementsEndpoints on NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/v2/agreements/enduser/$endUserAgreementID/',
+          'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/$endUserAgreementID/',
     );
     // Form the recieved dynamic Map into RequisitionModel for convenience.
     return EndUserAgreementModel.fromMap(fetchedData);
@@ -97,7 +98,7 @@ extension NordigenAgreementsEndpoints on NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/v2/agreements/enduser/$endUserAgreementID/text/',
+          'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/$endUserAgreementID/text/',
     );
     return fetchedData;
   }
@@ -113,7 +114,7 @@ extension NordigenAgreementsEndpoints on NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final Map<String, dynamic> fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/v2/agreements/enduser/?limit=$limit&offset=$offset',
+          'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/?limit=$limit&offset=$offset',
     );
     final List<dynamic> fetchedEndUserAgreements = fetchedData['results'];
     // Form the recieved dynamic Map into EndUserAgreementModel for convenience.
@@ -133,6 +134,6 @@ extension NordigenAgreementsEndpoints on NordigenAccountInfoAPI {
   }) async =>
       await _nordigenDeleter(
         endpointUrl:
-            'https://ob.nordigen.com/api/v2/agreements/enduser/$endUserAgreementID/',
+            'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/$endUserAgreementID/',
       );
 }

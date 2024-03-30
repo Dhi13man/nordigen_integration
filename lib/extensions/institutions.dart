@@ -11,7 +11,7 @@ extension NordigenInstitutionsEndpoints on NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final List<dynamic> fetchedData = await _nordigenGetter(
           endpointUrl:
-              'https://ob.nordigen.com/api/v2/institutions/?country=$countryCode',
+              'https://bankaccountdata.gocardless.com/api/v2/institutions/?country=$countryCode',
         ) ??
         <dynamic>[];
     // Map the recieved List<dynamic> into List<Institution> Data Format.
@@ -29,7 +29,7 @@ extension NordigenInstitutionsEndpoints on NordigenAccountInfoAPI {
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
       endpointUrl:
-          'https://ob.nordigen.com/api/v2/institutions/$institutionID/',
+          'https://bankaccountdata.gocardless.com/api/v2/institutions/$institutionID/',
     );
     // Form the recieved dynamic Map into RequisitionModel for convenience.
     return Institution.fromMap(fetchedData);
