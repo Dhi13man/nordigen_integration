@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 Future<void> main() async {
   group(
     'Nordigen Transaction Models Unit Tests',
-    () => <void>{
+    () {
       test('Parse sample Transaction Data', () {
         // Arrange - Sample Data
         const Map<String, dynamic> sampleTransactionMap = <String, dynamic>{
@@ -44,7 +44,7 @@ Future<void> main() async {
         expect(transactionData.transactionAmount.amount, '-14.54');
         expect(transactionData.transactionAmount.currency, 'EUR');
         expect(transactionData.currencyExchange!.length, 1);
-      }),
+      });
       test('Parse List of sample Transaction Data', () {
         // Arrange - Sample Data
         const List<Map<String, dynamic>> sampleTransactionMapList =
@@ -132,7 +132,7 @@ Future<void> main() async {
           expect(transactionData.currencyExchange?.length ?? 0,
               transactionMap['currencyExchange']?.length ?? 0);
         }
-      })
+      });
     },
   );
 }

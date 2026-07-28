@@ -5,16 +5,18 @@
 [![Language](https://img.shields.io/badge/language-Flutter-blue.svg)](https://flutter.dev)
 [![Contributors](https://img.shields.io/github/contributors-anon/dhi13man/nordigen_integration?style=flat)](https://github.com/Dhi13man/nordigen_integration/graphs/contributors)
 [![GitHub forks](https://img.shields.io/github/forks/dhi13man/nordigen_integration?style=social)](https://github.com/Dhi13man/nordigen_integration/network/members)
-[![GitHub Repo stars](https://img.shields.io/github/stars/dhi13man/nordigen_integration?style=social)](https://github.com/Dhi13man/nordigen_integration/stargazers)
+[![GitHub Repo stars](https://img.shields.io/github/stars/dhi13man/nordigen_integration?style=social)](https://github.com/Dhi13man/nordigen_integration)
 [![Last Commit](https://img.shields.io/github/last-commit/dhi13man/nordigen_integration)](https://github.com/Dhi13man/nordigen_integration/commits/main)
 [![Build, Format, Test](https://github.com/Dhi13man/nordigen_integration/workflows/Build,%20Format,%20Test/badge.svg)](https://github.com/Dhi13man/nordigen_integration/actions)
 [![nordigen_integration version](https://img.shields.io/pub/v/nordigen_integration.svg)](https://pub.dev/packages/nordigen_integration)
+[![pub points](https://img.shields.io/pub/points/nordigen_integration)](https://pub.dev/packages/nordigen_integration/score)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Dhi13man/nordigen_integration/badge)](https://scorecard.dev/viewer/?uri=github.com/Dhi13man/nordigen_integration)
 
-[!["Buy Me A Coffee"](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20an%20Ego%20boost&emoji=%F0%9F%98%B3&slug=dhi13man&button_colour=FF5F5F&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00****)](https://www.buymeacoffee.com/dhi13man)
+Null-safe Dart client and data models for the GoCardless Bank Account Data API,
+formerly the Nordigen EU PSD2 account information service.
 
-Development of a Null Safe Dart/Flutter Package for Nordigen EU PSD2 AISP Banking API Integration with relevant Data Models, proper encapsulation with the exposing of parameters, and succinct documentation.
-
-For more information about the API, view [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
+For API concepts and credentials, see the
+[GoCardless Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
 ## Contents
 
@@ -27,17 +29,16 @@ For more information about the API, view [Nordigen's Account Information API doc
     - [Available Data Classes](#available-data-classes)
   - [Contributing](#contributing)
   - [Dependencies](#dependencies)
-  - [Tests Screenshot](#tests-screenshot)
   - [Vote of Thanks](#vote-of-thanks)
   - [General Information](#general-information)
 
 ## Usage Steps
 
-1. Go through the [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
+1. Read the [GoCardless Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
-2. Register and get the User Secrets from <https://ob.nordigen.com/user-secrets/>.
+2. Register and create user secrets as described in the [quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
-3. Initialise the `NordigenAccountInfoAPI` Class with the token recieved from Usage Step 2.
+3. Initialize `NordigenAccountInfoAPI` with the credentials from step 2.
 
 4. Call any of the `NordigenAccountInfoAPI` Class methods to directly interact with Nordigen Server's endpoints while having the internal requests and relevant headers abstracted, based on your need.
 
@@ -84,23 +85,23 @@ Future<void> main() async {
 
 ### Available Methods
 
-1. `NordigenAccountInfoAPI({required String accessToken})` (Class constuctor)
+1. `NordigenAccountInfoAPI({required String accessToken})` (class constructor)
 
-    Call it with `accessToken` parameter which is the access token generated using [User Secrets](https://ob.nordigen.com/user-secrets/), to access API features.
+    Call it with the `accessToken` generated using user secrets from the [quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/) to access API features.
 
-    Analogous to Step 1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
+    Analogous to step 1 of the [Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
 2. `static Future<NordigenAccountInfoAPI> fromSecret({required String secretID, required String secretKey})` (static convenience method to generate interface using Secrets)
 
-    Call it with `secretID` and `secretKey` parameters which are the user's [User Secrets](https://ob.nordigen.com/user-secrets/).
+    Call it with `secretID` and `secretKey` parameters from the user's [GoCardless Bank Account Data credentials](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
     Returns a `Future` that resolves to the initialized `NordigenAccountInfoAPI` object using the Access Token that was generated using the secrets.
 
-    Analogous to Step 1 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
+    Analogous to step 1 of the [Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
 3. `static Future<Map<String, dynamic>> createAccessToken({required String secretID, required String secretKey})`
 
-    Call it with `secretID` and `secretKey` parameters which are the user's [User Secrets](https://ob.nordigen.com/user-secrets/).
+    Call it with `secretID` and `secretKey` parameters from the user's [GoCardless Bank Account Data credentials](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
     Returns a `Future` that resolves to a `Map<String, dynamic>` containing the information about the Access Token that was generated using the secrets.
 
@@ -108,13 +109,13 @@ Future<void> main() async {
 
     Gets the Institutions (Banks) in the Country represented by the given two-letter `countryCode` (ISO 3166).
 
-    Analogous to Step 2 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
+    Analogous to step 2 of the [Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
 5. `createEndUserAgreement({required String institutionID, int maxHistoricalDays = 90, int accessValidForDays = 90, List<String> accessScope = const <String>['balances', 'details', 'transactions']})`
 
-    Create an End User Agreement for given Institution identified by `institutionID`, account access period for given `accessValidForDays` and `maxHistoricalDays` of transaction histoy (default 90 days each) and returns a `Future` resolving to the resulting `EndUserAgreementModel`.
+    Create an End User Agreement for the Institution identified by `institutionID`, with an account access period of `accessValidForDays` and `maxHistoricalDays` of transaction history (90 days by default), and return the resulting `EndUserAgreementModel`.
 
-    Analogous to Step 3 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
+    Analogous to step 3 of the [Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
 6. `acceptEndUserAgreement({required String endUserAgreementID, required String ipAddress, required String userAgent})`
 
@@ -128,7 +129,7 @@ Future<void> main() async {
 
     `reference` is additional layer of unique ID. Should match Step 3 if done. `redirect` is the link where the end user will be redirected after finishing authentication in institution. `agreement` is the identifier of the agreement from Step 3 and `userLanguage` is the language code of the language used in verification.
 
-    Analogous to Step 4 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
+    Analogous to step 4 of the [Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
 8. `getRequisitionUsingID({required String requisitionID})`
 
@@ -138,25 +139,25 @@ Future<void> main() async {
 
     Gets the Account IDs of the User for the Requisition identified by `requisitionID`.
 
-    Analogous to Step 5 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/).
+    Analogous to step 5 of the [Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/).
 
 10. `getAccountDetails({required String accountID})`
 
-    Gets the Details of the Bank Account identified by `accountID`. Account Model follows schema in <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>.
+    Gets the details of the bank account identified by `accountID`. The account model follows the [GoCardless endpoint schema](https://developer.gocardless.com/bank-account-data/endpoints/).
 
-    Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Details.
+    Analogous to step 6 of the [Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/) for account details.
 
 11. `getAccountTransactions({required String accountID})`
 
     Gets the Transactions of the Bank Account identified by `accountID` as a `Map<String, List<TransactionData>>` with keys `'booked'` and `'pending'` representing List of Booked and pending transactions respectively.
 
-    Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Transactions.
+    Analogous to step 6 of the [Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/) for account transactions.
 
 12. `getAccountBalances({required String accountID})`
 
-    Gets the Balances of the Bank Account identified by `accountID` as `dynamic`. Will be depreciated later when documentation provides example of potentially fetched Balance Data.
+    Gets the balances of the bank account identified by `accountID` as `dynamic`. This return type may be deprecated when the response schema can be pinned down.
 
-    Analogous to Step 6 of [Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) for Account Balances.
+    Analogous to step 6 of the [Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/) for account balances.
 
 There are also various other methods for implementing POST, GET and DELETE requests across various endpoints in Nordigen Server, which are self explanatory:
 
@@ -180,7 +181,7 @@ There are also various other methods for implementing POST, GET and DELETE reque
 
 ### Available Data Classes
 
-Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/> for most of the Data Schema and the mentioned URLs in the special cases.
+Refer to the [GoCardless Bank Account Data endpoint reference](https://developer.gocardless.com/bank-account-data/endpoints/) for the upstream schemas.
 
 1. `Institution({required String id, required String name, String bic = '', int transactionTotalDays = 90, required List<String> countries, String logoURL = ''})`
 
@@ -197,21 +198,21 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
     `RequisitionStatus({required String short, required String long, required String description})` contains a short status, a long status and a description of the status.
 
 4. `AccountMetaData({required String id, String created, String? lastAccessed, String iban, String institutionIdentifier, String status = ''})`
-   Account meta-data model for Nordigen. Contains the `id` of the Bank Account, its `created` and `lastAccessed` date and time, `iban`, `status` and the `institutionIdentifier` identifiying its Institution. Refer to <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>
+   Account metadata model. Contains the bank account `id`, `created` and `lastAccessed` timestamps, `iban`, `status`, and the `institutionIdentifier` identifying its institution.
 
 5. `AccountDetails({String? id, String? iban, String? msisdn, required String currency, String? ownerName, String? name, String? displayName, String? product, String? cashAccountType, String? status, String? bic, String? linkedAccounts, String? usage, String? details, List<Balance>? balances, List<String>? links})`:
 
-    Bank Account Details Model for Nordigen. Refer to <https://nordigen.com/en/docs/account-information/output/accounts/> for full Data Schema.
+    Bank account details model. Refer to the [GoCardless endpoint reference](https://developer.gocardless.com/bank-account-data/endpoints/) for the complete schema.
 
 6. `TransactionData({required String id, String? debtorName, Map<String, dynamic>? debtorAccount,  String? bankTransactionCode,  String bookingDate = '',  String valueDate = '', required String transactionAmount, String? remittanceInformationUnstructured = '', ...})`:
 
-    Transaction Data Model for Nordigen. Refer to <https://nordigen.com/en/docs/account-information/output/transactions/> for full Data Schema.
+    Transaction data model. Refer to the [GoCardless endpoint reference](https://developer.gocardless.com/bank-account-data/endpoints/) for the complete schema.
 
 7. `Balance({required AmountData balanceAmount, required String balanceType, bool? creditLimitIncluded, String? lastChangeDateTime, String? referenceDate, String? lastCommittedTransaction})`
 
     Balance Data Model for Nordigen. Contains `balanceAmount` of Transaction, its `balanceType`, whether its `creditLimitIncluded`, its `lastChangeDateTime` and `referenceDate` as `String` and the `lastCommittedTransaction`.
 
-    Refer to <https://nordigen.com/en/docs/account-information/output/balance/> for full Data Schema and the available balance types.
+    Refer to the [GoCardless endpoint reference](https://developer.gocardless.com/bank-account-data/endpoints/) for the complete schema and available balance types.
 
 8. `AmountData({required String amount, required String currency})`
 
@@ -221,18 +222,12 @@ Refer <https://nordigen.com/en/docs/account-information/overview/parameters-and-
 
 ## Contributing
 
-Make sure you check out the [Contribution Guildelines](https://github.com/Dhi13man/nordigen_integration/blob/main/CONTRIBUTING.md) for information about how to contribute to the development of this package!
+See the [contribution guidelines](CONTRIBUTING.md) to contribute to the package.
 
 ## Dependencies
 
 - [Dart,](https://www.dartlang.org/) for the Dart SDK which this obviously runs on.
 - [http,](https://pub.dev/packages/http) is used for making API calls to the Nordigen Server Endpoints with proper response and error handling.
-
-----
-
-## Tests Screenshot
-
-![Nordigen EU PSD2 AISP Integration Tests Successful Screenshot](https://raw.githubusercontent.com/Dhi13man/nordigen_integration/main/package_tests_success_screenshot.png)
 
 ----
 
