@@ -2,7 +2,7 @@ part of 'package:nordigen_integration/nordigen_integration.dart';
 
 /// Requisition Model for Nordigen.
 ///
-/// Contains the [id] of the Requisition, its [status], end-user [agreements],
+/// Contains the [id] of the Requisition, its [status], end-user [agreement],
 /// the [redirectURL] to which it should redirect, [reference] ID if any,
 /// [accounts] associated, and the associated [institutionID].
 class RequisitionModel {
@@ -82,7 +82,7 @@ class RequisitionModel {
   /// Additional layer of unique ID defined by user.
   final String reference;
 
-  /// Agreements associated with the Requistion
+  /// Accounts associated with the Requisition.
   final List<String> accounts;
 
   /// [String] code of the Language of the requisition verification.
