@@ -3,7 +3,7 @@ part of 'package:nordigen_integration/nordigen_integration.dart';
 /// Institution (Bank) Data Model for Nordigen
 ///
 /// Contains the [id] of the Institution, its [name], [bic],
-/// [totalTransactionDays] and the [countries] associated with the Institution.
+/// [transactionTotalDays] and the [countries] associated with the Institution.
 class Institution {
   const Institution({
     required this.id,

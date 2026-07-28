@@ -1,3 +1,4 @@
+/// Dart client and typed models for GoCardless Bank Account Data.
 library nordigen_integration;
 
 import 'dart:convert';
