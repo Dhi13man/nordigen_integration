@@ -1,0 +1,36 @@
+name: Bug report
+description: Report reproducible incorrect package behavior
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Do not include credentials, tokens, account identifiers, or personal or
+        financial data. Report security issues privately through SECURITY.md.
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: 1.7.7
+    validations:
+      required: true
+  - type: input
+    id: dart
+    attributes:
+      label: Dart or Flutter version
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Use redacted, synthetic data only.
+    validations:
+      required: true

@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 Future<void> main() async {
   group(
     'Nordigen Account Models Unit Tests',
-    () => <void>{
+    () {
       test(
         'Parse Account Details',
         () {
@@ -37,7 +37,7 @@ Future<void> main() async {
           expect(result.bic, 'NTSBDEB1XXX');
           expect(result.usage, 'PRIV');
         },
-      ),
+      );
     },
   );
 }

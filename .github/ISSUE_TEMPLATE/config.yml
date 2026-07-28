@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Dhi13man/nordigen_integration/security/advisories/new
+    about: Report security issues privately.
+  - name: Questions and ideas
+    url: https://github.com/Dhi13man/nordigen_integration/discussions
+    about: Ask usage questions or discuss ideas before filing an issue.
