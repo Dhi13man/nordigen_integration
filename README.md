@@ -155,7 +155,8 @@ Future<void> main() async {
 
 12. `getAccountBalances({required String accountID})`
 
-    Gets the balances of the bank account identified by `accountID` as `dynamic`. This return type may be deprecated when the response schema can be pinned down.
+    Gets the balances of the bank account identified by `accountID` as a
+    `Future<List<Balance>>`.
 
     Analogous to step 6 of the [Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/) for account balances.
 

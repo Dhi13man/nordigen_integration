@@ -64,8 +64,10 @@ extension NordigenRequisitionsEndpoints on NordigenAccountInfoAPI {
     final List<dynamic> fetchedRequisitions = fetchedData['results'];
     // Form the recieved dynamic Map into RequisitionModel for convenience.
     return fetchedRequisitions
-        .map<RequisitionModel>((dynamic requisitionData) =>
-            RequisitionModel.fromMap(requisitionData))
+        .map<RequisitionModel>(
+          (dynamic requisitionData) =>
+              RequisitionModel.fromMap(requisitionData),
+        )
         .toList();
   }
 
@@ -90,9 +92,8 @@ extension NordigenRequisitionsEndpoints on NordigenAccountInfoAPI {
   /// Refer to Step 5 of Nordigen Account Information API documentation.
   Future<void> deleteRequisitionUsingID({
     required String requisitionID,
-  }) async =>
-      await _nordigenDeleter(
-        endpointUrl:
-            'https://bankaccountdata.gocardless.com/api/v2/requisitions/$requisitionID/',
-      );
+  }) async => await _nordigenDeleter(
+    endpointUrl:
+        'https://bankaccountdata.gocardless.com/api/v2/requisitions/$requisitionID/',
+  );
 }

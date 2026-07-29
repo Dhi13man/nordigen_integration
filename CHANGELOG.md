@@ -1,5 +1,10 @@
 # Releases
 
+## Unreleased
+
+- **Breaking:** Require Dart 3.11 or later and remove the Dart 2.x lint holdback.
+- Correct the documented `getAccountBalances` return type to `Future<List<Balance>>`.
+
 ## [1.7.7] - 31st March 2024
 
 - Gocardless API base URL changes as per [#13](https://github.com/Dhi13man/nordigen_integration/pull/13/files) by [tolik505](https://github.com/tolik505).

@@ -16,30 +16,31 @@ class Institution {
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory Institution.fromMap(dynamic fetchedMap) => Institution(
-        id: fetchedMap['id']! as String,
-        name: fetchedMap['name']! as String,
-        bic: (fetchedMap['bic'] ?? '') as String,
-        transactionTotalDays: int.tryParse(
-              (fetchedMap['transaction_total_days'] ?? '90') as String,
-            ) ??
-            90,
-        countries: (fetchedMap['countries']! as List<dynamic>)
-            .map<String>((dynamic country) => country.toString())
-            .toList(),
-        logoURL: (fetchedMap['logo'] ?? '') as String,
-      );
+    id: fetchedMap['id']! as String,
+    name: fetchedMap['name']! as String,
+    bic: (fetchedMap['bic'] ?? '') as String,
+    transactionTotalDays:
+        int.tryParse(
+          (fetchedMap['transaction_total_days'] ?? '90') as String,
+        ) ??
+        90,
+    countries: (fetchedMap['countries']! as List<dynamic>)
+        .map<String>((dynamic country) => country.toString())
+        .toList(),
+    logoURL: (fetchedMap['logo'] ?? '') as String,
+  );
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
   /// Map Keys: "id", "name", "bic" and "countries"
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'id': id,
-        'name': name,
-        'countries': countries,
-        'bic': bic,
-        'transaction_total_days': transactionTotalDays,
-        'logo': logoURL,
-      };
+    'id': id,
+    'name': name,
+    'countries': countries,
+    'bic': bic,
+    'transaction_total_days': transactionTotalDays,
+    'logo': logoURL,
+  };
 
   /// Identifier of this particular Institution
   final String id;
@@ -99,14 +100,14 @@ class EndUserAgreementModel {
   /// Map Keys: "id", "created", "accepted", "max_historical_days",
   /// "access_valid_for_days", "enduser_id" and "institution_id"
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'id': id,
-        'created': created,
-        'max_historical_days': maxHistoricalDays,
-        'access_valid_for_days': accessValidForDays,
-        'access_scope': accessScope,
-        'accepted': accepted,
-        'institution_id': institutionID,
-      };
+    'id': id,
+    'created': created,
+    'max_historical_days': maxHistoricalDays,
+    'access_valid_for_days': accessValidForDays,
+    'access_scope': accessScope,
+    'accepted': accepted,
+    'institution_id': institutionID,
+  };
 
   /// Identifier of this particular End User Agreement
   final String id;
@@ -143,9 +144,9 @@ class AmountData {
   /// Keys: "amount" and "currency" and their values are both required as
   /// per API docs.
   factory AmountData.fromMap(Map<String, dynamic> map) => AmountData(
-        amount: map['amount']! as String,
-        currency: map['currency']! as String,
-      );
+    amount: map['amount']! as String,
+    currency: map['currency']! as String,
+  );
 
   final String currency;
   final String amount;
@@ -157,9 +158,9 @@ class AmountData {
   ///
   /// Map Keys: "amount" and "currency".
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'amount': amount,
-        'currency': currency,
-      };
+    'amount': amount,
+    'currency': currency,
+  };
 
   /// Returns the class data converted to a map as a Serialized JSON String.
   @override

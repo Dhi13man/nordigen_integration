@@ -40,13 +40,13 @@ class Balance {
   ///
   /// Map Keys: "amount" and "currency".
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'balanceAmount': balanceAmount.toMap(),
-        'balanceType': balanceType,
-        'creditLimitIncluded': creditLimitIncluded,
-        'lastChangeDateTime': lastChangeDateTime,
-        'referenceDate': referenceDate,
-        'lastCommittedTransaction': lastCommittedTransaction,
-      };
+    'balanceAmount': balanceAmount.toMap(),
+    'balanceType': balanceType,
+    'creditLimitIncluded': creditLimitIncluded,
+    'lastChangeDateTime': lastChangeDateTime,
+    'referenceDate': referenceDate,
+    'lastCommittedTransaction': lastCommittedTransaction,
+  };
 
   /// The actual Amount of the balance.
   final AmountData balanceAmount;
