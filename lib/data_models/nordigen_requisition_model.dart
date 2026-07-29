@@ -21,45 +21,44 @@ class RequisitionModel {
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory RequisitionModel.fromMap(dynamic fetchedMap) => RequisitionModel(
-        id: fetchedMap['id'] as String,
-        created: fetchedMap['created'] as String,
-        redirectURL: fetchedMap['redirect'] as String,
-        status: fetchedMap['status'] == null
-            ? const RequisitionStatus(short: '', long: '', description: '')
-            : fetchedMap['status'] is Map<String, dynamic>
-                ? RequisitionStatus.fromMap(fetchedMap['status'])
-                : RequisitionStatus(
-                    short: fetchedMap['status'],
-                    long: fetchedMap['status'],
-                    description: fetchedMap['status'],
-                  ),
-        institutionID: (fetchedMap['institution_id'] as String?) ?? '',
-        agreement: fetchedMap['agreement'] as String,
-        reference: fetchedMap['reference'] as String,
-        accounts:
-            ((fetchedMap['accounts'] ?? const <String>[]) as List<dynamic>)
-                .map<String>((dynamic agreement) => agreement.toString())
-                .toList(),
-        userLanguage: (fetchedMap['user_language'] ?? 'EN') as String,
-        link: fetchedMap['link'] as String,
-      );
+    id: fetchedMap['id'] as String,
+    created: fetchedMap['created'] as String,
+    redirectURL: fetchedMap['redirect'] as String,
+    status: fetchedMap['status'] == null
+        ? const RequisitionStatus(short: '', long: '', description: '')
+        : fetchedMap['status'] is Map<String, dynamic>
+        ? RequisitionStatus.fromMap(fetchedMap['status'])
+        : RequisitionStatus(
+            short: fetchedMap['status'],
+            long: fetchedMap['status'],
+            description: fetchedMap['status'],
+          ),
+    institutionID: (fetchedMap['institution_id'] as String?) ?? '',
+    agreement: fetchedMap['agreement'] as String,
+    reference: fetchedMap['reference'] as String,
+    accounts: ((fetchedMap['accounts'] ?? const <String>[]) as List<dynamic>)
+        .map<String>((dynamic agreement) => agreement.toString())
+        .toList(),
+    userLanguage: (fetchedMap['user_language'] ?? 'EN') as String,
+    link: fetchedMap['link'] as String,
+  );
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
   /// Map Keys: "id", "redirect", "status", "agreements", "accounts",
   /// "reference" and "institution_id"
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'id': id,
-        'created': created,
-        'redirect': redirectURL,
-        'status': status.toMap(),
-        'institution_id': institutionID,
-        'agreement': agreement,
-        'reference': reference,
-        'accounts': accounts,
-        'user_language': userLanguage,
-        'link': link,
-      };
+    'id': id,
+    'created': created,
+    'redirect': redirectURL,
+    'status': status.toMap(),
+    'institution_id': institutionID,
+    'agreement': agreement,
+    'reference': reference,
+    'accounts': accounts,
+    'user_language': userLanguage,
+    'link': link,
+  };
 
   /// Identifier (typically UUID) of this Requisition used to link accounts
   final String id;
@@ -108,10 +107,10 @@ class RequisitionStatus {
   ///
   /// Map Keys: "short", "long", "description"
   factory RequisitionStatus.fromMap(dynamic fetchedMap) => RequisitionStatus(
-        short: fetchedMap['short'] as String,
-        long: fetchedMap['long'] as String,
-        description: fetchedMap['description'] as String,
-      );
+    short: fetchedMap['short'] as String,
+    long: fetchedMap['long'] as String,
+    description: fetchedMap['description'] as String,
+  );
 
   /// Short status [String].
   final String short;
@@ -126,10 +125,10 @@ class RequisitionStatus {
   ///
   /// Map Keys: "short", "long", "description".
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'short': short,
-        'long': long,
-        'description': description,
-      };
+    'short': short,
+    'long': long,
+    'description': description,
+  };
 
   @override
   String toString() => jsonEncode(toMap());

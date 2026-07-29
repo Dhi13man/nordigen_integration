@@ -9,7 +9,8 @@ extension NordigenInstitutionsEndpoints on NordigenAccountInfoAPI {
     required String countryCode,
   }) async {
     // Make GET request and fetch output.
-    final List<dynamic> fetchedData = await _nordigenGetter(
+    final List<dynamic> fetchedData =
+        await _nordigenGetter(
           endpointUrl:
               'https://bankaccountdata.gocardless.com/api/v2/institutions/?country=$countryCode',
         ) ??

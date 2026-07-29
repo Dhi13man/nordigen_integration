@@ -8,11 +8,6 @@ updates:
       dart-dependencies:
         patterns:
           - "*"
-    ignore:
-      # lints 4+ drops compatibility with the package's supported Dart 2.x SDKs.
-      - dependency-name: lints
-        update-types:
-          - version-update:semver-major
     open-pull-requests-limit: 5
   - package-ecosystem: github-actions
     directory: /

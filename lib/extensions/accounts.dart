@@ -35,9 +35,7 @@ extension NordigenAccountsEndpoints on NordigenAccountInfoAPI {
   /// [AccountDetails] follows schema in https://nordigen.com/en/docs/account-information/output/accounts/.
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
-  Future<AccountDetails> getAccountDetails({
-    required String accountID,
-  }) async {
+  Future<AccountDetails> getAccountDetails({required String accountID}) async {
     assert(accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetchedData = await _nordigenGetter(
@@ -68,21 +66,22 @@ extension NordigenAccountsEndpoints on NordigenAccountInfoAPI {
     if (fetchedData['transactions'] == null) {
       return <String, List<TransactionData>>{};
     }
-    final List<dynamic> bookedTransactions =
-            fetchedData['transactions']['booked'] ?? <dynamic>[],
-        pendingTransactions =
-            fetchedData['transactions']['pending'] ?? <dynamic>[];
+    final List<dynamic>
+    bookedTransactions = fetchedData['transactions']['booked'] ?? <dynamic>[],
+    pendingTransactions = fetchedData['transactions']['pending'] ?? <dynamic>[];
 
     // Form the received dynamic Lists of bookedTransactions and
     // pendingTransactions into Lists<TransactionData> for convenience.
     return <String, List<TransactionData>>{
       'booked': bookedTransactions
           .map<TransactionData>(
-              (dynamic transaction) => TransactionData.fromMap(transaction))
+            (dynamic transaction) => TransactionData.fromMap(transaction),
+          )
           .toList(),
       'pending': pendingTransactions
           .map<TransactionData>(
-              (dynamic transaction) => TransactionData.fromMap(transaction))
+            (dynamic transaction) => TransactionData.fromMap(transaction),
+          )
           .toList(),
     };
   }
@@ -91,9 +90,7 @@ extension NordigenAccountsEndpoints on NordigenAccountInfoAPI {
   /// as [List] of [Balance].
   ///
   /// Refer to Step 6 of Nordigen Account Information API documentation.
-  Future<List<Balance>> getAccountBalances({
-    required String accountID,
-  }) async {
+  Future<List<Balance>> getAccountBalances({required String accountID}) async {
     assert(accountID.isNotEmpty);
     // Make GET request and fetch output.
     final dynamic fetched = await _nordigenGetter(

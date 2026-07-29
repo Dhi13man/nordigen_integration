@@ -1,5 +1,4 @@
-/// Dart client and typed models for GoCardless Bank Account Data.
-library nordigen_integration;
+// Dart client and typed models for GoCardless Bank Account Data.
 
 import 'dart:convert';
 
@@ -33,8 +32,8 @@ part 'package:nordigen_integration/extensions/accounts.dart';
 class NordigenAccountInfoAPI {
   /// Initialize the Nordigen API with a pre-generated Nordigen Access Token.
   NordigenAccountInfoAPI({required String accessToken, http.Client? client})
-      : _accessToken = accessToken,
-        _client = client ?? http.Client();
+    : _accessToken = accessToken,
+      _client = client ?? http.Client();
 
   /// Nordigen API Access token required to access API functionality.
   final String _accessToken;
@@ -56,9 +55,9 @@ class NordigenAccountInfoAPI {
   }) async {
     final Map<String, dynamic> data =
         await NordigenTokenEndpoints.createAccessToken(
-      secretID: secretID,
-      secretKey: secretKey,
-    );
+          secretID: secretID,
+          secretKey: secretKey,
+        );
     return NordigenAccountInfoAPI(accessToken: data['access']!);
   }
 
@@ -71,21 +70,20 @@ class NordigenAccountInfoAPI {
   static Future<Map<String, dynamic>> createAccessToken({
     required String secretID,
     required String secretKey,
-  }) =>
-      NordigenTokenEndpoints.createAccessToken(
-        secretID: secretID,
-        secretKey: secretKey,
-      );
+  }) => NordigenTokenEndpoints.createAccessToken(
+    secretID: secretID,
+    secretKey: secretKey,
+  );
 
   /// Generate headers for requests.
   Map<String, String> get _headers => <String, String>{
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': '*',
-        'Authorization': 'Bearer $_accessToken',
-      };
+    'accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': '*',
+    'Authorization': 'Bearer $_accessToken',
+  };
 
   /// Utility class to easily make POST requests to Nordigen API endpoints.
   ///

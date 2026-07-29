@@ -49,9 +49,10 @@ class AccountDetails {
       details: fetchedMap['details'] as String?,
       balances: fetchedMap['balances'] != null
           ? (fetchedMap['balances'] as List<dynamic>)
-              .map<Balance>(
-                  (dynamic balanceData) => Balance.fromMap(balanceData))
-              .toList()
+                .map<Balance>(
+                  (dynamic balanceData) => Balance.fromMap(balanceData),
+                )
+                .toList()
           : null,
       links: fetchedMap['_links'] as List<String>?,
     );
@@ -61,26 +62,26 @@ class AccountDetails {
   ///
   /// Map Keys: "id", "name", "bic" and "countries"
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'resourceId': id,
-        'iban': iban,
-        'bban': bban,
-        'msisdn': msisdn,
-        'currency': currency,
-        'ownerName': ownerName,
-        'name': name,
-        'displayName': displayName,
-        'product': product,
-        'cashAccountType': cashAccountType,
-        'status': status,
-        'bic': bic,
-        'linkedAccounts': linkedAccounts,
-        'usage': usage,
-        'details': details,
-        'balances': balances
-            ?.map<Map<String, dynamic>>((Balance balance) => balance.toMap())
-            .toList(),
-        '_links': links,
-      };
+    'resourceId': id,
+    'iban': iban,
+    'bban': bban,
+    'msisdn': msisdn,
+    'currency': currency,
+    'ownerName': ownerName,
+    'name': name,
+    'displayName': displayName,
+    'product': product,
+    'cashAccountType': cashAccountType,
+    'status': status,
+    'bic': bic,
+    'linkedAccounts': linkedAccounts,
+    'usage': usage,
+    'details': details,
+    'balances': balances
+        ?.map<Map<String, dynamic>>((Balance balance) => balance.toMap())
+        .toList(),
+    '_links': links,
+  };
 
   /// The ID of this Account, used to refer to this account in other API calls.
   final String? id;
@@ -168,27 +169,27 @@ class AccountMetaData {
 
   /// For easy Data Model Generation from Map fetched by querying Nordigen.
   factory AccountMetaData.fromMap(dynamic fetchedMap) => AccountMetaData(
-        id: fetchedMap['id']! as String,
-        created: fetchedMap['created']! as String,
-        lastAccessed: fetchedMap['last_accessed'] as String?,
-        iban: fetchedMap['iban']! as String,
-        institutionID: fetchedMap['institution_id']! as String,
-        status: fetchedMap['status'] is String?
-            ? fetchedMap['status'] ?? ''
-            : fetchedMap['status']?.toString() ?? '',
-      );
+    id: fetchedMap['id']! as String,
+    created: fetchedMap['created']! as String,
+    lastAccessed: fetchedMap['last_accessed'] as String?,
+    iban: fetchedMap['iban']! as String,
+    institutionID: fetchedMap['institution_id']! as String,
+    status: fetchedMap['status'] is String?
+        ? fetchedMap['status'] ?? ''
+        : fetchedMap['status']?.toString() ?? '',
+  );
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
   /// Map Keys: "id", "name", "bic" and "countries"
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'id': id,
-        'created': created,
-        'last_accessed': lastAccessed,
-        'iban': iban,
-        'institution_id': institutionID,
-        'status': status,
-      };
+    'id': id,
+    'created': created,
+    'last_accessed': lastAccessed,
+    'iban': iban,
+    'institution_id': institutionID,
+    'status': status,
+  };
 
   /// The ID of this Account, used to refer to this account in other API calls.
   final String id;

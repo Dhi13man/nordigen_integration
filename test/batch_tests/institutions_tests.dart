@@ -11,27 +11,24 @@ void institutionsTests({required NordigenAccountInfoAPI nordigenObject}) {
     'Step 2: Choose a Bank/Institution: [getInstitutionsForCountry]',
     () async {
       // Make Request
-      final List<Institution> institutions =
-          await nordigenObject.getInstitutionsForCountry(countryCode: 'gb');
+      final List<Institution> institutions = await nordigenObject
+          .getInstitutionsForCountry(countryCode: 'gb');
       // Should not be empty as we have 'gb' country-code Institutions
       expect(institutions.isNotEmpty, true);
     },
   );
 
   /// TEST 2.2
-  test(
-    'GET a single Institution by ID: [getInstitutionUsingID]',
-    () async {
-      // Make Request
-      final List<Institution> institutions =
-          await nordigenObject.getInstitutionsForCountry(countryCode: 'gb');
-      // Should not be empty as we have 'gb' country-code Institutions
-      expect(institutions.isNotEmpty, true);
-      final Institution singleInstitution = await nordigenObject
-          .getInstitutionUsingID(institutionID: institutions.first.id);
+  test('GET a single Institution by ID: [getInstitutionUsingID]', () async {
+    // Make Request
+    final List<Institution> institutions = await nordigenObject
+        .getInstitutionsForCountry(countryCode: 'gb');
+    // Should not be empty as we have 'gb' country-code Institutions
+    expect(institutions.isNotEmpty, true);
+    final Institution singleInstitution = await nordigenObject
+        .getInstitutionUsingID(institutionID: institutions.first.id);
 
-      // Verify Institution recieved. Integrity check
-      expect(institutions.first.toString(), singleInstitution.toString());
-    },
-  );
+    // Verify Institution recieved. Integrity check
+    expect(institutions.first.toString(), singleInstitution.toString());
+  });
 }

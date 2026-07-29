@@ -44,92 +44,89 @@ class TransactionData {
   /// Value in the [fetchedMap] for 'transactionAmount' key, corresponding to
   /// [transactionAmount] field, is required as per API docs.
   factory TransactionData.fromMap(dynamic fetchedMap) => TransactionData(
-        id: fetchedMap['transactionId'] as String?,
-        endToEndId: fetchedMap['endToEndId'] as String?,
-        entryReference: fetchedMap['entryReference'] as String?,
-        mandateId: fetchedMap['mandateId'] as String?,
-        checkId: fetchedMap['checkId'] as String?,
-        creditorId: fetchedMap['creditorId'] as String?,
-        bookingDate: fetchedMap['bookingDate'] as String?,
-        valueDate: fetchedMap['valueDate'] as String?,
-        transactionAmount: AmountData.fromMap(fetchedMap['transactionAmount']!),
-        currencyExchange: (fetchedMap['currencyExchange'] as List<dynamic>?)
-            ?.map(
-              (dynamic e) =>
-                  Map<String, dynamic>.from(e as Map<dynamic, dynamic>),
-            )
+    id: fetchedMap['transactionId'] as String?,
+    endToEndId: fetchedMap['endToEndId'] as String?,
+    entryReference: fetchedMap['entryReference'] as String?,
+    mandateId: fetchedMap['mandateId'] as String?,
+    checkId: fetchedMap['checkId'] as String?,
+    creditorId: fetchedMap['creditorId'] as String?,
+    bookingDate: fetchedMap['bookingDate'] as String?,
+    valueDate: fetchedMap['valueDate'] as String?,
+    transactionAmount: AmountData.fromMap(fetchedMap['transactionAmount']!),
+    currencyExchange: (fetchedMap['currencyExchange'] as List<dynamic>?)
+        ?.map(
+          (dynamic e) => Map<String, dynamic>.from(e as Map<dynamic, dynamic>),
+        )
+        .toList(),
+    creditorName: fetchedMap['creditorName'] as String?,
+    creditorAccount: fetchedMap['creditorAccount'] as Map<String, dynamic>?,
+    creditorAgent: fetchedMap['creditorAgent'] as String?,
+    ultimateCreditor: fetchedMap['ultimateCreditor'] as String?,
+    debtorName: fetchedMap['debtorName'] as String?,
+    debtorAccount: fetchedMap['debtorAccount'] as Map<String, dynamic>?,
+    debtorAgent: fetchedMap['debtorAgent'] as String?,
+    ultimateDebtor: fetchedMap['ultimateDebtor'] as String?,
+    remittanceInformationUnstructured:
+        fetchedMap['remittanceInformationUnstructured'] as String?,
+    remittanceInformationUnstructuredArray:
+        (fetchedMap['remittanceInformationUnstructuredArray'] as List<dynamic>?)
+            ?.map<String>((dynamic item) => item as String)
             .toList(),
-        creditorName: fetchedMap['creditorName'] as String?,
-        creditorAccount: fetchedMap['creditorAccount'] as Map<String, dynamic>?,
-        creditorAgent: fetchedMap['creditorAgent'] as String?,
-        ultimateCreditor: fetchedMap['ultimateCreditor'] as String?,
-        debtorName: fetchedMap['debtorName'] as String?,
-        debtorAccount: fetchedMap['debtorAccount'] as Map<String, dynamic>?,
-        debtorAgent: fetchedMap['debtorAgent'] as String?,
-        ultimateDebtor: fetchedMap['ultimateDebtor'] as String?,
-        remittanceInformationUnstructured:
-            fetchedMap['remittanceInformationUnstructured'] as String?,
-        remittanceInformationUnstructuredArray:
-            (fetchedMap['remittanceInformationUnstructuredArray']
-                    as List<dynamic>?)
-                ?.map<String>((dynamic item) => item as String)
-                .toList(),
-        remittanceInformationStructured:
-            fetchedMap['remittanceInformationStructured'] as String?,
-        remittanceInformationStructuredArray:
-            fetchedMap['remittanceInformationStructuredArray']
-                as List<dynamic>?,
-        additionalInformation: fetchedMap['additionalInformation'] as String?,
-        additionalInformationStructured:
-            fetchedMap['additionalInformationStructured'] as dynamic,
-        purposeCode: fetchedMap['purposeCode'] as String?,
-        bankTransactionCode: fetchedMap['bankTransactionCode'] as String?,
-        proprietaryBankTransactionCode:
-            fetchedMap['proprietaryBankTransactionCode'] as String?,
-        // Verify key of balanceAfterTransaction from
-        // https://nordigen.com/en/docs/account-information/output/transactions/
-        balanceAfterTransaction: fetchedMap['balanceAfterTransaction'] != null
-            ? Balance.fromMap(fetchedMap['balanceAfterTransaction'])
-            : null,
-        links: fetchedMap['_links'] as List<String>?,
-      );
+    remittanceInformationStructured:
+        fetchedMap['remittanceInformationStructured'] as String?,
+    remittanceInformationStructuredArray:
+        fetchedMap['remittanceInformationStructuredArray'] as List<dynamic>?,
+    additionalInformation: fetchedMap['additionalInformation'] as String?,
+    additionalInformationStructured:
+        fetchedMap['additionalInformationStructured'] as dynamic,
+    purposeCode: fetchedMap['purposeCode'] as String?,
+    bankTransactionCode: fetchedMap['bankTransactionCode'] as String?,
+    proprietaryBankTransactionCode:
+        fetchedMap['proprietaryBankTransactionCode'] as String?,
+    // Verify key of balanceAfterTransaction from
+    // https://nordigen.com/en/docs/account-information/output/transactions/
+    balanceAfterTransaction: fetchedMap['balanceAfterTransaction'] != null
+        ? Balance.fromMap(fetchedMap['balanceAfterTransaction'])
+        : null,
+    links: fetchedMap['_links'] as List<String>?,
+  );
 
   /// Forms a [Map] of [String] keys and [dynamic] values from Class Data.
   ///
   /// Map Keys: https://nordigen.com/en/docs/account-information/output/transactions/
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'transactionId': id,
-        'endToEndId': endToEndId,
-        'entryReference': debtorName,
-        'mandateId': mandateId,
-        'checkId': checkId,
-        'creditorId': creditorId,
-        'bookingDate': bookingDate,
-        'valueDate': valueDate,
-        'transactionAmount': transactionAmount.toMap(),
-        'currencyExchange': currencyExchange,
-        'creditorName': creditorName,
-        'creditorAccount': creditorAccount,
-        'creditorAgent': creditorAgent,
-        'ultimateCreditor': ultimateCreditor,
-        'debtorName': debtorName,
-        'debtorAccount': debtorAccount,
-        'debtorAgent': debtorAgent,
-        'ultimateDebtor': ultimateDebtor,
-        'remittanceInformationUnstructured': remittanceInformationUnstructured,
-        'remittanceInformationUnstructuredArray':
-            remittanceInformationUnstructuredArray,
-        'remittanceInformationStructured': remittanceInformationStructured,
-        'remittanceInformationStructuredArray':
-            remittanceInformationStructuredArray,
-        'additionalInformation': additionalInformation,
-        'additionalInformationStructured': additionalInformationStructured,
-        'purposeCode': purposeCode,
-        'bankTransactionCode': bankTransactionCode,
-        'proprietaryBankTransactionCode': proprietaryBankTransactionCode,
-        'balanceAfterTransaction': balanceAfterTransaction?.toMap(),
-        '_links': links,
-      };
+    'transactionId': id,
+    'endToEndId': endToEndId,
+    'entryReference': debtorName,
+    'mandateId': mandateId,
+    'checkId': checkId,
+    'creditorId': creditorId,
+    'bookingDate': bookingDate,
+    'valueDate': valueDate,
+    'transactionAmount': transactionAmount.toMap(),
+    'currencyExchange': currencyExchange,
+    'creditorName': creditorName,
+    'creditorAccount': creditorAccount,
+    'creditorAgent': creditorAgent,
+    'ultimateCreditor': ultimateCreditor,
+    'debtorName': debtorName,
+    'debtorAccount': debtorAccount,
+    'debtorAgent': debtorAgent,
+    'ultimateDebtor': ultimateDebtor,
+    'remittanceInformationUnstructured': remittanceInformationUnstructured,
+    'remittanceInformationUnstructuredArray':
+        remittanceInformationUnstructuredArray,
+    'remittanceInformationStructured': remittanceInformationStructured,
+    'remittanceInformationStructuredArray':
+        remittanceInformationStructuredArray,
+    'additionalInformation': additionalInformation,
+    'additionalInformationStructured': additionalInformationStructured,
+    'purposeCode': purposeCode,
+    'bankTransactionCode': bankTransactionCode,
+    'proprietaryBankTransactionCode': proprietaryBankTransactionCode,
+    'balanceAfterTransaction': balanceAfterTransaction?.toMap(),
+    '_links': links,
+  };
 
   /// Identifier of this particular Transaction
   final String? id;

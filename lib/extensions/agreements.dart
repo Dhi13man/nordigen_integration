@@ -64,10 +64,7 @@ extension NordigenAgreementsEndpoints on NordigenAccountInfoAPI {
     final dynamic fetchedData = await _nordigenPoster(
       endpointUrl:
           'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/$endUserAgreementID/accept/',
-      data: <String, dynamic>{
-        'user_agent': userAgent,
-        'ip_address': ipAddress,
-      },
+      data: <String, dynamic>{'user_agent': userAgent, 'ip_address': ipAddress},
       requestType: 'PUT',
     );
     // Form the recieved dynamic Map into EndUserAgreementModel for convenience.
@@ -131,9 +128,8 @@ extension NordigenAgreementsEndpoints on NordigenAccountInfoAPI {
   /// Refer to Step 5 of Nordigen Account Information API documentation.
   Future<Map<String, dynamic>> deleteEndUserAgreementUsingID({
     required String endUserAgreementID,
-  }) async =>
-      await _nordigenDeleter(
-        endpointUrl:
-            'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/$endUserAgreementID/',
-      );
+  }) async => await _nordigenDeleter(
+    endpointUrl:
+        'https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/$endUserAgreementID/',
+  );
 }

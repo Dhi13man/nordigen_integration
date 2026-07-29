@@ -19,13 +19,10 @@ Future<void> main() async {
   if (Platform.environment['EXEC_ENV'] == 'github_actions') {
     // If running on Github Actions, the last committer shouldn't have
     // leaked their API key.
-    test(
-      'Ensure that User Secrets have been reset.',
-      () {
-        expect(secretID, 'test');
-        expect(secretKey, 'test');
-      },
-    );
+    test('Ensure that User Secrets have been reset.', () {
+      expect(secretID, 'test');
+      expect(secretKey, 'test');
+    });
     // assert(secretID == 'test' && secretKey == 'test');
     // secretID = Platform.environment['ORS_SECRET_ID']!;
     // secretKey = Platform.environment['ORS_SECRET_KEY']!;
@@ -34,9 +31,9 @@ Future<void> main() async {
 
   final NordigenAccountInfoAPI nordigenObject =
       await NordigenAccountInfoAPI.fromSecret(
-    secretID: secretID,
-    secretKey: secretKey,
-  );
+        secretID: secretID,
+        secretKey: secretKey,
+      );
 
   // Set up of common parameters for Testing.
   const String testEndUserID = '8234e18b-f360-48cc-8bcf-c8625596d74a';

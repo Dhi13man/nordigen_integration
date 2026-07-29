@@ -25,10 +25,8 @@ void step5Tests({
         testRedirectLink,
       );
       // Make Request
-      final List<String> accountsIDs =
-          await nordigenObject.getEndUserAccountIDs(
-        requisitionID: requisitionModel.id,
-      );
+      final List<String> accountsIDs = await nordigenObject
+          .getEndUserAccountIDs(requisitionID: requisitionModel.id);
       // The random requisition has no accounts.
       expect(accountsIDs.isEmpty, true);
       await nordigenObject.deleteRequisitionUsingID(
@@ -42,10 +40,8 @@ void step5Tests({
     'List accounts from Requisition with Accounts: [getEndUserAccountIDs]',
     () async {
       // Make Request
-      final List<String> accountsIDs =
-          await nordigenObject.getEndUserAccountIDs(
-        requisitionID: requisitionIDWithAccountAccess,
-      );
+      final List<String> accountsIDs = await nordigenObject
+          .getEndUserAccountIDs(requisitionID: requisitionIDWithAccountAccess);
       expect(accountsIDs.isNotEmpty, true);
     },
   );

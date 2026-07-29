@@ -14,12 +14,12 @@ Future<RequisitionModel> createRandomRequisition(
   String testRedirectLink,
 ) async {
   final String randomReference = Random().nextInt(99999999).toString();
-  final RequisitionModel requisitionModel =
-      await nordigenObject.createRequisitionAndBuildLink(
-    institutionID: testInstitutionID,
-    redirect: testRedirectLink,
-    reference: randomReference,
-  );
+  final RequisitionModel requisitionModel = await nordigenObject
+      .createRequisitionAndBuildLink(
+        institutionID: testInstitutionID,
+        redirect: testRedirectLink,
+        reference: randomReference,
+      );
   // Integrity check
   expect(requisitionModel.reference, randomReference);
   return requisitionModel;
