@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- **Breaking:** Require Dart 3.8 or later and remove the Dart 2.x lint holdback.
+- **Breaking:** Require Dart 3.11 or later and remove the Dart 2.x lint holdback.
 - Correct the documented `getAccountBalances` return type to `Future<List<Balance>>`.
 
 ## [1.7.7] - 31st March 2024
