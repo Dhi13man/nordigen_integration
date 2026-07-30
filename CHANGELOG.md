@@ -1,9 +1,18 @@
 # Releases
 
-## Unreleased
+## [2.0.0] - 30th July, 2026
 
-- **Breaking:** Require Dart 3.11 or later and remove the Dart 2.x lint holdback.
-- Correct the documented `getAccountBalances` return type to `Future<List<Balance>>`.
+- **Breaking:** Require Dart 3.11 or later, adopt `lints` 6.1, and apply the
+  Dart 3.11 formatter while preserving runtime behavior.
+- Harden CI with least-privilege permissions, immutable action pins, no exposed
+  banking credentials, fatal analysis, tests, and package publish validation.
+- Add Dependabot, OpenSSF Scorecard, security and conduct policies, issue forms,
+  and a pull-request template for maintained community and supply-chain checks.
+- Refresh the compatible dependency graph, fix analyzer-invalid test callbacks,
+  and remove the obsolete package-test screenshot.
+- Update package metadata and documentation for GoCardless Bank Account Data,
+  repair public API references, and document `getAccountBalances` as returning
+  `Future<List<Balance>>`.
 
 ## [1.7.7] - 31st March 2024
 
@@ -109,11 +118,11 @@ Documentation fixes and more specific tests for DELETE requests.
 ## [1.2.5] - 14th May, 2021
 
 1. Implemented actual full `TransactionData` Model from API Documentation.
-2. Renamed `BankAccountModel` to `AccountModel` because of account schema discrepancies in the upstream documentation, now available in the [GoCardless endpoint reference](https://developer.gocardless.com/bank-account-data/endpoints/).
+2. Renamed `BankAccountModel` to `AccountModel` because of Account schema discrepency in documentation between <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/> and <https://nordigen.com/en/docs/account-information/output/accounts/>.
 3. Implemented `Balance` model from API Documentation.
 4. Temporary `getAccountBalancesTemporary` method of `NordigenAccountInfoAPI` class implemented that will be depreciated once the returned data format can be pinned down.
 5. Lint -> Pedantic.
-6. Todo: Resolve the account model discrepancy in the upstream endpoint schema.
+6. Todo: Resolve account model discrepency between <https://nordigen.com/en/docs/account-information/output/accounts/> and Schema given in <https://nordigen.com/en/docs/account-information/overview/parameters-and-responses/>
 
 ## [1.2.0] - 14th May, 2021
 
@@ -124,16 +133,16 @@ Documentation fixes and more specific tests for DELETE requests.
 
 ## [1.0.2] - 14th May, 2021
 
-Initial release supporting Nordigen's Account Information API, now documented in the [GoCardless Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/), and relevant serializable data models.
+Initial release supporting [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) and relevant Data Models required to support it, in the form of Serializable Classes.
 
 Added EU PSD2 AISP keywords to package descriptions so people can find it easier. Unnecessary Flutter dependancy removed.
 
 ## [1.0.1] - 13th May, 2021
 
-Initial release supporting Nordigen's Account Information API, now documented in the [GoCardless Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/), and relevant serializable data models.
+Initial release supporting [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) and relevant Data Models required to support it, in the form of Serializable Classes.
 
 Shortened Package description to follow dart conventions.
 
 ## [1.0.0] - 13th May, 2021
 
-Initial release supporting Nordigen's Account Information API, now documented in the [GoCardless Bank Account Data quick-start guide](https://developer.gocardless.com/bank-account-data/quick-start-guide/), and relevant serializable data models.
+Initial release supporting [Nordigen's Account Information API documentation](https://nordigen.com/en/account_information_documenation/integration/quickstart_guide/) and relevant Data Models required to support it, in the form of Serializable Classes.
