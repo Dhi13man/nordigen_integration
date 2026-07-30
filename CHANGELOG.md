@@ -1,9 +1,18 @@
 # Releases
 
-## Unreleased
+## [2.0.0] - 30th July, 2026
 
-- **Breaking:** Require Dart 3.11 or later and remove the Dart 2.x lint holdback.
-- Correct the documented `getAccountBalances` return type to `Future<List<Balance>>`.
+- **Breaking:** Require Dart 3.11 or later, adopt `lints` 6.1, and apply the
+  Dart 3.11 formatter while preserving runtime behavior.
+- Harden CI with least-privilege permissions, immutable action pins, no exposed
+  banking credentials, fatal analysis, tests, and package publish validation.
+- Add Dependabot, OpenSSF Scorecard, security and conduct policies, issue forms,
+  and a pull-request template for maintained community and supply-chain checks.
+- Refresh the compatible dependency graph, fix analyzer-invalid test callbacks,
+  and remove the obsolete package-test screenshot.
+- Update package metadata and documentation for GoCardless Bank Account Data,
+  repair public API references, and document `getAccountBalances` as returning
+  `Future<List<Balance>>`.
 
 ## [1.7.7] - 31st March 2024
 
