@@ -1,6 +1,6 @@
 name: nordigen_integration
 description: Dart client and data models for the GoCardless Bank Account Data (formerly Nordigen) PSD2 API.
-version: 2.0.0
+version: 2.0.1
 homepage: https://github.com/Dhi13man/nordigen_integration/
 repository: https://github.com/Dhi13man/nordigen_integration/
 issue_tracker: https://github.com/Dhi13man/nordigen_integration/issues/

@@ -20,6 +20,8 @@ Thank you for improving the package. Before changing API behavior, review the
 - Use environment variables for opt-in live integration tests. The default test
   suite must remain safe to run without credentials.
 - Update `README.md` and `CHANGELOG.md` when users need to know about the change.
+- If you change the account-link flow, host, token handling, or method names,
+  update `skills/`.
 
 Run the same gates as CI before opening a pull request:
 
