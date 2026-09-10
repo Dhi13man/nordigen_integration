@@ -1,6 +1,6 @@
 # Releases
 
-## [Unreleased]
+## [2.0.1] - 10th September, 2026
 
 - Ship an Agent Skill under `skills/` so `dart run skills@ get` installs
   the GoCardless account-link flow.
