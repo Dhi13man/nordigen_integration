@@ -1,5 +1,10 @@
 # Releases
 
+## [Unreleased]
+
+- Ship an Agent Skill under `skills/` so `dart run skills@ get` installs
+  the GoCardless account-link flow.
+
 ## [2.0.0] - 30th July, 2026
 
 - **Breaking:** Require Dart 3.11 or later, adopt `lints` 6.1, and apply the
